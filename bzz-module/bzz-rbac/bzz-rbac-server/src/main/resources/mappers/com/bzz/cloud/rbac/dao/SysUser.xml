@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bzz.cloud.rbac.dao.SysUserDao">
+
+	<sql id="userColumns">
+		a.id,
+		a.login_name,
+		a.password,
+		a.work_num,
+		a.name,
+		a.email,
+		a.phone,
+		a.mobile,
+		a.user_type,
+		a.login_flag,
+		a.photo,
+		a.create_user AS "createUser.id",
+		a.create_date,
+		a.update_user AS "updateUser.id",
+		a.update_date,
+		a.remarks,
+		a.del_flag
+	</sql>
+
+
+
+	<!--&lt;!&ndash; 根据编号获得用户 &ndash;&gt;
+	<select id="get" resultType="SysUser">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user a WHERE a.id = #{id}
+
+	</select>
+-->
+
+
+	<!-- 分页查询用户信息 -->
+	<select id="selectPage" resultType="com.bzz.cloud.rbac.entity.SysUser">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user a
+		WHERE a.del_flag = 0
+	</select>
+	<select id="selectList" resultType="com.bzz.cloud.rbac.entity.SysUser">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user a
+		WHERE a.del_flag = 0
+	</select>
+	<!--&lt;!&ndash; 查询全部用户 &ndash;&gt;
+	<select id="findAllList" resultType="SysUser" >
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user a
+		&lt;!&ndash;<include refid="userJoins"/>&ndash;&gt;
+		WHERE a.del_flag = 0
+	</select>
+
+	&lt;!&ndash; 查询全部用户数目 &ndash;&gt;
+	<select id="findCount" resultType="java.lang.Integer" >
+		SELECT
+			COUNT(*)
+		FROM sys_user a
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+-->
+	<!-- 插入用户 -->
+	<insert id="insert">
+		INSERT INTO sys_user(
+			id,
+			login_name,
+			password,
+			work_num,
+			name,
+			email,
+			phone,
+			mobile,
+			user_type,
+			create_user,
+			create_date,
+			update_user,
+			update_date,
+			remarks,
+			login_flag,
+			photo,
+			del_flag
+		) VALUES (
+			#{id},
+
+			#{loginName},
+			#{password},
+			#{workNum},
+			#{name},
+			#{email},
+			#{phone},
+			#{mobile},
+			#{userType},
+			#{createUser.id},
+			#{createDate},
+			#{updateUser.id},
+			#{updateDate},
+			#{remarks},
+			#{loginFlag},
+			#{photo},
+			#{delFlag}
+		)
+	</insert>
+
+	<!-- 更新用户 -->
+	<update id="update">
+		UPDATE sys_user SET
+			login_name = #{loginName},
+			password = #{password},
+			work_num = #{workNum},
+			name = #{name},
+			email = #{email},
+			phone = #{phone},
+			mobile = #{mobile},
+			user_type = #{userType},
+			update_user = #{updateUser.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			login_flag = #{loginFlag},
+			photo = #{photo}
+		WHERE id = #{id}
+	</update>
+
+
+
+</mapper>

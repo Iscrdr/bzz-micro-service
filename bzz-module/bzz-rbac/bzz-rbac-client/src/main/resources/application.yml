@@ -1,0 +1,11 @@
+server:
+  port: 8861
+spring:
+  application:
+    name: bzz-rbac-client
+
+management:
+  security:
+    enabled: false
+
+
