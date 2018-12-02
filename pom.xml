@@ -14,8 +14,9 @@
     <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
   </properties>
   <modules>
-    
-      <!--bzz.共jar包-->
+      <!--bzz.授权/鉴权-->
+      <module>bzz-auth2</module>
+      <!--bzz.公共工具类-->
       <module>bzz-common</module>
       <!--bzz.共配置-->
     
@@ -24,6 +25,7 @@
       <module>bzz-core-single-db</module>
       <!--bzz.业务模块-->
       <module>bzz-module</module>
+
 
 
   </modules>

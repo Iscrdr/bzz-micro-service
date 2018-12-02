@@ -2,9 +2,9 @@ package com.bzz.cloud.rbac.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.bzz.cloud.framework.annotations.DataBaseSourceTarget;
-import com.bzz.cloud.rbac.entity.SysUser;
+//import com.bzz.cloud.framework.annotations.DataBaseSourceTarget;
 import com.bzz.cloud.rbac.dao.SysUserDao;
+import com.bzz.cloud.rbac.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class SysUserService   {
 	}
 	@Cacheable(value="userOracleCache",key ="T(String).valueOf(#page.current).concat('-').concat(#page.size)")
 	@Transactional(propagation= Propagation.NOT_SUPPORTED)
-	@DataBaseSourceTarget(dataBaseDialect = "oracle",dataSourceValue = "dataSourceB")
+	//@DataBaseSourceTarget(dataBaseDialect = "oracle",dataSourceValue = "dataSourceB")
 	public Page<SysUser> selectPageOracle(Page<SysUser> page,QueryWrapper<SysUser> queryWrapper){
 		Page<SysUser> sysUserMyPage = userDao.selectPage(page,queryWrapper);
 		return sysUserMyPage;

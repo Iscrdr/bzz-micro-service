@@ -24,6 +24,7 @@
         <!--bzz.权限系统RBAC-->
         <module>bzz-rbac</module>
         <module>bzz-codegen</module>
+        <module>bzz-services</module>
     </modules>
 
 </project>

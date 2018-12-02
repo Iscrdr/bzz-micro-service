@@ -3,6 +3,8 @@ package com.bzz.common.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+
 public class JsonUtils {
 	
 	
@@ -17,4 +19,17 @@ public class JsonUtils {
 		}
 		return beanStr;
 	}
+
+	public static Object json2Object(String json,Class clazz){
+
+		Object obj = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			obj = mapper.readValue(json, clazz);
+		}  catch (IOException e) {
+			e.printStackTrace();
+		}
+		return obj;
+	}
+
 }

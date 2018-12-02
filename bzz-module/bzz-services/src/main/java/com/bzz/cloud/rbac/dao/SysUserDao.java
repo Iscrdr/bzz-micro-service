@@ -7,7 +7,6 @@ import com.bzz.cloud.rbac.entity.SysUser;
 import org.springframework.stereotype.Repository;
 
 
-
 /**
  * 用户DAO接口
  * @author yang-ql
@@ -15,5 +14,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SysUserDao extends BaseMapper<SysUser> {
-	 Page<SysUser> selectPage(Page<SysUser> page, QueryWrapper<SysUser> queryWrapper);
+
+	SysUser selectUser(String loginName);
+
+	Page<SysUser> selectPage(Page<SysUser> page, QueryWrapper<SysUser> queryWrapper);
+
 }

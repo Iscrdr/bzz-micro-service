@@ -2,8 +2,6 @@ package com.bzz.cloud.rbac.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.bzz.common.page.Page;
 import lombok.*;
 
 import java.io.Serializable;
@@ -33,6 +31,15 @@ public class SysUser  implements Serializable {
 	
 	private String oldLoginName;// 原登录名
 	private String newPassword;	// 新密码
+
+	private boolean isAccountNonExpired;	// 账户是否过期,过期无法验证
+	private boolean isAccountNonLocked;	// 指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证
+	private boolean isCredentialsNonExpired;	// 指示是否已过期的用户的凭据(密码),过期的凭据防止认证
+	private boolean isEnabled;	// 是否被禁用,禁用的用户不能身份验证
+
+
+
+
 
 
 	
