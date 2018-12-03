@@ -34,7 +34,7 @@ spring:
 #        deny:
       druid:
         name: dataSourceA
-        url: jdbc:mysql://192.168.132.150:3306/test?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true&autoReconnect=true&failOverReadOnly=false
+        url: jdbc:mysql://192.168.132.150:3306/bzz?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true&autoReconnect=true&failOverReadOnly=false
         username: root
         password: root
         # 下面为连接池的补充设置，应用到上面所有数据源中

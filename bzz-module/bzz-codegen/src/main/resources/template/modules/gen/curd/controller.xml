@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>controller</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/web/${subModuleName}</filePath>
+	<fileName>${ClassName}Controller.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2018-2020 <a href="https://github.com/qianli8811/bzz-micro-service.git">bzz-micro-service</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
+
+import java.util.List;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.concurrent.Callable;
+import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
+/**
+ * ${functionName}Controller
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@RestController(value = "${r"${adminPath}"}/${urlPrefix}")
+public class ${ClassName}Controller  {
+
+	@Autowired
+	private ${ClassName}Service ${className}Service;
+	
+
+	/**
+	 * ${functionName}Controller
+	 * @author ${functionAuthor}
+	 * @version ${functionVersion}
+	 */
+	@GetMapping(value = {"list", "/list"})
+	@ResponseBody
+	public String list(${ClassName} ${className}, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<${ClassName}> page = ${className}Service.findPage(new Page<${ClassName}>(request, response), ${className}); 
+		return page;
+	}
+
+
+	@PostMapping(value = "form")
+	@ResponseBody
+	public String form(${ClassName} ${className}, Model model) {
+		if(null != ${className} && ${className}.getId() >= 0){
+			${className} = ${className}Service.getById(${className}.getId())
+		}
+		return ${className};
+	}
+
+
+	@PostMapping(value = "save")
+	@ResponseBody
+	public String save(${ClassName} ${className}, Model model, RedirectAttributes redirectAttributes) {
+
+		${className}Service.save(${className});
+
+		return ${className};
+	}
+	
+
+	@PostMapping(value = "delete")
+	@ResponseBody
+	public String delete(${ClassName} ${className}, RedirectAttributes redirectAttributes) {
+		${className}Service.delete(${className});
+
+		return ${className};
+	}
+
+}]]>
+	</content>
+</template>

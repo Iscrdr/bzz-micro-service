@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entity</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/entity/${subModuleName}</filePath>
+	<fileName>${ClassName}.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.*;
+
+import java.io.Serializable;
+
+
+/**
+ * ${functionName}Entity
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("${tableName}")
+public class ${ClassName} implements Serializable  {
+	
+	private static final long serialVersionUID = 1L;
+	<#-- 生成字段属性 -->
+	<#list table.columnList as c>
+		private ${c.simpleJavaType} ${c.simpleJavaField};	<#if c.comments??>// ${c.comments}</#if>
+	</#list>
+
+
+	<#-- 构造方法 -->
+	public ${ClassName}() {
+		super();
+	}
+
+	public ${ClassName}(String id){
+		super(id);
+	}
+
+
+	<#-- 生成get和set方法 -->
+	<#list table.columnList as c>
+	public void set${c.simpleJavaField?cap_first}(${table.className} ${c.simpleJavaField}) {
+		this.${c.simpleJavaField} = ${c.simpleJavaField};
+	}
+	public ${table.className} get${c.simpleJavaField}() {
+		return ${c.simpleJavaField};
+	}
+
+
+	</#list>
+
+}]]>
+	</content>
+</template>

@@ -12,9 +12,6 @@
     <artifactId>bzz-codegen</artifactId>
 
     <name>bzz-codegen</name>
-
-
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -22,6 +19,16 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.bzz.cloud</groupId>
+            <artifactId>bzz-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bzz.cloud</groupId>
+            <artifactId>bzz-core-multiple-db</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
