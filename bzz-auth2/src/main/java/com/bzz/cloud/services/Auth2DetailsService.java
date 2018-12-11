@@ -38,6 +38,7 @@ public class Auth2DetailsService implements UserDetailsService {
 
     private List<GrantedAuthority> buildUserAuthority(){
 
+
         return null;
     }
 }
