@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -26,6 +27,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,10 +38,8 @@ import java.util.concurrent.TimeUnit;
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private static String REALM = "OAUTH_REALM";
-
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private DataSource dataSource;
@@ -49,12 +50,16 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private Auth2DetailsService userDetailsService;
 
-
     /**
      * 加密方式
      */
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+   /* @Autowired
+    private PasswordEncoder passwordEncoder;*/
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     /**
      * TokenStore:使用数据库存储token，jdbc
@@ -67,12 +72,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public AuthorizationCodeServices authorizationCodeServices() {
         return new JdbcAuthorizationCodeServices(dataSource);
     }
-
     @Bean
     public ApprovalStore approvalStore(){
         return new JdbcApprovalStore(dataSource);
     }
-
     /**
      *  ClientDetails实现
      * @return
@@ -87,13 +90,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      * @throws Exception
      */
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.realm(REALM);
-        security.passwordEncoder(passwordEncoder);
+        //security.realm(REALM);
+        security.passwordEncoder(passwordEncoder());
         security.allowFormAuthenticationForClients();
+        security.checkTokenAccess("permitAll()");
         security.tokenKeyAccess("permitAll()");
-        security.checkTokenAccess("isAuthenticated()");
-
-
+        //security.checkTokenAccess("isAuthenticated()");
     }
 
     /**
@@ -102,8 +104,33 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      * @throws Exception
      */
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(clientDetails());
+        InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
+        //clients.withClientDetails(clientDetails());
+        List<Map<String, Object>> allClientDetails = userDetailsService.getAllClientDetails();
+        if(null != allClientDetails && allClientDetails.size()>0){
+            for (int i = 0; i<allClientDetails.size();i++){
+                Map<String, Object> client = allClientDetails.get(i);
+                System.out.println(client.toString());
+                builder.withClient((String)client.get("client_id")) // client_id
+                        .secret(passwordEncoder().encode((String)client.get("client_secret"))) // client_secret
+                        .authorizedGrantTypes((String)client.get("authorized_grant_types")) // 该client允许的授权类型
+                        .scopes((String)client.get("scope"))
+                        .redirectUris((String)client.get("web_server_redirect_uri"))
+                        .accessTokenValiditySeconds((int)client.get("access_token_validity"))
+                        .refreshTokenValiditySeconds((int)client.get("refresh_token_validity"))
+                
+                ;
+            }
+        }else {
+            builder.withClient("unity-client") // client_id
+                    .secret(passwordEncoder().encode("client_secret")) // client_secret
+                    .authorizedGrantTypes("password") // 该client允许的授权类型
+                    .scopes("read,write");
+
+        }
+        System.out.println(clients.toString());
     }
+
 
     /**
      * 配置AuthorizationServerEndpointsConfigurer，包括配置身份认证器，配置认证方式，TokenStore，TokenGranter，OAuth2RequestFactory
@@ -111,7 +138,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      * @throws Exception
      */
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-
         endpoints.authenticationManager(authenticationManager);
         endpoints.tokenStore(tokenStore());
         endpoints.userDetailsService(userDetailsService);
@@ -140,13 +166,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-
         final JwtAccessTokenConverter converter = new JwtAccessToken();
         // 导入证书
         KeyStoreKeyFactory keyStoreKeyFactory =
                 new KeyStoreKeyFactory(new ClassPathResource("keystore.jks"), "mypass".toCharArray());
         converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
-
         return converter;
     }
 

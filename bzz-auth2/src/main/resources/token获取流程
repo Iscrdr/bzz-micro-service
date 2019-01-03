@@ -1,0 +1,15 @@
+一.授权码模式:
+1,获取授权码:
+http://localhost:8081/bzzauth/oauth/authorize?response_type=code&client_id=browser_app_client&redirect_uri=http://localhost:8081/bzzauth/login
+2,返回:
+http://localhost:8081/bzzauth/login?code=h6qnJc
+3,获取access_token
+http://localhost:8081/bzzauth/oauth/token?
+grant_type=authorization_code
+&code=h6qnJc&client_id=browser_app_client
+&client_secret=browser_secret&redirect_uri=http://localhost:8081/bzzauth/login
+
+二:用户名密码模式:
+1.http://localhost:8081/bzzauth/oauth/token?grant_type=password&client_id=unity_client&client_secret=unity&username=admin&password=admin
+
+

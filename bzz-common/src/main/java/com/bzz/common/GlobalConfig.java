@@ -16,7 +16,6 @@ import java.util.Map;
  */
 
 public class GlobalConfig {
-	
 	/**
 	 * 当前对象实例
 	 */

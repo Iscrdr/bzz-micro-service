@@ -1,0 +1,12 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: bzz-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: rbac
+        uri: http://localhost:8761/
+        predicates:
+        - Path=/rbac/**

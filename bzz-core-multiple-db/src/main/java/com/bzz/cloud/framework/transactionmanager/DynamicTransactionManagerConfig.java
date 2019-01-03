@@ -43,7 +43,7 @@ public class DynamicTransactionManagerConfig {
 		JtaTransactionManager transactionManager = new JtaTransactionManager();
 		transactionManager.setTransactionManager(atomikosTransactionManager);
 		transactionManager.setUserTransaction(atomikosUserTransaction);
-		//transactionManager.setAllowCustomIsolationLevels(true);
+		transactionManager.setAllowCustomIsolationLevels(true);
 		return transactionManager;
 	}
 }

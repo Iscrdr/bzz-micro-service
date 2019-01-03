@@ -3,16 +3,14 @@
  */
 package com.bzz.cloud.gen.service;
 
+import com.bzz.cloud.gen.dao.GenTemplateDao;
+import com.bzz.cloud.gen.entity.GenTemplate;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.gen.entity.GenTemplate;
-import com.thinkgem.jeesite.modules.gen.dao.GenTemplateDao;
+
 
 /**
  * 代码模板Service
@@ -21,8 +19,8 @@ import com.thinkgem.jeesite.modules.gen.dao.GenTemplateDao;
  */
 @Service
 @Transactional(readOnly = true)
-public class GenTemplateService extends BaseService {
-
+public class GenTemplateService /*extends BaseService*/ {
+/*
 	@Autowired
 	private GenTemplateDao genTemplateDao;
 	
@@ -54,5 +52,5 @@ public class GenTemplateService extends BaseService {
 	public void delete(GenTemplate genTemplate) {
 		genTemplateDao.delete(genTemplate);
 	}
-	
+	*/
 }

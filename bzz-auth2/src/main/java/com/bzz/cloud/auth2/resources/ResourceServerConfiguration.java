@@ -30,8 +30,8 @@ import javax.sql.DataSource;
 /**
  * 资源服务
  */
-@Configuration
-@EnableResourceServer
+//@Configuration
+//@EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     @Value("${resource.id:spring-boot-application}")

@@ -16,10 +16,10 @@ public class DataSourceContextHolder {
 		List<String> dataSourceAndDialect = contextHolder.get();
 		if(null == dataSourceAndDialect || dataSourceAndDialect.size() <= 0){
 			//设置默认的数据库名称和方言
-			List<String> list = new ArrayList<String>(2);
-			list.add("dataSourceA");
-			list.add("mysql");
-			contextHolder.set(list);
+			List<String> list1 = new ArrayList<String>(2);
+			list1.add("dataSourceA");
+			list1.add("mysql");
+			contextHolder.set(list1);
 		}
 		
 		return contextHolder.get();

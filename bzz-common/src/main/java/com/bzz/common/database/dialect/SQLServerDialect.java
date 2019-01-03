@@ -17,7 +17,7 @@ public class SQLServerDialect implements DynamicDialect {
    /* public boolean supportsLimit() {
         return true;
     }
-
+*/
     static int getAfterSelectInsertPoint(String sql) {
         int selectIndex = sql.toLowerCase().indexOf("select");
         final int selectDistinctIndex = sql.toLowerCase().indexOf("select distinct");
@@ -28,7 +28,8 @@ public class SQLServerDialect implements DynamicDialect {
         return getLimit(sql, offset, limit);
     }
 
-    *//**
+
+   /**
      * 将sql变成分页sql语句,提供将offset及limit使用占位符号(placeholder)替换.
      * <pre>
      * 如mysql
@@ -40,7 +41,8 @@ public class SQLServerDialect implements DynamicDialect {
      * @param offset 分页开始纪录条数
      * @param limit  分页每页显示纪录条数
      * @return 包含占位符的分页sql
-     *//*
+     */
+
     public String getLimit(String sql, int offset, int limit) {
         if (offset > 0) {
             throw new UnsupportedOperationException("sql server has no offset");
@@ -50,13 +52,13 @@ public class SQLServerDialect implements DynamicDialect {
                 .insert(getAfterSelectInsertPoint(sql), " top " + limit)
                 .toString();
     }
-    */
+
     
     public boolean isSupportsLimit() {
         return false;
     }
     
     public String getPageSql(String sql, int pageNo, int pageSize) {
-        return null;
+        return getLimitString(sql,pageNo,pageSize);
     }
 }

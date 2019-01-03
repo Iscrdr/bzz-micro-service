@@ -1,7 +1,8 @@
 server:
   servlet:
-    context-path: /auth
+    context-path: /bzzauth
   port: 8081
+
 
 spring:
   application:
@@ -27,3 +28,6 @@ spring:
       maximum-pool-pize: 10
       initialization-fail-timeout: 1
       validation-timeout: 5000
+
+
+

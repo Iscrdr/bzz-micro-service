@@ -9,38 +9,41 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>bzz-rbac-server</artifactId>
-    <groupId>com.bzz.cloud</groupId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 
     </properties>
 
 
     <dependencies>
-       <dependency>
-            <groupId>com.bzz.cloud</groupId>
-            <artifactId>bzz-core-multiple-db</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
+
+<!--        <dependency>
             <groupId>com.bzz.cloud</groupId>
             <artifactId>bzz-services</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
- <!--       <dependency>
-            <groupId>com.bzz.cloud</groupId>
-            <artifactId>bzz-core-single</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>-->
+        <dependency>
+            <groupId>com.bzz.cloud</groupId>
+            <artifactId>bzz-core-multiple-db</artifactId>
+            <version>1.0-SNAPSHOT</version>
+
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
+        <dependency>
+            <artifactId>mysql-connector-java</artifactId>
+            <groupId>mysql</groupId>
+            <version>5.1.46</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -90,16 +93,6 @@
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <mainClass>com.bzz.cloud.BzzRbacServer</mainClass>
-            </configuration>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
-                    </goals>
-                </execution>
-            </executions>
         </plugin>
 
     </plugins>

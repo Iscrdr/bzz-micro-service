@@ -1,7 +1,7 @@
 package com.bzz.cloud.framework.config;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+
+import com.bzz.cloud.framework.plugin.BzzPageInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -22,15 +22,18 @@ public class MybatisConfig {
 	
 	@Bean(name = "sqlSessionFactory")
 	public SqlSessionFactory sqlSessionFactoryBean(@Qualifier(value = "dataSource") DataSource dataSource) {
-		//SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-		MybatisSqlSessionFactoryBean bean = new MybatisSqlSessionFactoryBean();
+		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+		//MybatisSqlSessionFactoryBean bean = new MybatisSqlSessionFactoryBean();
 		bean.setDataSource(dataSource);
 		//插件
 		Interceptor[] plugins = new Interceptor[1];
 		//分页插件
-		PaginationInterceptor pageInterceptor = new PaginationInterceptor();
+		/*PaginationInterceptor pageInterceptor = new PaginationInterceptor();
+		*/
+		/*BzzPageInterceptor pageInterceptor = new BzzPageInterceptor();
 		plugins[0] = pageInterceptor;
-		bean.setPlugins(plugins);
+		bean.setPlugins(plugins);*/
+
 		try {
 			ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 			Resource mybatisConfigXml = resolver.getResource("classpath:MybatisConfig.xml");
