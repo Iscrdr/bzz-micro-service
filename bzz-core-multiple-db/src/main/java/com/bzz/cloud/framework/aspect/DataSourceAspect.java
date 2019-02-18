@@ -74,7 +74,7 @@ public class DataSourceAspect {
 	 * AbstractRoutingDataSource 底层实现了 方法执行后的数据源切换，此处可以不处理
 	 * @param proceeding
 	 */
-	@Around("declareJoinPointExpression()")
+	/*@Around("declareJoinPointExpression()")
 	public void doAround(ProceedingJoinPoint proceeding)throws Throwable  {
 		long beforeTime = System.currentTimeMillis();
 		String startTime = DateUtils.getLongDateToString(beforeTime,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S"));
@@ -93,6 +93,6 @@ public class DataSourceAspect {
 			DataSourceContextHolder.removeDataSource();
 		}
 
-	}
+	}*/
 	
 }

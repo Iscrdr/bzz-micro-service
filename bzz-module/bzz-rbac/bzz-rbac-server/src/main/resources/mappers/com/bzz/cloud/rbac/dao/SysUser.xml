@@ -3,49 +3,63 @@
 <mapper namespace="com.bzz.cloud.rbac.dao.SysUserDao">
 
 	<sql id="userColumns">
-		a.id,
-		a.login_name,
-		a.password,
-		a.work_num,
-		a.name,
-		a.email,
-		a.phone,
-		a.mobile,
-		a.user_type,
-		a.login_flag,
-		a.photo,
-		a.create_user AS "createUser.id",
-		a.create_date,
-		a.update_user AS "updateUser.id",
-		a.update_date,
-		a.remarks,
-		a.del_flag
+		t.id AS id,
+		t.login_name AS loginName,
+		t.password AS password,
+		t.work_num AS workNum,
+		t.name AS name,
+		t.email AS email,
+		t.phone AS phone,
+		t.mobile AS mobile,
+		t.user_type AS userType,
+		t.photo AS photo,
+		t.old_login_name AS oldLoginName,
+		t.new_password AS newPassword,
+		t.account_non_expired AS accountNonExpired,
+		t.account_non_locked AS accountNonLocked,
+		t.credentials_non_expired AS credentialsNonExpired,
+		t.enabled AS enabled,
+		t.create_user_id AS createUserId,
+		t.create_time AS createTime,
+		t.update_user_id AS updateUserId,
+		t.update_time AS updateTime,
+		t.todo AS todo,
+		t.remarks AS remarks,
+		t.del_flag AS delFlag,
+		t.version AS version
+
 	</sql>
 
-
-
-	<!--&lt;!&ndash; 根据编号获得用户 &ndash;&gt;
-	<select id="get" resultType="SysUser">
+	<!--根据用户名获得用户 -->
+	<select id="getUserByLoginName" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user a WHERE a.id = #{id}
-
+		FROM sys_user t WHERE t.login_name = #{loginName}
 	</select>
--->
-	<select id="selectUser" resultType="com.bzz.cloud.rbac.entity.SysUser">
+
+	<!--根据编号获得用户 -->
+	<select id="get" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user a
-		WHERE a.del_flag = 0  and a.id = 1
+		FROM sys_user t WHERE t.id = #{id}
+	</select>
+
+
+
+	<select id="selectUser">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user t
+		WHERE t.del_flag = 0  and t.id = 1
 	</select>
 
 	<!-- 分页查询用户信息 -->
 	<select id="selectPage" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user a
+		FROM sys_user t
 		<where>
-			a.del_flag = 0 and a.id = 1
+			t.del_flag = 0 and t.id = 1
 		</where>
 		<!--<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -60,12 +74,61 @@
 	<select id="selectList" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user a
-		WHERE a.del_flag = 0
+		FROM sys_user t
+		WHERE t.del_flag = 0
+
 	</select>
 
 
-
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO sys_user(
+				id,
+				login_name,
+				password,
+				work_num,
+				name,
+				email,
+				phone,
+				mobile,
+				user_type,
+				photo,
+				old_login_name,
+				new_password,
+				account_non_expired,
+				account_non_locked,
+				credentials_non_expired,
+				enabled,
+				create_user,
+				create_time,
+				update_user,
+				update_time,
+				todo,
+				del_flag
+				) VALUES (
+								 #{id},
+								 #{loginName},
+								 #{password},
+								 #{workNum},
+								 #{name},
+								 #{email},
+								 #{phone},
+								 #{mobile},
+								 #{userType},
+								 #{photo},
+								 #{oldLoginName},
+								 #{newPassword},
+								 #{accountNonExpired},
+								 #{accountNonLocked},
+								 #{credentialsNonExpired},
+								 #{enabled},
+								 #{createUser.id},
+								 #{createTime},
+								 #{createUser.id},
+								 #{updateTime},
+								 #{todo},
+								 #{delFlag}
+								 )
+	</insert>
 
 
 </mapper>

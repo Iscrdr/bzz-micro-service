@@ -1,13 +1,15 @@
 package com.bzz.cloud;
 
+import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.framework.config.BzzCloudDbConfig;
 import com.bzz.cloud.framework.config.RedisConfig;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -24,15 +26,14 @@ import java.util.Arrays;
  * @Description:
  */
 @Import({BzzCloudDbConfig.class, RedisConfig.class})
-@EnableConfigurationProperties
-@ComponentScans({
-        @ComponentScan("com.bzz.cloud.*")
-})
-@EnableAspectJAutoProxy
+@MapperScan(basePackages = {"com.bzz.cloud.*.dao"},annotationClass = BzzMyBatisDao.class)
 @Configuration
+@EnableConfigurationProperties
+@EnableAspectJAutoProxy
 @EnableTransactionManagement
 @EnableDiscoveryClient
-@SpringBootApplication
+@EnableFeignClients
+@SpringBootApplication(scanBasePackages={"com.bzz.cloud.framework","com.bzz.cloud.rbac"})
 public class BzzRbacServer {
     public static void main(String[] args) {
         SpringApplication.run(BzzRbacServer.class, args);

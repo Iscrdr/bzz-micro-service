@@ -1,5 +1,7 @@
 package com.bzz.cloud.rbac.web;
 
+import com.bzz.cloud.rbac.service.UserServiceClient;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -25,6 +27,19 @@ public class UserController {
 	
 	@Autowired
 	LoadBalancerClient loadBalancerClient;
+
+	@Autowired
+	private UserServiceClient userServiceClient;
+
+
+	@PostMapping("/getUser")
+	@ResponseBody
+	public Object getUser(@RequestParam("loginName") String loginName) {
+
+		Object user = userServiceClient.getUser(loginName);
+		System.out.println(user==null?0:user.toString());
+		return user;
+	}
 	
 	@RequestMapping("/serviceUrl")
 	@ResponseBody
@@ -48,8 +63,7 @@ public class UserController {
 	@GetMapping("/getPageUser")
 	@ResponseBody
 	public Object getPageUser(@RequestParam(value="current") Integer  current, @RequestParam(value="size") Integer  size) {
-		
-		
+
 		ServiceInstance serviceInstance = loadBalancerClient.choose(serviceName);
 		System.out.println("api --> getPageUser,serviceInstance:"+serviceInstance);
 		System.out.println(loadBalancerClient.choose(serviceName));

@@ -13,22 +13,24 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <spring-cloud.version>Greenwich.RC2</spring-cloud.version>
+    <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
     <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
   </properties>
   <modules>
       <!--bzz.授权/鉴权-->
-      <module>bzz-auth2</module>
+      <module>bzz-oauth2</module>
       <!--bzz.公共工具类-->
       <module>bzz-common</module>
       <!--bzz.共配置-->
     
       <!--bzz.心类库-->
       <module>bzz-core-multiple-db</module>
-      <!--<module>bzz-core-single-db</module>-->
+      <module>bzz-core-single-db</module>
       <!--bzz.业务模块-->
       <module>bzz-module</module>
-    <module>bzz-gateway</module>
+      <module>bzz-gateway</module>
+      <module>bzz-cache</module>
+      <module>bzz-config</module>
 
   </modules>
   <repositories>

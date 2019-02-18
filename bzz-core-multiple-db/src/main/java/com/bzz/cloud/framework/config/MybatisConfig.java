@@ -1,8 +1,7 @@
 package com.bzz.cloud.framework.config;
 
 
-import com.bzz.cloud.framework.plugin.BzzPageInterceptor;
-import org.apache.ibatis.plugin.Interceptor;
+import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -17,7 +16,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.bzz.cloud.*.dao",  sqlSessionFactoryRef = "sqlSessionFactory")
+@MapperScan(basePackages = "com.bzz.cloud.*.dao",sqlSessionFactoryRef = "sqlSessionFactory")
 public class MybatisConfig {
 	
 	@Bean(name = "sqlSessionFactory")
@@ -26,7 +25,7 @@ public class MybatisConfig {
 		//MybatisSqlSessionFactoryBean bean = new MybatisSqlSessionFactoryBean();
 		bean.setDataSource(dataSource);
 		//插件
-		Interceptor[] plugins = new Interceptor[1];
+		//Interceptor[] plugins = new Interceptor[1];
 		//分页插件
 		/*PaginationInterceptor pageInterceptor = new PaginationInterceptor();
 		*/

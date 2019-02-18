@@ -10,8 +10,6 @@
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
 import java.util.List;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.Callable;
@@ -22,53 +20,14 @@ import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModule
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@RestController(value = "${r"${adminPath}"}/${urlPrefix}")
+@RestController
 public class ${ClassName}Controller  {
 
 	@Autowired
 	private ${ClassName}Service ${className}Service;
-	
-
-	/**
-	 * ${functionName}Controller
-	 * @author ${functionAuthor}
-	 * @version ${functionVersion}
-	 */
-	@GetMapping(value = {"list", "/list"})
-	@ResponseBody
-	public String list(${ClassName} ${className}, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<${ClassName}> page = ${className}Service.findPage(new Page<${ClassName}>(request, response), ${className}); 
-		return page;
-	}
 
 
-	@PostMapping(value = "form")
-	@ResponseBody
-	public String form(${ClassName} ${className}, Model model) {
-		if(null != ${className} && ${className}.getId() >= 0){
-			${className} = ${className}Service.getById(${className}.getId())
-		}
-		return ${className};
-	}
 
-
-	@PostMapping(value = "save")
-	@ResponseBody
-	public String save(${ClassName} ${className}, Model model, RedirectAttributes redirectAttributes) {
-
-		${className}Service.save(${className});
-
-		return ${className};
-	}
-	
-
-	@PostMapping(value = "delete")
-	@ResponseBody
-	public String delete(${ClassName} ${className}, RedirectAttributes redirectAttributes) {
-		${className}Service.delete(${className});
-
-		return ${className};
-	}
 
 }]]>
 	</content>

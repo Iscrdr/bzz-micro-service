@@ -13,4 +13,4 @@ spring:
         register: false
         enabled: true
         #uri-spec: http://192.168.132.151:8761,http://192.168.132.152:8761,http://192.168.132.153:8761,http://192.168.132.154:8761,http://192.168.132.155:8761
-        uri-spec: http://localhost:8761
+        #uri-spec: http://localhost:8761

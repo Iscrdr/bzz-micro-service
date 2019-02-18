@@ -1,16 +1,13 @@
-server:
-  port: 8761
+
 # spring
 spring:
-  application:
-    name: bzz-rbac-server
   cloud:
     zookeeper:
       enabled: true
       config:
         enabled: true
-      #connect-string: 192.168.132.153:2181,192.168.132.154:2181,192.168.132.155:2181
-      connect-string: 127.0.0.1:2181
+      connect-string: hadoop-03:2181,hadoop-04:2181,hadoop-05:2181
+      #connect-string: 127.0.0.1:2181
       discovery:
         root: bzz
         register: true
@@ -22,4 +19,6 @@ spring:
 #management:
 #  security:
 #    enabled: false
+
+
 

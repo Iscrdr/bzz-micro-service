@@ -9,15 +9,12 @@
  */
 package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bzz.cloud.framework.annotations.DataBaseSourceTarget;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bzz.cloud.framework.core.service.BaseService;
 import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.dao<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dao;
 
@@ -29,34 +26,11 @@ import ${packageName}.${moduleName}.dao<#if subModuleName != "">.${subModuleName
 
 @Service
 @Transactional(readOnly = true)
-public class ${ClassName}Service  {
+public class ${ClassName}Service  extends BaseService<${ClassName},Long> {
 
 	@Autowired
 	private ${ClassName}Dao ${className}Dao;
 
-	public ${ClassName} get(String id) {
-		return  ${className}Dao.get(id);
-	}
-
-	@Cacheable(value="${className}ListCache",key ="T(String).valueOf(#${className}.id).concat('-').concat(#${className}.loginName)")
-	public List<${ClassName}> findList(${ClassName} ${className}) {
-		return ${className}Dao.findList(${className});
-	}
-
-	@Cacheable(value="${className}ListCache",key ="T(String).valueOf(#page.current).concat('-').concat(#page.size)")
-	public Page<${ClassName}> findPage(Page<${ClassName}> page, ${ClassName} ${className}) {
-		return ${className}Dao.findPage(page, ${className});
-	}
-	
-	@Transactional(readOnly = false)
-	public void save(${ClassName} ${className}) {
-		${className}Dao.save(${className});
-	}
-	
-	@Transactional(readOnly = false)
-	public void delete(${ClassName} ${className}) {
-		${className}Dao.delete(${className});
-	}
 	
 }]]>
 	</content>

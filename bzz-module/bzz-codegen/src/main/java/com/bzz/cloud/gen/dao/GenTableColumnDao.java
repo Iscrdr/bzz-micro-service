@@ -4,7 +4,7 @@
 package com.bzz.cloud.gen.dao;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.gen.entity.GenTableColumn;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
  * @version 2013-10-15
  */
 @Repository
-public interface GenTableColumnDao extends BaseMapper<GenTableColumn> {
+public interface GenTableColumnDao extends BaseDao<GenTableColumn,Long> {
 	
-	public void deleteByGenTableId(String genTableId);
 }

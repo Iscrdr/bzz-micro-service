@@ -1,11 +1,10 @@
-/**
- * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.bzz.cloud.gen.entity;
 
+import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.common.Utils.BzzStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  * @author ThinkGem
  * @version 2013-10-15
  */
-public class GenTable  {
+public class GenTable extends BaseEntity<GenTable,Long> implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private long id;

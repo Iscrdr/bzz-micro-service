@@ -1,8 +1,6 @@
-/**
- * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.bzz.cloud.gen.entity;
 
+import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.common.Utils.BzzStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,15 +8,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 业务表字段Entity
- * @author ThinkGem
- * @version 2013-10-15
- */
-public class GenTableColumn implements Serializable {
+public class GenTableColumn extends BaseEntity<GenTableColumn,Long> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private long id; //id
+	//private long id; //id
 	private GenTable genTable;	// 归属表
 	private String columnName; 		// 列名
 	private String comments;	// 描述
@@ -40,17 +33,7 @@ public class GenTableColumn implements Serializable {
 		super();
 	}
 
-	public GenTableColumn(long id){
-		this.id = id;
-	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public GenTableColumn(GenTable genTable){
 		this.genTable = genTable;

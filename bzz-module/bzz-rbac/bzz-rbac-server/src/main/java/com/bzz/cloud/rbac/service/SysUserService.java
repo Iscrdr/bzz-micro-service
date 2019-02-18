@@ -7,8 +7,8 @@ import com.bzz.cloud.rbac.entity.SysUser;
 
 import com.bzz.cloud.framework.annotations.DataBaseSourceTarget;
 import com.bzz.common.Utils.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -22,35 +22,48 @@ import java.util.List;
  */
 
 @Service
-@Transactional(readOnly = true)
-public class SysUserService extends BaseService<SysUser,Long> {
+@Transactional
+public class SysUserService extends BaseService<SysUserDao,SysUser,Long> {
 
-	@Resource
-	private SysUserDao sysUserDao;
+	public SysUser getUserByLoginName(SysUser sysUser){
+		SysUser sysUser1 = baseDao.getUserByLoginName(sysUser);
+
+		return sysUser1;
+	}
+
+
+	public long insert(SysUser sysUser){
+		//sysUser.preInsert(sysUser.getId());
+		return baseDao.insert(sysUser);
+	}
+	@DataBaseSourceTarget(dataBaseDialect = "oracle",dataSourceValue = "dataSourceB")
+	public long insertOracle(SysUser sysUser){
+		//sysUser.preInsert(sysUser.getId());
+		return baseDao.insert(sysUser);
+	}
 
 	@DataBaseSourceTarget(dataBaseDialect = "mysql",dataSourceValue = "dataSourceA")
-	//@Cacheable(value="userMysqlCache",key ="T(String).valueOf(#page.current).concat('-').concat(#page.size)")
 	public SysUser selectUser(SysUser sysUser){
-		SysUser sysUser1 = sysUserDao.selectUser(sysUser);
+		SysUser sysUser1 = (SysUser) baseDao.selectUser(sysUser);
 		System.out.println(sysUser1);
 		return sysUser1;
 	}
-	@Transactional(propagation=Propagation.NOT_SUPPORTED)
-	@DataBaseSourceTarget(dataBaseDialect = "mysql",dataSourceValue = "dataSourceB")
+
+	@DataBaseSourceTarget(dataBaseDialect = "mysql",dataSourceValue = "dataSourceA")
 	public Page<SysUser> selectPageMysql(SysUser sysUser){
-		Page<SysUser> sysUserMyPage = sysUserDao.selectPage(sysUser);
+		Page<SysUser> sysUserMyPage = baseDao.selectPage(sysUser);
 		return sysUserMyPage;
 	}
-	//@Cacheable(value="userOracleCache",key ="T(String).valueOf(#page.current).concat('-').concat(#page.size)")
-	@Transactional(propagation=Propagation.NOT_SUPPORTED)
+
 	@DataBaseSourceTarget(dataBaseDialect = "oracle",dataSourceValue = "dataSourceB")
 	public Page<SysUser> selectPageOracle(SysUser sysUser){
-		Page<SysUser> sysUserMyPage = sysUserDao.selectPage(sysUser);
+		Page<SysUser> sysUserMyPage = baseDao.selectPage(sysUser);
 		return sysUserMyPage;
 	}
 	@DataBaseSourceTarget(dataBaseDialect = "mysql",dataSourceValue = "dataSourceA")
 	public List<SysUser> selectList(SysUser sysUser){
-		List<SysUser> sysUserPage = sysUserDao.selectList(sysUser);
+		List<SysUser> sysUserPage = baseDao.selectList(sysUser);
 		return sysUserPage;
 	}
+
 }

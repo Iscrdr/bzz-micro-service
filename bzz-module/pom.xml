@@ -20,14 +20,14 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
     </properties>
 
     <modules>
         <!--bzz.权限系统RBAC-->
         <module>bzz-rbac</module>
-        <!--<module>bzz-codegen</module>
-        <module>bzz-services</module>-->
+        <module>bzz-codegen</module>
+        <!--<module>bzz-services</module>-->
     </modules>
 
 </project>

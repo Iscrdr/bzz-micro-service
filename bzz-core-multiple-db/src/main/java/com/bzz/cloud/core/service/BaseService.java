@@ -4,12 +4,12 @@ package com.bzz.cloud.core.service;
 
 import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.cloud.core.entity.DataEntity;
 import com.bzz.common.Utils.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,17 +19,16 @@ import java.util.List;
  * @author yang-ql
  * @version 2014-05-16
  */
-
-
-public abstract class BaseService<T extends BaseEntity,PK extends Serializable>{
+public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,PK extends Serializable> {
 	
 	/**
 	 * 日志对象
 	 */
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Resource
-	protected  BaseDao baseDao;
+	@Autowired
+	protected D baseDao;
+
 
 
 	/**
@@ -37,15 +36,16 @@ public abstract class BaseService<T extends BaseEntity,PK extends Serializable>{
 	 * @param id
 	 * @return
 	 */
-	public  BaseEntity get(PK id){
+	public T get(PK id){
 		return baseDao.get(id);
 	}
 	/**
 	 * 插入数据
 	 * @param entity
-	 * @return
+	 * @return Object 主键类型
 	 */
-	public int insert(T entity){
+	@Transactional(readOnly = false)
+	public long insert(T entity){
 		return baseDao.insert(entity);
 	}
 
@@ -54,7 +54,7 @@ public abstract class BaseService<T extends BaseEntity,PK extends Serializable>{
 	 * @param entity
 	 * @return
 	 */
-	public  List<T> findList(T entity){
+	public List<T> findList(T entity){
 		return baseDao.findList(entity);
 	}
 
@@ -93,6 +93,7 @@ public abstract class BaseService<T extends BaseEntity,PK extends Serializable>{
 	 * @param list
 	 * @return
 	 */
+	@Transactional(readOnly = false)
 	public  int insertBatch(List<T> list){
 		return  baseDao.insertBatch(list);
 	}
@@ -102,6 +103,7 @@ public abstract class BaseService<T extends BaseEntity,PK extends Serializable>{
 	 * @param entity
 	 * @return
 	 */
+	@Transactional(readOnly = false)
 	public int update(T entity){
 		return  baseDao.update(entity);
 	}
@@ -111,25 +113,19 @@ public abstract class BaseService<T extends BaseEntity,PK extends Serializable>{
 	 * @param list
 	 * @return
 	 */
+	@Transactional(readOnly = false)
 	public  int updateBatch(List<T> list){
 		return  baseDao.updateBatch(list);
 	}
 
-	/**
-	 * 删除数据（一般为逻辑删除，更新del_flag字段为1）
-	 * @param id
-	 * @see public int delete(T entity)
-	 * @return
-	 */
-	public  int delete(PK id){
-		return  baseDao.delete(id);
-	}
+
 
 	/**
 	 * 删除数据（一般为逻辑删除，更新del_flag字段为1）
 	 * @param entity
 	 * @return
 	 */
+	@Transactional(readOnly = false)
 	public int delete(T entity){
 		return  baseDao.delete(entity);
 	}
@@ -139,6 +135,7 @@ public abstract class BaseService<T extends BaseEntity,PK extends Serializable>{
 	 * @param list
 	 * @return
 	 */
+	@Transactional(readOnly = false)
 	public  int deleteBacth(List<T> list){
 		return  baseDao.deleteBacth(list);
 	}

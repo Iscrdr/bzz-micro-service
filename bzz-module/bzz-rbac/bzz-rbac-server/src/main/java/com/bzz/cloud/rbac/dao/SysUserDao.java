@@ -2,9 +2,9 @@ package com.bzz.cloud.rbac.dao;
 
 
 import com.bzz.cloud.core.dao.BaseDao;
-import com.bzz.common.Utils.Page;
-import org.springframework.stereotype.Repository;
+import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysUser;
+import com.bzz.common.Utils.Page;
 
 import java.util.List;
 
@@ -14,13 +14,17 @@ import java.util.List;
  * @author yang-ql
  * @version 2014-05-16
  */
-@Repository
-public interface SysUserDao extends BaseDao<SysUser,Long> {
+@BzzMyBatisDao("sysUserDao")
+public interface SysUserDao  extends BaseDao<SysUser,Long> {
 
-	SysUser selectUser(SysUser sysUser);
+	public  SysUser selectUser(SysUser sysUser);
 
-	Page<SysUser> selectPage(SysUser sysUser);
+	public  SysUser getUserByLoginName(SysUser sysUser);
 
-	List<SysUser> selectList(SysUser sysUser);
+	public  Page<SysUser> selectPage(SysUser sysUser);
+
+	public  List<SysUser> selectList(SysUser sysUser);
+
+
 
 }

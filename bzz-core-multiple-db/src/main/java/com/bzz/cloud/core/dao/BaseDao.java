@@ -1,15 +1,10 @@
 package com.bzz.cloud.core.dao;
 
-import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.cloud.core.entity.DataEntity;
-import com.bzz.common.Utils.Page;
 
 import java.io.Serializable;
 import java.util.List;
 
-
-
-public  interface BaseDao <T extends BaseEntity, PK extends Serializable>{
+public  interface BaseDao<T,PK extends Serializable>  {
     /**
      * 根据ID获取单条数据
      * @param id
@@ -21,7 +16,7 @@ public  interface BaseDao <T extends BaseEntity, PK extends Serializable>{
      * @param entity
      * @return
      */
-    public abstract int insert(T entity);
+    public abstract long insert(T entity);
 
     /**
      * 根据属性查询数据列表
@@ -70,14 +65,6 @@ public  interface BaseDao <T extends BaseEntity, PK extends Serializable>{
      * @return
      */
     public abstract int updateBatch(List<T> list);
-
-    /**
-     * 删除数据（一般为逻辑删除，更新del_flag字段为1）
-     * @param id
-     * @see public int delete(T entity)
-     * @return
-     */
-    public abstract int delete(PK id);
 
     /**
      * 删除数据（一般为逻辑删除，更新del_flag字段为1）

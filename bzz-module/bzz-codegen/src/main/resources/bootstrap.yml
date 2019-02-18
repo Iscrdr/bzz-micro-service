@@ -1,0 +1,7 @@
+server:
+  port: 8762
+# spring
+spring:
+  application:
+    name: bzz-gen
+

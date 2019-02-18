@@ -39,6 +39,12 @@ public class IdUtils  {
     }
 
 
+    public static long getLongId(){
+        SnowflakeIdFactory idWorker = new SnowflakeIdFactory(2, 1);
+        return idWorker.nextId();
+    }
+
+
     public static void main(String[] args) {
         System.out.println(IdUtils.uuid());
         System.out.println(IdUtils.uuid().length());
