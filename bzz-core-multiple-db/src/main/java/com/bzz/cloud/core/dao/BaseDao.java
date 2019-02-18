@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public  interface BaseDao<T,PK extends Serializable>  {
+
     /**
      * 根据ID获取单条数据
      * @param id
