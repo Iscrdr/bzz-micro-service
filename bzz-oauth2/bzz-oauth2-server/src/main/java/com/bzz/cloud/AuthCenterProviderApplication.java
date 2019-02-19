@@ -1,6 +1,6 @@
 package com.bzz.cloud;
 
-import com.bzz.cloud.config.BzzCloudDbConfig;
+import com.bzz.cloud.framework.config.BzzCloudDbConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
