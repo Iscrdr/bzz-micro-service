@@ -1,6 +1,5 @@
 package com.bzz.cloud.framework.auth2.authentication;
 
-import com.bzz.cloud.module.services.Auth2DetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +44,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      * 获取用户信息
      */
     @Autowired
-    private Auth2DetailsService userDetailsService;
+    //private Auth2DetailsService userDetailsService;
 
     /**
      * 加密方式
@@ -134,7 +133,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager);
         endpoints.tokenStore(tokenStore());
-        endpoints.userDetailsService(userDetailsService);
+        //endpoints.userDetailsService(userDetailsService);
 
         //配置TokenServices参数
         DefaultTokenServices tokenServices = new DefaultTokenServices();
