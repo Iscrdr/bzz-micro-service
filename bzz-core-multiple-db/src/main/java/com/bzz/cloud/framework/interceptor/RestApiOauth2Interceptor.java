@@ -1,8 +1,8 @@
 package com.bzz.cloud.framework.interceptor;
 
 
+import com.bzz.cloud.core.client.Oath2FeignClientService;
 import com.bzz.cloud.framework.annotations.IgnoreOauthToken;
-import com.bzz.cloud.oauth2.client.service.Oath2FeignClientService;
 import com.bzz.common.Utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -35,7 +35,6 @@ public abstract class BaseEntity<T,PK extends Serializable> implements Serializa
 
 	}
 
-
 	@JsonIgnore
 	@XmlTransient
 	public PK getId() {

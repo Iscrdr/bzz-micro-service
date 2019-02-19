@@ -12,10 +12,16 @@ spring:
         root: bzz
         register: true
         enabled: true
-        #instance-host: ${spring.cloud.client.ipAddress}
-        instance-port: ${server.port}
         prefer-ip-address: true #用ip地址代替主机名注册
+        #instance-host: ${spring.cloud.client.ipAddress}
+        #instance-port: ${server.port}
         #instance-id: bzz-rbac-server
+      dependencies:
+        service-zookeeper:
+          required: true
+          path: /bzzoauth
+          loadBalancerType: ROUND_ROBIN
+
 #management:
 #  security:
 #    enabled: false

@@ -5,3 +5,4 @@ spring:
     active: core
   application:
     name: bzz-rbac-server
+

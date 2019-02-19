@@ -1,9 +1,10 @@
-package com.bzz.cloud.oauth2.client.service;
+package com.bzz.cloud.core.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(value = "bzzoauth")
+@FeignClient(name  = "bzzoauth")
 public interface Oath2FeignClientService {
 
     /**
@@ -17,8 +18,7 @@ public interface Oath2FeignClientService {
      * 验证token
      */
     @PostMapping(value = "/oauth/check_token")
-    String checkToken(String token);
-
+    String checkToken(@RequestParam("token") String token);
 
     /**
      * 获取客户端

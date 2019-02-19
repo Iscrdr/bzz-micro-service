@@ -118,6 +118,7 @@ spring:
       properties:
         log-base-dir: classpath:tx-logs
 
-
+  main:
+    allow-bean-definition-overriding: true
 
 
