@@ -1,0 +1,17 @@
+.bzz-btn-nav {
+    width: 100%;
+    display:block;
+    background: #3c4452;
+    border-bottom: 1px solid rgba(120,130,140,.28);
+}
+.bzz-btn-nav-left {
+    float: left;
+}
+.bzz-btn-nav-center {
+    margin-left: 3px;
+    float: left;
+}
+.bzz-btn-nav-right {
+    margin-left: 3px;
+    float: right;
+}
