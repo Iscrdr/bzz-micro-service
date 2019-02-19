@@ -1,7 +1,6 @@
 package com.bzz.cloud.framework.config;
 
 
-import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;

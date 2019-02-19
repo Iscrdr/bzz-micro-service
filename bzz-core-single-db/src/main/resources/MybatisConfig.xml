@@ -40,16 +40,6 @@
 
 	</settings>
 
-	<!--&lt;!&ndash; 类型别名 &ndash;&gt;
-	<typeAliases>
-	<typeAlias alias="Page" type="com.top.jee.common.persistence.Page" />&lt;!&ndash;分页  &ndash;&gt;
-	</typeAliases>
 
-	&lt;!&ndash; 插件配置 &ndash;&gt;
-	<plugins>
-		<plugin interceptor="com.top.jee.common.persistence.interceptor.PaginationInterceptor" />
-	</plugins>-->
-	<typeAliases>
-		<typeAlias alias="SysUser" type="com.bzz.cloud.rbac.entity.SysUser" />
-	</typeAliases>
+
 </configuration>

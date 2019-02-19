@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name  = "bzzoauth")
+@FeignClient(value = "bzzoauth")
 public interface Oath2FeignClientService {
 
     /**

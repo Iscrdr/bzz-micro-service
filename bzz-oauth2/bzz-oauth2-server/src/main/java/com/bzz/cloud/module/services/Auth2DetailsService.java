@@ -1,8 +1,7 @@
-package com.bzz.cloud.services;
+package com.bzz.cloud.module.services;
 
 
 import com.bzz.common.Utils.JsonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,8 +16,8 @@ import java.util.List;
 @Service
 public class Auth2DetailsService implements UserDetailsService {
 
-    @Autowired
-    private FeignAuth2UserService feignAuth2UserService;
+    /*@Autowired
+    private FeignAuth2UserService feignAuth2UserService;*/
 
     /**
      * 验证用户信息
@@ -28,7 +27,8 @@ public class Auth2DetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
-        String userjson = feignAuth2UserService.getUser(loginName);
+        String userjson = "";
+
         String password = JsonUtils.getFeildFromJson("password",userjson);
         String accountNonExpired = JsonUtils.getFeildFromJson("accountNonExpired", userjson);// 账户是否过期,过期无法验证
         String credentialsNonExpired = JsonUtils.getFeildFromJson("accountNonLocked", userjson);// 指定用户是否被锁定或者解锁,锁定的用户无法进行身份验证

@@ -1,4 +1,4 @@
-package com.bzz.cloud.web;
+package com.bzz.cloud.module.web;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

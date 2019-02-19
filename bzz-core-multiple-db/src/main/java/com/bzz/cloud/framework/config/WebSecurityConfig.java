@@ -3,11 +3,10 @@ package com.bzz.cloud.framework.config;
 import com.bzz.cloud.framework.interceptor.RestApiOauth2Interceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-@Configuration
-@Primary
+//@Configuration
 public class WebSecurityConfig implements WebMvcConfigurer {
 
 

@@ -1,4 +1,4 @@
-package com.bzz.cloud.config;
+package com.bzz.cloud.framework.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

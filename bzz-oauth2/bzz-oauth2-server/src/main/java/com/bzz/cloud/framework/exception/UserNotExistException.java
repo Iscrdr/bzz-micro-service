@@ -1,4 +1,4 @@
-package com.bzz.cloud.exception;
+package com.bzz.cloud.framework.exception;
 
 public class UserNotExistException extends RuntimeException{
 

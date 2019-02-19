@@ -1,4 +1,4 @@
-package com.bzz.cloud.entity;
+package com.bzz.cloud.module.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

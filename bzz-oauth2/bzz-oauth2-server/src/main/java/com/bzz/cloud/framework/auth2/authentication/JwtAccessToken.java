@@ -1,7 +1,6 @@
-package com.bzz.cloud.auth2.authentication;
+package com.bzz.cloud.framework.auth2.authentication;
 
-import com.bzz.cloud.entity.Auth2User;
-/*import com.bzz.cloud.rbac.entity.SysUser;*/
+import com.bzz.cloud.module.entity.Auth2User;
 import com.bzz.common.Utils.JsonUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -9,6 +8,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import java.util.Map;
+
+/*import com.bzz.cloud.rbac.entity.SysUser;*/
 
 public class JwtAccessToken extends JwtAccessTokenConverter {
     /**

@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
@@ -33,9 +34,10 @@ import java.util.Arrays;
 @EnableConfigurationProperties
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
-@EnableDiscoveryClient
+@EnableHystrix
 @EnableFeignClients
-@SpringBootApplication(scanBasePackages={"com.bzz.cloud.framework","com.bzz.cloud.rbac"})
+@EnableDiscoveryClient
+@SpringBootApplication(scanBasePackages={"com.bzz.cloud.core","com.bzz.cloud.framework","com.bzz.cloud.rbac"})
 public class BzzRbacServer {
     public static void main(String[] args) {
         SpringApplication.run(BzzRbacServer.class, args);
