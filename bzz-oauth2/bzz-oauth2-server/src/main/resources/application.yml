@@ -1,0 +1,30 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: bzzoauth
+  #profiles : dev
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.jdbc.Driver
+      jdbc-url: jdbc:mysql://192.168.132.150:3306/bzz?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true&autoReconnect=true&failOverReadOnly=false
+      username: root
+      #      driver-class-name: oracle.jdbc.OracleDriver
+      #      jdbc-url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
+      #      username: scott
+      password: root
+      maximum-pool-size: 20
+      pool-name: HikariMysqlPool
+      connection-timeout: 30000
+      idle-timeout: 60000
+      max-lifetime: 1800
+      #connection-test-query: SELECT 1
+      connection-test-query: SELECT 'HELLO' FROM DUAL
+      minimum-idle: 1
+      maximum-pool-pize: 10
+      initialization-fail-timeout: 1
+      validation-timeout: 5000
+
+
+
+

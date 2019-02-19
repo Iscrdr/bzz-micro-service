@@ -1,0 +1,42 @@
+一.授权码模式:
+1,获取授权码:
+http://localhost:8081/bzzoauth/oauth/authorize?response_type=code&client_id=unity_client_1&redirect_uri=http://localhost:8081/bzzauth/login
+2,返回:
+http://localhost:8081/bzzoauth/login?code=VPC0Qr
+3,获取access_token
+http://localhost:8081/bzzoauth/oauth/token?
+grant_type=authorization_code&code=VPC0Qr&client_id=unity_client_1&client_secret=unity_1&redirect_uri=http://localhost:8081/bzzoauth/login
+
+二:用户名密码模式:
+1.
+http://localhost:8081/bzzoauth/oauth/token?grant_type=password&client_id=unity_client&client_secret=unity&username=admin&password=admin
+
+
+三:刷新Token
+http://localhost:8081/bzzoauth/oauth/token?grant_type=refresh_token&refresh_token=44723ac0-9c1c-404f-8463-96625795ccbf&client_id=unity_client_1&client_secret=unity_1
+
+访问资源:
+http://localhost:8081/bzzoauth/api/login?access_token=0efdbb2b-b977-48a6-a286-e45df7d2ea94
+
+四:验证Token
+http://localhost:8081/bzzauth/oauth/check_token?token=3fef66b4-b362-439f-870d-84fb3dfe04aa
+
+{
+"aud":[
+"unity-resource"
+],
+"user_name": "admin",
+"scope":[
+"read",
+"write"
+],
+"active": true,
+"exp": 1550477941,
+"authorities":[
+"ROLE_ADMIN"
+],
+"client_id": "unity_client_1"
+}
+
+
+
