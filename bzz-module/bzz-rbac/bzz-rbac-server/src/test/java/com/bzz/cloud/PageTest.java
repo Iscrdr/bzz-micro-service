@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
@@ -42,11 +41,11 @@ public class PageTest {
         page.setPageSize(3);
 
         SysUser sysUser = new SysUser();
-        sysUser.setId(IdUtils.getLongId());
-        //sysUser.setPage(page);
+        //sysUser.setId(IdUtils.getLongId());
+        sysUser.setPage(page);
         Page<SysUser> sysUserPage = sysUserService.selectPageMysql(sysUser);
 
-        System.out.println(sysUserPage.getList().size());
+        //System.out.println(new com.github.pagehelper.Page<SysUser>());
     }
 
     @Test

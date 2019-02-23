@@ -1,5 +1,6 @@
 package com.bzz.cloud.rbac.service;
 
+import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.service.BaseService;
 import com.bzz.cloud.rbac.dao.SysUserDao;
 import com.bzz.cloud.rbac.entity.SysUser;
@@ -7,11 +8,9 @@ import com.bzz.cloud.rbac.entity.SysUser;
 
 import com.bzz.cloud.framework.annotations.DataBaseSourceTarget;
 import com.bzz.common.Utils.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -51,19 +50,27 @@ public class SysUserService extends BaseService<SysUserDao,SysUser,Long> {
 
 	@DataBaseSourceTarget(dataBaseDialect = "mysql",dataSourceValue = "dataSourceA")
 	public Page<SysUser> selectPageMysql(SysUser sysUser){
-		Page<SysUser> sysUserMyPage = baseDao.selectPage(sysUser);
-		return sysUserMyPage;
+		return getPage("mysql",sysUser,baseDao);
 	}
 
 	@DataBaseSourceTarget(dataBaseDialect = "oracle",dataSourceValue = "dataSourceB")
 	public Page<SysUser> selectPageOracle(SysUser sysUser){
-		Page<SysUser> sysUserMyPage = baseDao.selectPage(sysUser);
-		return sysUserMyPage;
+		return getPage("oracle",sysUser,baseDao);
 	}
 	@DataBaseSourceTarget(dataBaseDialect = "mysql",dataSourceValue = "dataSourceA")
 	public List<SysUser> selectList(SysUser sysUser){
 		List<SysUser> sysUserPage = baseDao.selectList(sysUser);
 		return sysUserPage;
+	}
+
+	private Page<SysUser> getPage(String dbType, SysUser sysUser, SysUserDao baseDao){
+		sysUser.setDbType(dbType);
+		int count = baseDao.findCount(sysUser);
+		List<SysUser> sysUsers = baseDao.selectList(sysUser);
+		Page<SysUser> page = sysUser.getPage();
+		page.setTotalCount(count);
+		page.setList(sysUsers);
+		return page;
 	}
 
 }

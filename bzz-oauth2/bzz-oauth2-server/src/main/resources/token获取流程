@@ -19,7 +19,7 @@ http://localhost:8081/bzzoauth/oauth/token?grant_type=refresh_token&refresh_toke
 http://localhost:8081/bzzoauth/api/login?access_token=0efdbb2b-b977-48a6-a286-e45df7d2ea94
 
 四:验证Token
-http://localhost:8081/bzzauth/oauth/check_token?token=3fef66b4-b362-439f-870d-84fb3dfe04aa
+http://localhost:8081/bzzoauth/oauth/check_token?token=3fef66b4-b362-439f-870d-84fb3dfe04aa
 
 {
 "aud":[

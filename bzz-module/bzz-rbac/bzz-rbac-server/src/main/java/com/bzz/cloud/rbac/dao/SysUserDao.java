@@ -18,11 +18,7 @@ import java.util.List;
 public interface SysUserDao  extends BaseDao<SysUser,Long> {
 
 	public  SysUser selectUser(SysUser sysUser);
-
 	public  SysUser getUserByLoginName(SysUser sysUser);
-
-	public  Page<SysUser> selectPage(SysUser sysUser);
-
 	public  List<SysUser> selectList(SysUser sysUser);
 
 

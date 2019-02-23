@@ -1,5 +1,6 @@
 package com.bzz.cloud.framework.auth2.authentication;
 
+import com.bzz.cloud.oauth.services.Auth2DetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,7 +45,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      * 获取用户信息
      */
     @Autowired
-    //private Auth2DetailsService userDetailsService;
+    private Auth2DetailsService auth2DetailsService;
 
     /**
      * 加密方式
@@ -100,28 +101,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      * @throws Exception
      */
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
         clients.withClientDetails(clientDetails());
-
-        /*//InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
-        JdbcClientDetailsServiceBuilder jdbc = clients.jdbc(dataSource);
-
-        JdbcClientDetailsService jcds = (JdbcClientDetailsService) clientDetails();
-        List<ClientDetails> clientDetails = jcds.listClientDetails();
-
-        if(null != clientDetails && clientDetails.size()>0){
-            for (ClientDetails client : clientDetails) {
-                jdbc.withClient(client.getClientId())
-                        .secret(passwordEncoder().encode(client.getClientSecret()))
-                        .authorizedGrantTypes("authorization_code","password","refresh_token","client_credentials","implicit")
-                        .scopes("read","write")
-                        .redirectUris(StringUtils.join(client.getRegisteredRedirectUri(),","));
-                      *//*  .accessTokenValiditySeconds(client.getAccessTokenValiditySeconds())
-                        .refreshTokenValiditySeconds(client.getRefreshTokenValiditySeconds());*//*
-
-            }
-        }*/
-        System.out.println(clients.toString());
     }
 
 
@@ -133,7 +113,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager);
         endpoints.tokenStore(tokenStore());
-        //endpoints.userDetailsService(userDetailsService);
+        endpoints.userDetailsService(auth2DetailsService);
 
         //配置TokenServices参数
         DefaultTokenServices tokenServices = new DefaultTokenServices();

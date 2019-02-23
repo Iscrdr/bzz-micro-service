@@ -1,6 +1,6 @@
 package com.bzz.cloud.framework.auth2.authentication;
 
-import com.bzz.cloud.module.entity.Auth2User;
+import com.bzz.cloud.oauth.entity.Auth2User;
 import com.bzz.common.Utils.JsonUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

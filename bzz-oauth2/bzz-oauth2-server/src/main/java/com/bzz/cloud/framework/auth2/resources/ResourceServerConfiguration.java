@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -33,26 +34,29 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private String resourceId;
 
 
+    /*@Autowired
+    private DataSource dataSource;*/
+
+
     @Autowired
-    private DataSource dataSource;
+    private TokenStore tokenStore;
 
-
-    /**
+   /* *//**
      * TokenStore:使用数据库存储token，jdbc
-     */
+     *//*
     @Bean
     public TokenStore tokenStore() {
         return new JdbcTokenStore(dataSource);
-    }
-    @Bean
+    }*/
+    /*@Bean
     public AuthorizationCodeServices authorizationCodeServices() {
         return new JdbcAuthorizationCodeServices(dataSource);
-    }
+    }*/
 
-    @Bean
+   /* @Bean
     public ApprovalStore approvalStore(){
         return new JdbcApprovalStore(dataSource);
-    }
+    }*/
 
 
     @Override
@@ -63,8 +67,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated();
-        /*http.requestMatcher(new OAuthRequestedMatcher())
+        //http.authorizeRequests().anyRequest().authenticated();
+        http.requestMatcher(new OAuthRequestedMatcher())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
@@ -73,9 +77,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .filterSecurityInterceptorOncePerRequest(true)
-                .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/bzzoauth/oauth/**").permitAll()
                 .and().headers().frameOptions().disable();
-*/
     }
 
     /**
@@ -87,7 +90,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     public ResourceServerTokenServices defaultTokenServices() {
         final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenEnhancer(accessTokenConverter());
-        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setTokenStore(tokenStore);
 
         return defaultTokenServices;
     }

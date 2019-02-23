@@ -11,11 +11,14 @@ spring:
         root: bzz
         register: true
         prefer-ip-address: true
-      dependencies:
-        service-zookeeper:
-          required: true
-          path: /bzzoauth
-          loadBalancerType: ROUND_ROBIN
+
+#      dependencies:
+#        service-zookeeper:
+#
+#          required: true
+#          path: /bzzoauth
+#          loadBalancerType: ROUND_ROBIN
+
 
 
 

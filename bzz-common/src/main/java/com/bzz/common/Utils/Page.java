@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Setter
 @Getter
-public class Page<T> {
+public class Page<T>  {
 
     private int pageSize = 10;//每页的数量,默认10
     private int totalCount ; //总记录数

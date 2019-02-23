@@ -122,3 +122,21 @@ spring:
     allow-bean-definition-overriding: true
 
 
+security:
+  oauth2:
+    client:
+      clientId: unity_client_1
+      clientSecret: unity_1
+      userAuthorizationUri: http://bzzoauth:8081/bzzoauth/oauth/authorize
+      grant-type: password
+      scope: read
+      access-token-uri: http://bzzoauth:8081/bzzoauth/oauth/token
+    resource:
+      userInfoUri: http://bzzoauth:8081/bzzoauth/oauth/user
+      token-info-uri: http://bzzoauth:8081/bzzoauth/oauth/check_token
+    authorization:
+      check-token-access: http://bzzoauth:8081/bzzoauth/oauth/check_token
+  basic:
+    enabled: false
+
+

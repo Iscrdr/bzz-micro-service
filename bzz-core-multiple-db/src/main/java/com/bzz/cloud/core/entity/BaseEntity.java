@@ -30,6 +30,7 @@ public abstract class BaseEntity<T,PK extends Serializable> implements Serializa
 	protected String todo; // 描述,备忘录
 	protected int delFlag; //假删除，0正常，1删除、作废
 	protected int version;//版本号，默认从1开始
+	protected String dbType;//数据库类型,如果为null,默认为mysql,目前支持oracle,mysql,mssql,postgresql
 
 	public BaseEntity() {
 
@@ -46,20 +47,17 @@ public abstract class BaseEntity<T,PK extends Serializable> implements Serializa
 		this.id = id;
 	}
 
-	//protected String dbType;//数据库类型,如果为null,默认为mysql,目前支持oracle,mysql,mssql
+
+
 	public Page<T> getPage() {
-		if (page == null){
-			page = new Page<T>();
-		}
 		return page;
 	}
 
-	public Page<T> setPage(Page<T> page) {
+	public void setPage(Page<T> page) {
 		this.page = page;
-		return page;
 	}
 
-    public Date getCreateTime() {
+	public Date getCreateTime() {
         return createTime;
     }
 
@@ -91,13 +89,13 @@ public abstract class BaseEntity<T,PK extends Serializable> implements Serializa
 		this.version = version;
 	}
 
-	/*public String getDbType() {
+	public String getDbType() {
 		return dbType;
 	}
 
 	public void setDbType(String dbType) {
 		this.dbType = dbType;
-	}*/
+	}
 
 	public int getDelFlag() {
 		return delFlag;

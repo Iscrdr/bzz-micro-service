@@ -9,12 +9,27 @@ spring:
         locator:
           enabled: true
       routes:
-      - id: bzz-rbac-server
-        uri: lb://bzz-rbac-server
+      - id: bzzoauth_route
+        uri: lb://bzzoauth
+        order: 9000
         predicates:
-        - Path=/user/**
+        - Path=/bzzoauth/**
         filters:
         - StripPrefix=1
+      - id: bzzrbac_route
+        uri: lb://bzz-rbac-server
+        order: 9001
+        predicates:
+        - Path=/sys/**
+        filters:
+        - StripPrefix=1
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
 
 
 

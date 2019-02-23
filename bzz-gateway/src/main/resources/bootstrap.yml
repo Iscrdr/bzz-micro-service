@@ -10,12 +10,13 @@ spring:
         #        instancePort: 8761
         #        instanceHost: 127.0.0.1
         root: bzz
-        register: true
-      dependencies:
-        service-zookeeper:
-          required: true
-          path: /bzz-rbac-server
-          loadBalancerType: ROUND_ROBIN
+        register: false
+#      dependencies:
+#        service-zookeeper:
+#          required: true
+#          path: /bzz-rbac-server
+#          loadBalancerType: ROUND_ROBIN
+
 
 
 

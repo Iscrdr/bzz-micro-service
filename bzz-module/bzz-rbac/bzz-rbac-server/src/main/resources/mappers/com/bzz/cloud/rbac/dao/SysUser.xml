@@ -30,6 +30,33 @@
 
 	</sql>
 
+	<sql id="userOracleColumns">
+		tt.id AS id,
+		tt.login_name AS loginName,
+		tt.password AS password,
+		tt.work_num AS workNum,
+		tt.name AS name,
+		tt.email AS email,
+		tt.phone AS phone,
+		tt.mobile AS mobile,
+		tt.user_type AS userType,
+		tt.photo AS photo,
+		tt.old_login_name AS oldLoginName,
+		tt.new_password AS newPassword,
+		tt.account_non_expired AS accountNonExpired,
+		tt.account_non_locked AS accountNonLocked,
+		tt.credentials_non_expired AS credentialsNonExpired,
+		tt.enabled AS enabled,
+		tt.create_user_id AS createUserId,
+		tt.create_time AS createTime,
+		tt.update_user_id AS updateUserId,
+		tt.update_time AS updateTime,
+		tt.todo AS todo,
+		tt.remarks AS remarks,
+		tt.del_flag AS delFlag,
+		tt.version AS version
+
+	</sql>
 	<!--根据用户名获得用户 -->
 	<select id="getUserByLoginName" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
@@ -54,28 +81,30 @@
 	</select>
 
 	<!-- 分页查询用户信息 -->
-	<select id="selectPage" resultType="com.bzz.cloud.rbac.entity.SysUser">
-		SELECT
-		<include refid="userColumns"/>
-		FROM sys_user t
-		<where>
-			t.del_flag = 0 and t.id = 1
-		</where>
-		<!--<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>-->
+	<select id="selectList" resultType="com.bzz.cloud.rbac.entity.SysUser">
+		<if test="dbType == null and dbType == ''  ">
+			<include refid="pageMysql" />
+		</if>
+		<if test="dbType != null and dbType != '' and dbType == 'mysql'">
+			<include refid="pageMysql" />
+		</if>
+		<if test="dbType != null and dbType != '' and dbType == 'oracle'">
+			<include refid="pageOracle"/>
+		</if>
 	</select>
 
-	<select id="selectList" resultType="com.bzz.cloud.rbac.entity.SysUser">
+	<select id="findCount" resultType="java.lang.Integer">
 		SELECT
-		<include refid="userColumns"/>
+			count(*)
 		FROM sys_user t
-		WHERE t.del_flag = 0
+		<where>
+			t.del_flag = 0
+			<if test="loginName != null and loginName != ''">
+				AND t.login_name LIKE
+				<if test="dbType == 'oracle'">'%'||#{loginName}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{loginName}, '%')</if>
+			</if>
+		</where>
 
 	</select>
 
@@ -130,5 +159,42 @@
 								 )
 	</insert>
 
+		<sql id="pageMysql">
+			SELECT
+			<include refid="userColumns"/>
+			FROM sys_user t
+			<where>
+				t.del_flag = 0
+				<if test="loginName != null and loginName != ''">
+					AND t.login_name LIKE CONCAT('%', #{loginName}, '%')
+				</if>
 
+
+			</where>
+			<choose>
+				<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+					ORDER BY ${page.orderBy}
+				</when>
+				<otherwise>
+					ORDER BY t.update_time DESC LIMIT #{page.pageNum},#{page.pageSize}
+				</otherwise>
+
+			</choose>
+		</sql>
+
+		<sql id="pageOracle">
+			SELECT *
+			from (
+					SELECT <include refid="userColumns"/>,rownum rownu FROM sys_user t
+					<where>
+						t.del_flag = 0
+						<if test="loginName != null and loginName != ''">
+							AND t.login_name LIKE
+							<if test="dbType == 'oracle'">'%'||#{loginName}||'%'</if>
+						</if>
+					</where> AND
+					rownum &lt;= #{page.pageNum} * #{page.pageSize}
+				) tt
+			where tt.rownu > (#{page.pageNum}-1) * #{page.pageSize}
+		</sql>
 </mapper>

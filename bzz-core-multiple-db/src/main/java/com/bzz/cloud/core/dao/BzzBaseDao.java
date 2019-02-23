@@ -13,4 +13,6 @@ import java.io.Serializable;
  * @date 2019-01-01 03:10:37
  */
 public abstract  class BzzBaseDao <T extends BaseEntity,PK extends Serializable> implements BaseDao {
+
+
 }
