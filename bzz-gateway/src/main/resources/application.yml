@@ -11,18 +11,19 @@ spring:
       routes:
       - id: bzzoauth_route
         uri: lb://bzzoauth
-        order: 9000
+
         predicates:
         - Path=/bzzoauth/**
         filters:
-        - StripPrefix=1
+        - StripPrefix=0
       - id: bzzrbac_route
         uri: lb://bzz-rbac-server
-        order: 9001
+
         predicates:
         - Path=/sys/**
         filters:
-        - StripPrefix=1
+        - StripPrefix=0
+
 
 logging:
   level:

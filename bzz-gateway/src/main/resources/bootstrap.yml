@@ -12,10 +12,11 @@ spring:
         root: bzz
         register: false
 #      dependencies:
-#        service-zookeeper:
-#          required: true
+#        bzzrbac:
 #          path: /bzz-rbac-server
-#          loadBalancerType: ROUND_ROBIN
+#        bzzoauth:
+#          path: /bzzoauth
+
 
 
 
