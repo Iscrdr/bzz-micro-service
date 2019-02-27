@@ -10,11 +10,14 @@ spring:
         #        instancePort: 8761
         #        instanceHost: 127.0.0.1
         root: bzz
-        register: false
+        register: true
+        prefer-ip-address: true
 #      dependencies:
 #        bzzrbac:
+#          loadBalancerType: ROUND_ROBIN
 #          path: /bzz-rbac-server
 #        bzzoauth:
+#          loadBalancerType: ROUND_ROBIN
 #          path: /bzzoauth
 
 

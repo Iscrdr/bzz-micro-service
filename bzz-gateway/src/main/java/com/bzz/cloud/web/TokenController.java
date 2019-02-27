@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
  * @Modified by:
  * @Description:
  */
-@RestController("/bzzoauth")
+@RestController
 public class TokenController {
     @Autowired
     private OauthTokenService oauthTokenService;
 
     @PostMapping("/oauth/token")
-    public String getToken(@RequestParam("client_id")String client_id,
-                           @RequestParam("client_secret")String client_secret,
-                           @RequestParam("grant_type")String grant_type,
-                           @RequestParam("username")String username,
-                           @RequestParam("password")String password,
-                           @RequestParam("refresh_token")String refresh_token){
+    public String getToken(@RequestParam(value = "client_id")String client_id,
+                           @RequestParam(value = "client_secret")String client_secret,
+                           @RequestParam(value = "grant_type")String grant_type,
+                           @RequestParam(value = "username")String username,
+                           @RequestParam(value = "password")String password,
+                           @RequestParam(value = "refresh_token",required = false)String refresh_token){
         String token = oauthTokenService.getToken(client_id, client_secret, grant_type, username, password, refresh_token);
         return token;
     }

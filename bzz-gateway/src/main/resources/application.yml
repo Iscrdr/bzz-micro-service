@@ -9,20 +9,25 @@ spring:
         locator:
           enabled: true
       routes:
-      - id: bzzoauth_route
+      - id: bzz-gateway
+        uri: lb://bzz-gateway
+        predicates:
+        - Path=/bzzgateway
+        filters:
+        - PrefixPath=/bzzgateway
+      - id: bzzoauth
         uri: lb://bzzoauth
-
         predicates:
-        - Path=/bzzoauth/**
-        filters:
-        - StripPrefix=0
-      - id: bzzrbac_route
+        - Path=/bzzoauth
+#        filters:
+#        - PrefixPath=/bzzoauth
+
+      - id: bzz-rbac-server
         uri: lb://bzz-rbac-server
-
         predicates:
-        - Path=/sys/**
-        filters:
-        - StripPrefix=0
+        - Path=/sys
+#        filters:
+#        - PrefixPath=/sys
 
 
 logging:

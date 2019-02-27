@@ -1,222 +1,34 @@
 package com.bzz.cloud.gen.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.BzzStringUtils;
-import org.apache.commons.lang3.StringUtils;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
- * 业务表Entity
- * @author ThinkGem
- * @version 2013-10-15
+ * @desc: 表 属性
+ *
+ * @Auther: cloud
+ * @Email: 624003618@qq.com
+ * @Date: 2019/2/26 10:46
+ * @update:
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class GenTable extends BaseEntity<GenTable,Long> implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	private long id;
+
+	private static final long serialVersionUID = -7171911181062675226L;
 	private String tableName; 	// 表名
 	private String comments;		// 注释
 	private String className;		// 实体类名称
-
-	private String isSingleTable;		// 是否是单表
-
-	private String isPkTable;		//是否是主表,主表不维护关系,一对一,一对多,多的一方维护关系
-
-	private String parentTable;		//isPkTable值为0,不是主表, 关联父表
-	private String parentTableFk;	// 关联父表外键
-
 	private List<GenTableColumn> columnList = new ArrayList();	// 表列
 
-	private String nameLike; 	// 按名称模糊查询
-	
-	private List<String> pkList; // 当前表主键列表
-	
-	private GenTable parent;	// 父表对象
-	private List<GenTable> childList =  new ArrayList();	// 子表列表
-	
-	public GenTable() {
-		super();
-	}
-
-	public GenTable(long id){
-		this.id = id;
-	}
-
-
-	public String getTableName() {
-		return BzzStringUtils.lowerCase(tableName);
-	}
-
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-	}
-
-	public String getComments() {
-		return comments;
-	}
-
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
-
-	public String getParentTable() {
-		return StringUtils.lowerCase(parentTable);
-	}
-
-	public void setParentTable(String parentTable) {
-		this.parentTable = parentTable;
-	}
-
-	public String getParentTableFk() {
-		return StringUtils.lowerCase(parentTableFk);
-	}
-
-	public void setParentTableFk(String parentTableFk) {
-		this.parentTableFk = parentTableFk;
-	}
-
-	public List<String> getPkList() {
-		return pkList;
-	}
-
-	public void setPkList(List<String> pkList) {
-		this.pkList = pkList;
-	}
-
-	public String getNameLike() {
-		return nameLike;
-	}
-
-	public void setNameLike(String nameLike) {
-		this.nameLike = nameLike;
-	}
-
-	public GenTable getParent() {
-		return parent;
-	}
-
-	public void setParent(GenTable parent) {
-		this.parent = parent;
-	}
-
-	public List<GenTableColumn> getColumnList() {
-		return columnList;
-	}
-
-	public void setColumnList(List<GenTableColumn> columnList) {
-		this.columnList = columnList;
-	}
-
-	public List<GenTable> getChildList() {
-		return childList;
-	}
-
-	public void setChildList(List<GenTable> childList) {
-		this.childList = childList;
-	}
-	
-	/**
-	 * 获取列名和说明
-	 * @return
-	 */
-	public String getNameAndComments() {
-		return getTableName() + (comments == null ? "" : "  :  " + comments);
-	}
-
-	/**
-	 * 获取导入依赖包字符串
-	 * @return
-	 */
-	public List<String> getImportList(){
-		List<String> importList = new ArrayList(); // 引用列表
-		for (GenTableColumn column : getColumnList()){
-			if (column.getIsNotBaseField() || ("1".equals(column.getIsQuery()) && "between".equals(column.getQueryType())
-							&& ("createDate".equals(column.getSimpleJavaField()) || "updateDate".equals(column.getSimpleJavaField())))){
-				// 导入类型依赖包， 如果类型中包含“.”，则需要导入引用。
-				if (StringUtils.indexOf(column.getJavaType(), ".") != -1 && !importList.contains(column.getJavaType())){
-					importList.add(column.getJavaType());
-				}
-			}
-			if (column.getIsNotBaseField()){
-				// 导入JSR303、Json等依赖包
-				for (String ann : column.getAnnotationList()){
-					if (!importList.contains(StringUtils.substringBeforeLast(ann, "("))){
-						importList.add(StringUtils.substringBeforeLast(ann, "("));
-					}
-				}
-			}
-		}
-		// 如果有子表，则需要导入List相关引用
-		if (getChildList() != null && getChildList().size() > 0){
-			if (!importList.contains("java.util.List")){
-				importList.add("java.util.List");
-			}
-			if (!importList.contains("com.google.common.collect.Lists")){
-				importList.add("com.google.common.collect.Lists");
-			}
-		}
-		return importList;
-	}
-	
-	/**
-	 * 是否存在父类
-	 * @return
-	 */
-	public Boolean getParentExists(){
-		return parent != null && StringUtils.isNotBlank(parentTable) && StringUtils.isNotBlank(parentTableFk);
-	}
-
-	/**
-	 * 是否存在create_date列
-	 * @return
-	 */
-	public Boolean getCreateDateExists(){
-		for (GenTableColumn c : columnList){
-			if ("create_date".equals(c.getColumnName())){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * 是否存在update_date列
-	 * @return
-	 */
-	public Boolean getUpdateDateExists(){
-		for (GenTableColumn c : columnList){
-			if ("update_date".equals(c.getColumnName())){
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * 是否存在del_flag列
-	 * @return
-	 */
-	public Boolean getDelFlagExists(){
-		for (GenTableColumn c : columnList){
-			if ("del_flag".equals(c.getColumnName())){
-				return true;
-			}
-		}
-		return false;
-	}
 }
 
 

@@ -33,4 +33,15 @@ public class DateUtils {
 		return null;
 		
 	}
+
+	public static Date getDateToString(String date,SimpleDateFormat sdf){
+		Date date1 = null;
+		try{
+			date1 = sdf.parse(date);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return date1;
+
+	}
 }

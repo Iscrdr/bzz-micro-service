@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Modified by:
  * @Description:
  */
-@FeignClient(value = "bzzoauth", path = "/bzzoauth")
+@FeignClient(value = "bzzoauth",path = "/bzzoauth")
 public interface OauthTokenService {
 
     /**
@@ -24,20 +24,20 @@ public interface OauthTokenService {
      * @param password:密码
      * @return token
      */
-    @PostMapping("/bzzoauth/oauth/token")
+    @PostMapping("/oauth/token")
     String getToken(@RequestParam("client_id")String client_id,
                     @RequestParam("client_secret")String client_secret,
                     @RequestParam("grant_type")String grant_type,
                     @RequestParam("username")String username,
                     @RequestParam("password")String password,
-                    @RequestParam("refresh_token")String refresh_token);
+                    @RequestParam(value = "refresh_token",required = false)String refresh_token);
 
     /**
      * 验证token
      * @param token
      * @return
      */
-    @PostMapping("/bzzoauth/oauth/check_token")
+    @PostMapping("/oauth/check_token")
     String checkToken(@RequestParam("token")String token);
 
 
