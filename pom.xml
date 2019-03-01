@@ -31,7 +31,6 @@
       <module>bzz-gateway</module>
       <module>bzz-cache</module>
       <module>bzz-config</module>
-
   </modules>
   <repositories>
     <repository>
