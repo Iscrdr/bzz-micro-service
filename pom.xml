@@ -17,20 +17,23 @@
     <spring-boot.version>2.1.3.RELEASE</spring-boot.version>
   </properties>
   <modules>
-      <!--bzz.授权/鉴权-->
+      <!--bzz.授权-->
       <module>bzz-oauth2</module>
       <!--bzz.公共工具类-->
       <module>bzz-common</module>
       <!--bzz.共配置-->
-    
+      <module>bzz-config</module>
+      <!--bzz.路由网关-->
+      <module>bzz-gateway</module>
+      <!--bzz.缓存配置-->
+      <module>bzz-cache</module>
       <!--bzz.心类库-->
       <module>bzz-core-multiple-db</module>
       <module>bzz-core-single-db</module>
       <!--bzz.业务模块-->
       <module>bzz-module</module>
-      <module>bzz-gateway</module>
-      <module>bzz-cache</module>
-      <module>bzz-config</module>
+
+
   </modules>
   <repositories>
     <repository>
