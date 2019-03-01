@@ -27,6 +27,7 @@ public class GenTable extends BaseEntity<GenTable,Long> implements Serializable 
 	private String tableName; 	// 表名
 	private String comments;		// 注释
 	private String className;		// 实体类名称
+	private String classNameLower;		// 实体类名称 首写字母小写
 	private List<GenTableColumn> columnList = new ArrayList();	// 表列
 
 }

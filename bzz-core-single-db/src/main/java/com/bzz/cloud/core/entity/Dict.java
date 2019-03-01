@@ -3,9 +3,7 @@
  */
 package com.bzz.cloud.core.entity;
 
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.io.Serializable;
 
@@ -35,7 +33,6 @@ public class Dict extends BaseEntity<Dict,Long> implements Serializable {
 	}
 	
 	@XmlAttribute
-	@Length(min=1, max=100)
 	public String getValue() {
 		return value;
 	}
@@ -45,7 +42,6 @@ public class Dict extends BaseEntity<Dict,Long> implements Serializable {
 	}
 	
 	@XmlAttribute
-	@Length(min=1, max=100)
 	public String getLabel() {
 		return label;
 	}
@@ -54,7 +50,6 @@ public class Dict extends BaseEntity<Dict,Long> implements Serializable {
 		this.label = label;
 	}
 
-	@Length(min=1, max=100)
 	public String getType() {
 		return type;
 	}
@@ -64,7 +59,6 @@ public class Dict extends BaseEntity<Dict,Long> implements Serializable {
 	}
 
 	@XmlAttribute
-	@Length(min=0, max=100)
 	public String getDescription() {
 		return description;
 	}
@@ -73,7 +67,6 @@ public class Dict extends BaseEntity<Dict,Long> implements Serializable {
 		this.description = description;
 	}
 
-	@NotNull
 	public Integer getSort() {
 		return sort;
 	}
@@ -82,7 +75,6 @@ public class Dict extends BaseEntity<Dict,Long> implements Serializable {
 		this.sort = sort;
 	}
 
-	@Length(min=1, max=100)
 	public String getParentId() {
 		return parentId;
 	}

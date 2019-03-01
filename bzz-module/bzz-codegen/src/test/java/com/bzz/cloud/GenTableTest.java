@@ -1,5 +1,6 @@
 package com.bzz.cloud;
 
+import com.bzz.cloud.gen.entity.GenScheme;
 import com.bzz.cloud.gen.entity.GenTable;
 import com.bzz.cloud.gen.entity.GenTableColumn;
 import com.bzz.cloud.gen.service.GenTableColumnService;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,10 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes={GenApp.class})
 public class GenTableTest {
+
+
+
+
     @Autowired
     private GenTableService genTableService;
     @Autowired
@@ -67,20 +73,45 @@ public class GenTableTest {
                 genTable.setClassName("SysUser");
                 genTable.setComments(table.get("Comment"));
                 genTable.setTableName(table.get("Name"));
+                genTable.setClassNameLower("sysUser");
 
                 //System.out.println(table.get("Create_time"));
 
                 //genTable.setCreateTime(DateUtils.getDateToString(table.get("Create_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
                 //genTable.setUpdateTime(DateUtils.getDateToString(table.get("Update_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
-                genTable.setCreateUserId(1);
-                genTable.setUpdateUserId(1);
+                genTable.setCreateUserId(1L);
+                genTable.setUpdateUserId(1L);
                 genTable.setTodo("系统用户表");
                 genTable.setDelFlag(1);
 //                genTable.setVersion(Integer.valueOf(table.get("Version")));
                 genTable.setRemarks("用户表");
                 List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_user");
                 genTable.setColumnList(lists);
-                GenUtils.genEntity(genTable);
+
+                GenUtils.initColumnField(genTable);
+                GenScheme genScheme = new GenScheme();
+                genScheme.setGenTable(genTable);
+
+                genScheme.setEmail("624003618@qq.com");
+
+                genScheme.setModuleAuthor("yang qianli");
+                genScheme.setModuleDesc("用户管理");
+                genScheme.setName("用户管理");
+                genScheme.setPackageName("com.bzz.cloud");
+                genScheme.setModuleName("sys");
+                genScheme.setSubModuleName("");
+                genScheme.setReplaceFile(true);
+
+                genScheme.setCreateTime(new Date());
+                genScheme.setUpdateTime(new Date());
+
+
+
+                GenUtils.genEntity(genScheme);
+                GenUtils.genDao(genScheme);
+                GenUtils.genService(genScheme);
+                GenUtils.genController(genScheme);
+                GenUtils.genMapper(genScheme);
             }
         }
 

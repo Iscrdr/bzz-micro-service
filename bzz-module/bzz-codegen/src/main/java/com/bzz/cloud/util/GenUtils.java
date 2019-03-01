@@ -4,6 +4,7 @@
 package com.bzz.cloud.util;
 
 
+import com.bzz.cloud.gen.entity.GenScheme;
 import com.bzz.cloud.gen.entity.GenTable;
 import com.bzz.cloud.gen.entity.GenTableColumn;
 import com.bzz.common.Utils.BzzStringUtils;
@@ -38,7 +39,7 @@ public class GenUtils {
 	 */
 	public static void initColumnField(GenTable genTable){
 		for (GenTableColumn column : genTable.getColumnList()){
-
+			column.setGenTable(genTable);
 			// 设置字段说明
 			if (StringUtils.isBlank(column.getComments())){
 				column.setComments(column.getComments());
@@ -53,20 +54,31 @@ public class GenUtils {
 					|| StringUtils.startsWithIgnoreCase(column.getJdbcType(), "TIMESTAMP")){
 				column.setJavaType("java.util.Date");
 			}else if (StringUtils.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")
-					|| StringUtils.startsWithIgnoreCase(column.getJdbcType(), "NUMBER")){
+					|| StringUtils.startsWithIgnoreCase(column.getJdbcType(), "NUMBER")
+                    || StringUtils.startsWithIgnoreCase(column.getJdbcType(), "INT")
+            ){
 				// 如果是浮点型
 				String[] ss = StringUtils.split(StringUtils.substringBetween(column.getJdbcType(), "(", ")"), ",");
 				if (ss != null && ss.length == 2 && Integer.parseInt(ss[1])>0){
 					column.setJavaType("Double");
 				}
 				// 如果是整形
-				else if (ss != null && ss.length == 1 && Integer.parseInt(ss[0])<=10){
+				else if (ss != null && ss.length == 1 && Integer.parseInt(ss[0])<=15){
 					column.setJavaType("Integer");
 				}
 				// 长整形
 				else{
 					column.setJavaType("Long");
 				}
+			}else if (StringUtils.startsWithIgnoreCase(column.getJdbcType(), "TINYINT"))  {
+                String[] ss = StringUtils.split(StringUtils.substringBetween(column.getJdbcType(), "(", ")"), ",");
+
+                System.out.println(column.getColumnName()+":"+column.getJdbcType()+":"+ss.toString());
+                if (ss != null && ss.length == 1 && Integer.parseInt(ss[0])>1){
+                    column.setJavaType("Integer");
+                }else {
+                    column.setJavaType("boolean");
+                }
 			}
 			// 设置java字段名
 			column.setJavaField(BzzStringUtils.toCamelCase(column.getColumnName()));
@@ -77,92 +89,96 @@ public class GenUtils {
 	 * 获取模板路径
 	 * @return
 	 */
-	public static String getTemplatePath(){
-		try{
-			File file = new DefaultResourceLoader().getResource("").getFile();
-			if(file != null){
-				return file.getAbsolutePath() + File.separator + StringUtils.replaceEach(GenUtils.class.getName(), 
-						new String[]{"util."+GenUtils.class.getSimpleName(), "."}, new String[]{"template", File.separator});
-			}			
+	public static String getOutPath(){
+	    String path = null;
+        try{
+            path = GenUtils.class.getClassLoader().getResource("").getPath();
+            path = "D:/test/";
 		}catch(Exception e){
 			logger.error("{}", e);
 		}
-
-		return "";
-	}
-	
-	/**
-	 * XML文件转换为对象
-	 * @param fileName
-	 * @param clazz
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T fileToObject(String fileName, Class<?> clazz){
-		try {
-			String pathName = "/templates/modules/gen/" + fileName;
-
-//			logger.debug("File to object: {}", pathName);
-			Resource resource = new ClassPathResource(pathName);
-			InputStream is = resource.getInputStream();
-			/*BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			StringBuilder sb = new StringBuilder();  
-			while (true) {
-				String line = br.readLine();
-				if (line == null){
-					break;
-				}
-				sb.append(line).append("\r\n");
-			}
-			if (is != null) {
-				is.close();
-			}
-			if (br != null) {
-				br.close();
-			}*/
-//			logger.debug("Read file content: {}", sb.toString());
-			return (T) new XmlMapper().readValue(is, clazz);
-		} catch (IOException e) {
-			logger.warn("Error file convert: {}", e.getMessage());
-		}
-//		String pathName = StringUtils.replace(getTemplatePath() + "/" + fileName, "/", File.separator);
-//		logger.debug("file to object: {}", pathName);
-//		String content = "";
-//		try {
-//			content = FileUtils.readFileToString(new File(pathName), "utf-8");
-////			logger.debug("read config content: {}", content);
-//			return (T) JaxbMapper.fromXml(content, clazz);
-//		} catch (IOException e) {
-//			logger.warn("error convert: {}", e.getMessage());
-//		}
-		return null;
+		return path;
 	}
 
 
-    public static void genEntity(GenTable table){
-        final String suffix = ".java";
-        final String path = "D://code//" + table.getClassName() + suffix;
-        final String templateName = "D:\\code\\bzz-micro-service\\bzz-module\\bzz-codegen\\src\\main\\resources\\template\\modules\\gen\\dao\\entity.ftl";
-        File outFile = new File(path);
-        generateFileByTemplate(templateName,outFile,table);
+    public static void genEntity(GenScheme genScheme){
+        String suffix = ".java";
+        String templateName = "entity.ftl";
+        String outPath = getOutPath() +genScheme.getPackageName()+"."+genScheme.getModuleName();
+        if(StringUtils.isNotBlank(genScheme.getSubModuleName())){
+            outPath = outPath+"."+genScheme.getSubModuleName();
+        }
+        outPath = outPath+".entity";
+        outPath = StringUtils.replace(outPath,".","/");
+        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        generateFileByTemplate(templateName,outPath,fileName,genScheme);
 
     }
-    public void genDao(){
-
+    public static void genDao(GenScheme genScheme){
+        String templateName = "dao.ftl";
+        String suffix = "Dao.java";
+        String outPath = getOutPath() + genScheme.getPackageName()+"."+genScheme.getModuleName();
+        if(StringUtils.isNotBlank(genScheme.getSubModuleName())){
+            outPath = outPath+"."+genScheme.getSubModuleName();
+        }
+        outPath = outPath+".dao";
+        outPath = StringUtils.replace(outPath,".","/");
+        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        generateFileByTemplate(templateName,outPath,fileName,genScheme);
     }
-    public void genService(){
-
+    public static void genService(GenScheme genScheme){
+        String templateName = "service.ftl";
+        String suffix = "Service.java";
+        String outPath = getOutPath() + genScheme.getPackageName()+"."+genScheme.getModuleName();
+        if(StringUtils.isNotBlank(genScheme.getSubModuleName())){
+            outPath = outPath+"."+genScheme.getSubModuleName();
+        }
+        outPath = outPath+".service";
+        outPath = StringUtils.replace(outPath,".","/");
+        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        generateFileByTemplate(templateName,outPath,fileName,genScheme);
     }
-    public void genController(){
+    public static void genController(GenScheme genScheme){
+        String templateName = "controller.ftl";
+        String suffix = "Controller.java";
+        String outPath = getOutPath() + genScheme.getPackageName()+"."+genScheme.getModuleName();
+        if(StringUtils.isNotBlank(genScheme.getSubModuleName())){
+            outPath = outPath+"."+genScheme.getSubModuleName();
+        }
+        outPath = outPath+".controller";
 
+        outPath = StringUtils.replace(outPath,".","/");
+        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        generateFileByTemplate(templateName,outPath,fileName,genScheme);
     }
+    public static void genMapper(GenScheme genScheme){
+        final String templateName = "mapper.ftl";
+        String suffix = "Dao.xml";
+        String outPath = getOutPath() + genScheme.getPackageName()+"."+genScheme.getModuleName();
+        if(StringUtils.isNotBlank(genScheme.getSubModuleName())){
+            outPath = outPath+"."+genScheme.getSubModuleName();
+        }
+        outPath = outPath+".mapper";
 
-    public static void generateFileByTemplate(String templateName,File file,GenTable table) {
+        outPath = StringUtils.replace(outPath,".","/");
+        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        generateFileByTemplate(templateName,outPath,fileName,genScheme);
+    }
+    public static void generateFileByTemplate(String templateName,String outDir,String outFileName,GenScheme genScheme) {
         try {
+            File fileOutDir = new File(outDir);
+            if(!fileOutDir.exists()){
+                fileOutDir.mkdirs();
+            }
+            File outFile = new File(outDir+"/"+outFileName);
+            if(!outFile.exists()){
+                outFile.createNewFile();
+            }
+
             Template template = FreeMarkerTemplateUtils.getTemplate(templateName);
-            FileOutputStream fos = new FileOutputStream(file);
+            FileOutputStream fos = new FileOutputStream(outFile);
             Writer out = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"),10240);
-            template.process(table,out);
+            template.process(genScheme,out);
         } catch (TemplateException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -176,7 +192,7 @@ public class GenUtils {
     }
 
     public static void main(String[] args) {
-	    GenTable table = new GenTable();
-        genEntity(table);
+		GenScheme genScheme = new GenScheme();
+        genEntity(genScheme);
     }
 }

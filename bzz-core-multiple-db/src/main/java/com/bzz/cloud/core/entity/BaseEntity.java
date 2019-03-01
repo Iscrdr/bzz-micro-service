@@ -105,21 +105,7 @@ public abstract class BaseEntity<T,PK extends Serializable> implements Serializa
 		this.delFlag = delFlag;
 	}
 
-	public Long getCreateUserId() {
-		return createUserId;
-	}
 
-	public void setCreateUserId(long createUserId) {
-		this.createUserId = createUserId;
-	}
-
-	public Long getUpdateUserId() {
-		return updateUserId;
-	}
-
-	public void setUpdateUserId(long updateUserId) {
-		this.updateUserId = updateUserId;
-	}
 
 	public String getTodo() {
 		return todo;
@@ -129,8 +115,16 @@ public abstract class BaseEntity<T,PK extends Serializable> implements Serializa
 		this.todo = todo;
 	}
 
+	public Long getCreateUserId() {
+		return createUserId;
+	}
+
 	public void setCreateUserId(Long createUserId) {
 		this.createUserId = createUserId;
+	}
+
+	public Long getUpdateUserId() {
+		return updateUserId;
 	}
 
 	public void setUpdateUserId(Long updateUserId) {
