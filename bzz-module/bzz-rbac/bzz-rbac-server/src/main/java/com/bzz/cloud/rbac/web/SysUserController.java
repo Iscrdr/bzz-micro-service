@@ -9,19 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.Callable;
-@RestController("/sys")
+@RestController
 public class SysUserController  {
 	
 	@Autowired
 	private SysUserService sysUserService;
 
-	@PostMapping("/getUser")
+	@PostMapping(value = "/getUser")
 	public SysUser getUser(SysUser sysUser){
 		SysUser sysUser1 = sysUserService.getUserByLoginName(sysUser);
 		return sysUser1;
 	}
 
-	@GetMapping("/getThread")
+	@GetMapping(value = "/getThread")
 	public Callable<Page<SysUser>> getThread(final SysUser sysUser){
 		sysUser.setName("范冰冰");
 		Callable<Page<SysUser>> callable = new Callable<Page<SysUser>>() {
@@ -34,24 +34,20 @@ public class SysUserController  {
 	}
 
 	
-	@GetMapping("/getOracleUser")
+	@GetMapping(value = "/getOracleUser")
 	public Page<SysUser> getOracleUser(SysUser sysUser){
 		Page<SysUser> sysUserPage = sysUserService.selectPageOracle(sysUser);
 		return sysUserPage;
 	}
-	@GetMapping("/getMysqlUser")
+	@GetMapping(value = "/getMysqlUser")
 	public Page<SysUser> getMysqlUser(SysUser sysUser){
 		Page<SysUser> sysUserPage = sysUserService.selectPageMysql(sysUser);
 		return sysUserPage;
 	}
-	@GetMapping("/selectList")
+	@GetMapping(value = "/selectList")
 	public Page<SysUser> selectList(SysUser sysUser){
 		Page<SysUser> sysUserIPage  = sysUserService.selectPageMysql(sysUser);
 		return sysUserIPage;
 	}
-	@PostMapping("/register")
-	public String register(SysUser sysUser){
-		System.out.println(sysUser.toString());
-		return "注册成功";
-	}
+
 }

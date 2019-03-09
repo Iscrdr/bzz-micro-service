@@ -75,9 +75,18 @@
 
 	<select id="selectUser">
 		SELECT
-		<include refid="userColumns"/>
+			<include refid="userColumns"/>
 		FROM sys_user t
-		WHERE t.del_flag = 0  and t.id = 1
+		WHERE t.del_flag = 0
+			<if test="email != null and email != ''">
+			  AND	t.email = #{email}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND	t.mobile = #{mobile}
+			</if>
+			<if test="loginName != null and loginName != ''">
+				AND	t.login_name = #{loginName}
+			</if>
 	</select>
 
 	<!-- 分页查询用户信息 -->

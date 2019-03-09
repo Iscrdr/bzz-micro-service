@@ -17,8 +17,9 @@ import java.util.List;
 @BzzMyBatisDao("sysUserDao")
 public interface SysUserDao  extends BaseDao<SysUser,Long> {
 
-	public  SysUser selectUser(SysUser sysUser);
-	public  SysUser getUserByLoginName(SysUser sysUser);
+	public  SysUser selectUser(SysUser sysUser);//通过手机号或者邮箱查询用户
+	public  SysUser getUserByLoginName(SysUser sysUser);//通过登录户名查询用户
+
 	public  List<SysUser> selectList(SysUser sysUser);
 
 

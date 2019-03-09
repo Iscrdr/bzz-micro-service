@@ -9,8 +9,17 @@ package com.bzz.cloud;
  * @date 2018-12-31 23:01:44
  */
 
+import com.aliyuncs.CommonRequest;
+import com.aliyuncs.CommonResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.exceptions.ServerException;
+import com.aliyuncs.http.MethodType;
+import com.aliyuncs.profile.DefaultProfile;
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.SysUserService;
+import com.bzz.common.Utils.AliDaYuSMS;
 import com.bzz.common.Utils.IdUtils;
 import com.bzz.common.Utils.Page;
 import org.junit.Test;
@@ -20,10 +29,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={BzzRbacServer.class})
+@SpringBootTest(classes={BzzRbacApp.class})
 public class PageTest {
     @Resource
     private SysUserService sysUserService;
+
+
 
     @Test
     public void testUser(){
