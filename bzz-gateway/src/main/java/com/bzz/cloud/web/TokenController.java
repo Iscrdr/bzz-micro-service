@@ -3,7 +3,7 @@ package com.bzz.cloud.web;
 import com.bzz.cloud.services.OauthTokenService;
 import com.bzz.common.Utils.JsonUtils;
 import com.bzz.common.Utils.MsgData;
-import com.bzz.common.Utils.ResponeData;
+import com.bzz.common.Utils.ResponseData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,10 +54,10 @@ public class TokenController {
         }
         MsgData msgData = new MsgData();
         if(flag){
-            msgData.setCode(ResponeData.RESPONE_CODE);
+            msgData.setCode(ResponseData.RESPONE_CODE);
             msgData.setMsg("token验证正确");
         }else {
-            msgData.setCode(ResponeData.RESPONE_CODE_ERROR);
+            msgData.setCode(ResponseData.RESPONE_CODE_ERROR);
             msgData.setMsg("token验证错误,请重新申请token");
         }
 

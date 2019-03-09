@@ -15,19 +15,20 @@ spring:
         - Path=/bzzgateway
         filters:
         - PrefixPath=/bzzgateway
+
       - id: bzzoauth
         uri: lb://bzzoauth
         predicates:
         - Path=/bzzoauth
-#        filters:
-#        - PrefixPath=/bzzoauth
+        filters:
+        - PrefixPath=/bzzoauth
 
       - id: bzz-rbac-server
         uri: lb://bzz-rbac-server
         predicates:
-        - Path=/sys
+        - Path=/api/**
 #        filters:
-#        - PrefixPath=/sys
+#        - PrefixPath=/api
 
 
 logging:

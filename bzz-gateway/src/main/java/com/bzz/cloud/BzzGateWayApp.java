@@ -21,20 +21,20 @@ import org.springframework.web.client.RestTemplate;
 @EnableFeignClients
 @EnableHystrix
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-public class BzzGateWayApplication {
+public class BzzGateWayApp {
 
     @Bean
     @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-    @Bean
-    public IRule myRule(){
-        //return new RoundRobinRule();//轮询
-        //return new RetryRule();//重试
-        return new BestAvailableRule();
-    }
+//    @Bean
+//    public IRule myRule(){
+//        //return new RoundRobinRule();//轮询
+//        //return new RetryRule();//重试
+//        return new BestAvailableRule();
+//    }
     public static void main( String[] args ){
-        SpringApplication.run(BzzGateWayApplication.class, args);
+        SpringApplication.run(BzzGateWayApp.class, args);
     }
 }
