@@ -50,7 +50,10 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
     @Override
     public void configure(final HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().anyRequest().authenticated()
+                .antMatchers("/user/register/**").permitAll()
+                .antMatchers("/api/sys/getCaptcha").permitAll()
+        ;
     }
 
     @Override

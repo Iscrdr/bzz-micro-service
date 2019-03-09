@@ -9,11 +9,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- *
- * @param <T> 当前实体类泛型
- * @param <PK> 主键
- */
 
 public abstract class BaseEntity<T,PK extends Serializable> implements Serializable {
 

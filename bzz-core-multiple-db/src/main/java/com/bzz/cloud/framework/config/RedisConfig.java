@@ -1,5 +1,8 @@
 package com.bzz.cloud.framework.config;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -9,6 +12,11 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -28,28 +36,51 @@ public class RedisConfig extends CachingConfigurerSupport {
 	
 	//缓存管理器
 	@Bean
-	public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-		//user信息缓存配置
-		RedisCacheConfiguration userCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofSeconds(10)).disableCachingNullValues().prefixKeysWith("bzz-");
-		Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<String, RedisCacheConfiguration>();
-		redisCacheConfigurationMap.put("bzz", userCacheConfiguration);
-		//初始化一个RedisCacheWriter
-		RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
+	public CacheManager cacheManager(RedisConnectionFactory factory) {
+		RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+		Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
 
+		//解决查询缓存转换异常的问题
+		ObjectMapper om = new ObjectMapper();
+		om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+		om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+		jackson2JsonRedisSerializer.setObjectMapper(om);
 
-//        设置CacheManager的值序列化方式为JdkSerializationRedisSerializer,但其实RedisCacheConfiguration默认就是使用StringRedisSerializer序列化key，JdkSerializationRedisSerializer序列化value,所以以下注释代码为默认实现
-//        ClassLoader loader = this.getClass().getClassLoader();
-//        JdkSerializationRedisSerializer jdkSerializer = new JdkSerializationRedisSerializer(loader);
-//        RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(jdkSerializer);
-//        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
-		
-		RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
-		
-		//设置默认超过期时间是30秒
-		defaultCacheConfig.entryTtl(Duration.ofSeconds(30));
-		//初始化RedisCacheManager
-		RedisCacheManager cacheManager = new RedisCacheManager(redisCacheWriter, defaultCacheConfig, redisCacheConfigurationMap);
+		// 配置序列化（解决乱码的问题）,过期时间30秒
+		RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+				.entryTtl(Duration.ofSeconds(30))
+				.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
+				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
+				.disableCachingNullValues();
+
+		RedisCacheManager cacheManager = RedisCacheManager.builder(factory)
+				.cacheDefaults(config)
+				.build();
 		return cacheManager;
 	}
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+
+		RedisTemplate<String, Object> template = new RedisTemplate<>();
+
+		RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+
+		Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+		ObjectMapper om = new ObjectMapper();
+		om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+		om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+		jackson2JsonRedisSerializer.setObjectMapper(om);
+
+		template.setConnectionFactory(factory);
+		//key序列化方式
+		template.setKeySerializer(redisSerializer);
+		//value序列化
+		template.setValueSerializer(jackson2JsonRedisSerializer);
+		//value hashmap序列化
+		template.setHashValueSerializer(jackson2JsonRedisSerializer);
+
+		return template;
+	}
+
 
 }
