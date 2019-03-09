@@ -47,11 +47,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private Auth2DetailsService auth2DetailsService;
 
-    /**
-     * 加密方式
-     */
-   /* @Autowired
-    private PasswordEncoder passwordEncoder;*/
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){

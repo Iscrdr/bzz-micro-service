@@ -33,31 +33,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Value("${resource.id:spring-boot-application}")
     private String resourceId;
 
-
-    /*@Autowired
-    private DataSource dataSource;*/
-
-
     @Autowired
     private TokenStore tokenStore;
-
-   /* *//**
-     * TokenStore:使用数据库存储token，jdbc
-     *//*
-    @Bean
-    public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
-    }*/
-    /*@Bean
-    public AuthorizationCodeServices authorizationCodeServices() {
-        return new JdbcAuthorizationCodeServices(dataSource);
-    }*/
-
-   /* @Bean
-    public ApprovalStore approvalStore(){
-        return new JdbcApprovalStore(dataSource);
-    }*/
-
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -77,7 +54,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .filterSecurityInterceptorOncePerRequest(true)
-                .antMatchers("/bzzoauth/oauth/**").permitAll()
+                .antMatchers("/bzzoauth/oauth/**").permitAll() //oauth认证url不拦截
+                .antMatchers("/user/register/**").permitAll() //用户注册不拦截
                 .and().headers().frameOptions().disable();
     }
 

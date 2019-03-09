@@ -27,9 +27,9 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableTransactionManagement
 @SpringBootApplication(scanBasePackages = {"com.bzz.cloud"})
-public class AuthCenterProviderApplication {
+public class OAuth2App {
     public static void main( String[] args ){
-        SpringApplication.run(AuthCenterProviderApplication.class, args);
+        SpringApplication.run(OAuth2App.class, args);
     }
 
     @Bean
