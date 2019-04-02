@@ -8,6 +8,7 @@ import com.bzz.common.Utils.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -19,6 +20,8 @@ import java.util.List;
  * @author yang-ql
  * @version 2014-05-16
  */
+@Service
+@Transactional
 public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,PK extends Serializable> {
 	
 	/**
@@ -29,7 +32,13 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	@Autowired
 	protected D baseDao;
 
-
+	public boolean checkUnique(T entity) {
+		List list = baseDao.selectList(entity);
+		if(null != list && list.size()>0){
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * 根据ID获取单条数据

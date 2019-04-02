@@ -1,10 +1,13 @@
 package com.bzz.cloud.core.dao;
 
 
+import com.bzz.cloud.core.entity.BaseEntity;
+
+import javax.validation.constraints.AssertTrue;
 import java.io.Serializable;
 import java.util.List;
 
-public  interface BaseDao<T,PK extends Serializable>  {
+public interface  BaseDao<T extends BaseEntity,PK extends Serializable>  {
 
     /**
      * 根据ID获取单条数据
@@ -12,6 +15,17 @@ public  interface BaseDao<T,PK extends Serializable>  {
      * @return
      */
     public abstract T get(PK id);
+
+
+    /**
+     * 校验字段是否已经存在，用于用户名邮箱手机号唯一校验
+     * @param entity
+     * @return
+     */
+    public List<T> selectList(T entity) ;
+
+
+
     /**
      * 插入数据
      * @param entity
