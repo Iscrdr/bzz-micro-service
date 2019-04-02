@@ -6,6 +6,7 @@ import com.bzz.cloud.framework.config.RedisConfig;
 import com.netflix.loadbalancer.BestAvailableRule;
 import com.netflix.loadbalancer.IRule;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.HibernateValidator;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +26,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -53,6 +57,18 @@ import java.util.Arrays;
 public class BzzRbacApp {
     public static void main(String[] args) {
         SpringApplication.run(BzzRbacApp.class,args);
+    }
+
+
+    @Bean
+    public Validator validator(){
+        ValidatorFactory validatorFactory = Validation.byProvider( HibernateValidator.class )
+                .configure()
+                .addProperty( "hibernate.validator.fail_fast", "false" )
+                .buildValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+
+        return validator;
     }
 
     @Bean

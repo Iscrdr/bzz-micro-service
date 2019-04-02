@@ -1,13 +1,16 @@
 package com.bzz.cloud.rbac.service;
 
-import com.bzz.cloud.core.dao.BaseDao;
-import com.bzz.cloud.core.service.BaseService;
+
+import com.bzz.cloud.core.entity.BaseEntity;
+import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.rbac.dao.SysUserDao;
 import com.bzz.cloud.rbac.entity.SysUser;
 
 
 import com.bzz.cloud.framework.annotations.DataBaseSourceTarget;
 import com.bzz.common.Utils.Page;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,30 +25,25 @@ import java.util.List;
 
 @Service
 @Transactional
-public class SysUserService extends BaseService<SysUserDao,SysUser,Long> {
+public class SysUserService extends BzzBaseService<SysUserDao,SysUser,Long> {
+
 
 	public SysUser getUserByLoginName(SysUser sysUser){
 		SysUser sysUser1 = baseDao.getUserByLoginName(sysUser);
-
 		return sysUser1;
 	}
 
 
-	public long insert(SysUser sysUser){
-		//sysUser.preInsert(sysUser.getId());
-		return baseDao.insert(sysUser);
-	}
 	@DataBaseSourceTarget(dataBaseDialect = "oracle",dataSourceValue = "dataSourceB")
 	public long insertOracle(SysUser sysUser){
-		//sysUser.preInsert(sysUser.getId());
 		return baseDao.insert(sysUser);
 	}
 
 	@DataBaseSourceTarget(dataBaseDialect = "mysql",dataSourceValue = "dataSourceA")
 	public SysUser selectUser(SysUser sysUser){
-		SysUser sysUser1 = (SysUser) baseDao.selectUser(sysUser);
-		System.out.println(sysUser1);
-		return sysUser1;
+		List<SysUser> sysUsers = baseDao.selectList(sysUser);
+		System.out.println(sysUsers);
+		return sysUsers.get(0);
 	}
 
 	@DataBaseSourceTarget(dataBaseDialect = "mysql",dataSourceValue = "dataSourceA")
@@ -63,7 +61,7 @@ public class SysUserService extends BaseService<SysUserDao,SysUser,Long> {
 		return sysUserPage;
 	}
 
-	private Page<SysUser> getPage(String dbType, SysUser sysUser, SysUserDao baseDao){
+	private Page<SysUser> getPage(String dbType, SysUser sysUser, SysUserDao<BaseEntity<SysUser, Long>> baseDao){
 		sysUser.setDbType(dbType);
 		int count = baseDao.findCount(sysUser);
 		List<SysUser> sysUsers = baseDao.selectList(sysUser);

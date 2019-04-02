@@ -1,5 +1,9 @@
 package com.bzz.common.Utils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 /**
  * @Desc: HTTP响应结果
  * @Author : yang qianli
@@ -10,9 +14,11 @@ package com.bzz.common.Utils;
  */
 public class ResponseResult {
     private boolean success; //是否成功
-    private String message; //响应信息
+
     private Object data;    //响应数据
-    private String errorCode; //错误代码
+
+    private Map<String,String> msgMap = new HashMap<String,String>();//key为代码，value为错误信息
+
 
     public boolean isSuccess() {
         return success;
@@ -20,14 +26,6 @@ public class ResponseResult {
 
     public void setSuccess(boolean success) {
         this.success = success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public Object getData() {
@@ -38,11 +36,10 @@ public class ResponseResult {
         this.data = data;
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public Map<String, String> getMsgMap() {
+        return msgMap;
     }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public void setMsgMap(Map<String, String> msgMap) {
+        this.msgMap = msgMap;
     }
 }

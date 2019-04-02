@@ -40,7 +40,7 @@ public class PageTest {
     public void testUser(){
         SysUser sysUser = new SysUser();
 
-        sysUser.setLoginName("admin");
+        sysUser.setUserName("admin");
         SysUser userByLoginName = sysUserService.getUserByLoginName(sysUser);
         System.out.println(userByLoginName);
     }
@@ -63,7 +63,7 @@ public class PageTest {
     public void testService(){
         SysUser sysUser = new SysUser();
         sysUser.setId(IdUtils.getLongId());
-        sysUser.setLoginName("qianli8811");
+        sysUser.setUserName("qianli8811");
         sysUser.setName("刘亦菲");
         sysUser.setEmail("624003618@qq.com");
         sysUser.setMobile("15501236689");

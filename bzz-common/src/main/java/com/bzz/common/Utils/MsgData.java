@@ -9,14 +9,14 @@ package com.bzz.common.Utils;
  */
 
 public class MsgData {
-    Integer code;//错误代码
+    String code;//错误代码
     Object msg;//信息
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

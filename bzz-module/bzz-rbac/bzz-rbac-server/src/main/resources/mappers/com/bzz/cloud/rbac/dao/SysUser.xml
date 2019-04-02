@@ -4,7 +4,7 @@
 
 	<sql id="userColumns">
 		t.id AS id,
-		t.login_name AS loginName,
+		t.user_name AS userName,
 		t.password AS password,
 		t.work_num AS workNum,
 		t.name AS name,
@@ -13,7 +13,7 @@
 		t.mobile AS mobile,
 		t.user_type AS userType,
 		t.photo AS photo,
-		t.old_login_name AS oldLoginName,
+		t.nick_name AS nickName,
 		t.new_password AS newPassword,
 		t.account_non_expired AS accountNonExpired,
 		t.account_non_locked AS accountNonLocked,
@@ -32,7 +32,7 @@
 
 	<sql id="userOracleColumns">
 		tt.id AS id,
-		tt.login_name AS loginName,
+		tt.user_name AS userName,
 		tt.password AS password,
 		tt.work_num AS workNum,
 		tt.name AS name,
@@ -41,7 +41,7 @@
 		tt.mobile AS mobile,
 		tt.user_type AS userType,
 		tt.photo AS photo,
-		tt.old_login_name AS oldLoginName,
+		tt.nick_name AS nickName,
 		tt.new_password AS newPassword,
 		tt.account_non_expired AS accountNonExpired,
 		tt.account_non_locked AS accountNonLocked,
@@ -61,7 +61,7 @@
 	<select id="getUserByLoginName" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user t WHERE t.login_name = #{loginName}
+		FROM sys_user t WHERE t.user_name = #{userName}
 	</select>
 
 	<!--根据编号获得用户 -->
@@ -73,24 +73,24 @@
 
 
 
-	<select id="selectUser">
+	<select id="selectList" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
 			<include refid="userColumns"/>
 		FROM sys_user t
 		WHERE t.del_flag = 0
 			<if test="email != null and email != ''">
-			  AND	t.email = #{email}
+			  	OR	t.email = #{email}
 			</if>
 			<if test="mobile != null and mobile != ''">
-				AND	t.mobile = #{mobile}
+				OR	t.mobile = #{mobile}
 			</if>
-			<if test="loginName != null and loginName != ''">
-				AND	t.login_name = #{loginName}
+			<if test="userName != null and userName != ''">
+				OR	t.user_name = #{userName}
 			</if>
 	</select>
 
 	<!-- 分页查询用户信息 -->
-	<select id="selectList" resultType="com.bzz.cloud.rbac.entity.SysUser">
+	<select id="selectPageList" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		<if test="dbType == null and dbType == ''  ">
 			<include refid="pageMysql" />
 		</if>
@@ -102,16 +102,18 @@
 		</if>
 	</select>
 
+
+
 	<select id="findCount" resultType="java.lang.Integer">
 		SELECT
 			count(*)
 		FROM sys_user t
 		<where>
 			t.del_flag = 0
-			<if test="loginName != null and loginName != ''">
-				AND t.login_name LIKE
-				<if test="dbType == 'oracle'">'%'||#{loginName}||'%'</if>
-				<if test="dbType == 'mysql'">CONCAT('%', #{loginName}, '%')</if>
+			<if test="userName != null and userName != ''">
+				AND t.user_name LIKE
+				<if test="dbType == 'oracle'">'%'||#{userName}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{userName}, '%')</if>
 			</if>
 		</where>
 
@@ -121,7 +123,7 @@
 	<insert id="insert"  useGeneratedKeys="true" keyProperty="id" >
 		INSERT INTO sys_user(
 				id,
-				login_name,
+				user_name,
 				password,
 				work_num,
 				name,
@@ -130,21 +132,21 @@
 				mobile,
 				user_type,
 				photo,
-				old_login_name,
+				nick_name,
 				new_password,
 				account_non_expired,
 				account_non_locked,
 				credentials_non_expired,
 				enabled,
-				create_user,
+				create_user_id,
 				create_time,
-				update_user,
+				update_user_id,
 				update_time,
 				todo,
 				del_flag
 				) VALUES (
 								 #{id},
-								 #{loginName},
+								 #{userName},
 								 #{password},
 								 #{workNum},
 								 #{name},
@@ -153,15 +155,15 @@
 								 #{mobile},
 								 #{userType},
 								 #{photo},
-								 #{oldLoginName},
+								 #{nickName},
 								 #{newPassword},
 								 #{accountNonExpired},
 								 #{accountNonLocked},
 								 #{credentialsNonExpired},
 								 #{enabled},
-								 #{createUser.id},
+								 #{createUserId},
 								 #{createTime},
-								 #{createUser.id},
+								 #{updateUserId},
 								 #{updateTime},
 								 #{todo},
 								 #{delFlag}
@@ -174,8 +176,8 @@
 			FROM sys_user t
 			<where>
 				t.del_flag = 0
-				<if test="loginName != null and loginName != ''">
-					AND t.login_name LIKE CONCAT('%', #{loginName}, '%')
+				<if test="userName != null and userName != ''">
+					AND t.user_name LIKE CONCAT('%', #{userName}, '%')
 				</if>
 
 
@@ -197,9 +199,9 @@
 					SELECT <include refid="userColumns"/>,rownum rownu FROM sys_user t
 					<where>
 						t.del_flag = 0
-						<if test="loginName != null and loginName != ''">
-							AND t.login_name LIKE
-							<if test="dbType == 'oracle'">'%'||#{loginName}||'%'</if>
+						<if test="userName != null and userName != ''">
+							AND t.user_name LIKE
+							<if test="dbType == 'oracle'">'%'||#{userName}||'%'</if>
 						</if>
 					</where> AND
 					rownum &lt;= #{page.pageNum} * #{page.pageSize}
