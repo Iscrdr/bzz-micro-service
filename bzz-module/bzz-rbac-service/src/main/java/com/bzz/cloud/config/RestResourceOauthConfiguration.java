@@ -1,4 +1,4 @@
-package com.bzz.cloud.framework.config;
+package com.bzz.cloud.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

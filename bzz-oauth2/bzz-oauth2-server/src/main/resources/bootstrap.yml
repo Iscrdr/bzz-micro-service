@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /bzzoauth
+    context-path: /api/bzzoauth
   port: 5010
 # spring
 spring:

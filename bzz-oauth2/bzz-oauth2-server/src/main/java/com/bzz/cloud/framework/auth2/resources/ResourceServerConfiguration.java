@@ -54,8 +54,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .filterSecurityInterceptorOncePerRequest(true)
-                .antMatchers("/bzzoauth/oauth/**").permitAll() //oauth认证url不拦截
-                .antMatchers("/user/register/**").permitAll() //用户注册不拦截
+                .antMatchers("/api/bzzoauth/oauth/**").permitAll() //oauth认证url不拦截
+                .antMatchers("/api/bzzoauth/register/**").permitAll() //用户注册url不拦截
+                .antMatchers("/api/bzzoauth/login/**").permitAll()//登用户录url不拦截
                 .and().headers().frameOptions().disable();
     }
 

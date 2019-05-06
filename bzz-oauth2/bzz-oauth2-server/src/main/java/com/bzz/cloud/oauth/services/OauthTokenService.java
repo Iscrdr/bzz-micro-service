@@ -1,4 +1,4 @@
-package com.bzz.cloud.services;
+package com.bzz.cloud.oauth.services;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @Author : yang qianli
  * @email: 624003618@qq.com
- * @Date: 2019-二月-23 18-22
+ * @Date: 2019-04-05 13-40
  * @Modified by:
  * @Description:
  */

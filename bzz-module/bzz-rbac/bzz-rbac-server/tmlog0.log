@@ -1,2 +1,0 @@
-{"id":"10.0.152.185.tm155031060081800001","wasCommitted":true,"participants":[{"uri":"10.0.152.185.tm1","state":"COMMITTING","expires":1550310900912,"resourceName":"dataSourceA"}]}
-{"id":"10.0.152.185.tm155031060081800001","wasCommitted":true,"participants":[{"uri":"10.0.152.185.tm1","state":"TERMINATED","expires":1550310901068,"resourceName":"dataSourceA"}]}

@@ -1,5 +1,7 @@
 server:
   port: 8760
+  servlet:
+    context-path: /api/bzz-gateway
 spring:
   application:
     name: bzz-gateway
@@ -12,21 +14,21 @@ spring:
       - id: bzz-gateway
         uri: lb://bzz-gateway
         predicates:
-        - Path=/bzzgateway
-        filters:
-        - PrefixPath=/bzzgateway
+        - Path=/api/bzzgateway/{segment}
+#       filters:
+          ##        - PrefixPath=/bzzgateway
 
       - id: bzzoauth
         uri: lb://bzzoauth
         predicates:
-        - Path=/bzzoauth
-        filters:
-        - PrefixPath=/bzzoauth
+        - Path=/api/bzzoauth/{segment}
+#        filters:
+#        - PrefixPath=/bzzoauth
 
       - id: bzz-rbac-server
         uri: lb://bzz-rbac-server
         predicates:
-        - Path=/api/**
+        - Path=/api/rbac/{segment}
 #        filters:
 #        - PrefixPath=/api
 

@@ -1,0 +1,18 @@
+server:
+  port: 8770
+  servlet:
+    context-path: /api/rbac
+spring:
+  profiles:
+    active: core
+  application:
+    name: bzz-rbac-server
+  jackson:
+    parser:
+      allow-single-quotes: true
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.web: TRACE
+
+

@@ -22,9 +22,10 @@
     </properties>
 
     <modules>
-        <!--bzz.权限系统RBAC-->
-        <module>bzz-rbac</module>
         <module>bzz-codegen</module>
+        <!--bzz.权限系统RBAC-->
+        <module>bzz-rbac-service</module>
+        <module>bzz-rbac-web</module>
         <!--<module>bzz-services</module>-->
     </modules>
 

@@ -28,7 +28,7 @@
       <!--bzz.缓存配置-->
       <module>bzz-cache</module>
       <!--bzz.心类库-->
-      <module>bzz-core-multiple-db</module>
+      <!--<module>bzz-core-multiple-db</module>-->
       <module>bzz-core-single-db</module>
       <!--bzz.业务模块-->
       <module>bzz-module</module>

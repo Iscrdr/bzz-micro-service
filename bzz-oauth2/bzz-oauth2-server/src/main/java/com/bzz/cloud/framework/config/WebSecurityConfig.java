@@ -18,6 +18,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    @Autowired
    private Auth2DetailsService auth2DetailsService;
 
+
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
@@ -46,11 +48,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //.addFilterAt(getMyLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 配置登陆页/login并允许访问
-                //.formLogin().successForwardUrl("/login")//.loginPage("/login").permitAll()
+                .formLogin().loginPage("/api/bzzoauth/login").permitAll()
                 // 登出页
-                //.and()//.logout().logoutUrl("/logout").logoutSuccessUrl("/backReferer")
+                .and().logout().logoutUrl("/api/bzzoauth/logout").logoutSuccessUrl("/backReferer")
                 // 其余所有请求全部需要鉴权认证
-                .authorizeRequests().anyRequest().authenticated().antMatchers("/bzzoauth/oauth/**").permitAll()
+                .and().authorizeRequests().anyRequest().authenticated()
+                .antMatchers("/api/bzzoauth/oauth/**").permitAll()
+                .antMatchers("/api/bzzoauth/register/**").permitAll() //用户注册url不拦截
+                .antMatchers("/api/bzzoauth/login/**").permitAll()//登用户录url不拦截
                 .and().httpBasic()
                 // 由于使用的是JWT，我们这里不需要csrf
                 .and().csrf().disable();
