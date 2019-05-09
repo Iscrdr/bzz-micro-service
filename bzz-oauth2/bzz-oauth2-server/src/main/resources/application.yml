@@ -6,8 +6,8 @@ spring:
   #profiles : dev
   datasource:
     hikari:
-      driver-class-name: com.mysql.jdbc.Driver
-      jdbc-url: jdbc:mysql://192.168.132.150:3306/bzz?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true&autoReconnect=true&failOverReadOnly=false
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://192.168.132.150:3306/bzz?serverTimezone=GMT%2B8&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true&autoReconnect=true&failOverReadOnly=false
       username: root
       #      driver-class-name: oracle.jdbc.OracleDriver
       #      jdbc-url: jdbc:oracle:thin:@127.0.0.1:1521:orcl

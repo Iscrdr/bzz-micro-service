@@ -58,7 +58,7 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
                 .anyRequest().authenticated()
         ;*/
 
-        http.requestMatcher(new OAuthRequestedMatcher())
+        http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
@@ -103,7 +103,6 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
     @Bean
     public RemoteTokenServices remoteTokenServices() {
         RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
-
         remoteTokenServices.setCheckTokenEndpointUrl(authorizationServerProperties.getCheckTokenAccess());
         remoteTokenServices.setClientId(oAuth2ClientProperties.getClientId());
         remoteTokenServices.setClientSecret(oAuth2ClientProperties.getClientSecret());
@@ -119,18 +118,5 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
     }
 
 
-    class OAuthRequestedMatcher implements RequestMatcher {
-        @Override
-        public boolean matches(HttpServletRequest request) {
-            /*String auth = request.getHeader("Authorization");
-            // Determine if the client request contained an OAuth Authorization
-            boolean haveOauth2Token = (auth != null) && auth.startsWith("Bearer");
-            boolean haveAccessToken = request.getParameter("access_token") != null;
-            return haveOauth2Token || haveAccessToken;*/
 
-            return true;
-        }
-
-
-    }
 }

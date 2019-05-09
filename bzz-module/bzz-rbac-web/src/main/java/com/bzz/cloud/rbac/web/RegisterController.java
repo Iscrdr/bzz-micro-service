@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class RegisterController {
 
-    private Logger logger = LoggerFactory.getLogger(AliDaYuSMS.class);
+    private Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
     @Autowired
     private SysUserService sysUserService;

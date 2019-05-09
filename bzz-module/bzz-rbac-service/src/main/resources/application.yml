@@ -10,9 +10,9 @@ spring:
   jackson:
     parser:
       allow-single-quotes: true
-logging:
-  level:
-    org.springframework.security: TRACE
-    org.springframework.web: TRACE
+#logging:
+#  level:
+#    org.springframework.security: TRACE
+#    org.springframework.web: TRACE
 
 
