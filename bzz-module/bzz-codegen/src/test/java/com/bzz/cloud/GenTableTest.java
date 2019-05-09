@@ -6,14 +6,12 @@ import com.bzz.cloud.gen.entity.GenTableColumn;
 import com.bzz.cloud.gen.service.GenTableColumnService;
 import com.bzz.cloud.gen.service.GenTableService;
 import com.bzz.cloud.util.GenUtils;
-import com.bzz.common.Utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +20,6 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes={GenApp.class})
 public class GenTableTest {
-
-
 
 
     @Autowired
@@ -60,8 +56,12 @@ public class GenTableTest {
         System.out.println(lists.toString());
 
     }
+
+    /**
+     * 用户表
+     */
     @Test
-    public void testGetTable(){
+    public void testGetUserTable(){
         /*GenTable genTable = genTableService.get(1L);
         System.out.println(genTable.getClassName());*/
         String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
@@ -117,5 +117,244 @@ public class GenTableTest {
 
     }
 
+    /**
+     * 角色表
+     */
+    @Test
+    public void testGetRoleTable(){
+        /*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*/
+        String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
+        List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_role");
+        if(tables!= null && tables.size()>0){
+            if (tables.size()==1){
+                Map<String, String> table = tables.get(0);
+                GenTable genTable = new GenTable();
+                genTable.setClassName("SysRole");
+                genTable.setComments(table.get("Comment"));
+                genTable.setTableName(table.get("Name"));
+                genTable.setClassNameLower("sysRole");
 
+                //System.out.println(table.get("Create_time"));
+
+                //genTable.setCreateTime(DateUtils.getDateToString(table.get("Create_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                //genTable.setUpdateTime(DateUtils.getDateToString(table.get("Update_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                genTable.setCreateUserId(1L);
+                genTable.setUpdateUserId(1L);
+                genTable.setTodo("角色表");
+                genTable.setDelFlag(1);
+//                genTable.setVersion(Integer.valueOf(table.get("Version")));
+                genTable.setRemarks("角色表");
+                List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_role");
+                genTable.setColumnList(lists);
+
+                GenUtils.initColumnField(genTable);
+                GenScheme genScheme = new GenScheme();
+                genScheme.setGenTable(genTable);
+
+                genScheme.setEmail("624003618@qq.com");
+
+                genScheme.setModuleAuthor("yang qianli");
+                genScheme.setModuleDesc("角色管理");
+                genScheme.setName("角色管理");
+                genScheme.setPackageName("com.bzz.cloud");
+                genScheme.setModuleName("rbac");
+                genScheme.setSubModuleName("");
+                genScheme.setReplaceFile(true);
+
+                genScheme.setCreateTime(new Date());
+                genScheme.setUpdateTime(new Date());
+
+
+
+                GenUtils.genEntity(genScheme);
+                GenUtils.genDao(genScheme);
+                GenUtils.genService(genScheme);
+                GenUtils.genController(genScheme);
+                GenUtils.genMapper(genScheme);
+            }
+        }
+
+    }
+
+    /**
+     * 用户组表
+     */
+    @Test
+    public void testGetGroupTable(){
+        /*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*/
+        String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
+        List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_group");
+        if(tables!= null && tables.size()>0){
+            if (tables.size()==1){
+                Map<String, String> table = tables.get(0);
+                GenTable genTable = new GenTable();
+                genTable.setClassName("SysGroup");
+                genTable.setComments(table.get("Comment"));
+                genTable.setTableName(table.get("Name"));
+                genTable.setClassNameLower("sysGroup");
+
+                //System.out.println(table.get("Create_time"));
+
+                //genTable.setCreateTime(DateUtils.getDateToString(table.get("Create_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                //genTable.setUpdateTime(DateUtils.getDateToString(table.get("Update_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                genTable.setCreateUserId(1L);
+                genTable.setUpdateUserId(1L);
+                genTable.setTodo("用户组表");
+                genTable.setDelFlag(1);
+//                genTable.setVersion(Integer.valueOf(table.get("Version")));
+                genTable.setRemarks("用户组表");
+                List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_group");
+                genTable.setColumnList(lists);
+
+                GenUtils.initColumnField(genTable);
+                GenScheme genScheme = new GenScheme();
+                genScheme.setGenTable(genTable);
+
+                genScheme.setEmail("624003618@qq.com");
+
+                genScheme.setModuleAuthor("yang qianli");
+                genScheme.setModuleDesc("用户组管理");
+                genScheme.setName("用户组管理");
+                genScheme.setPackageName("com.bzz.cloud");
+                genScheme.setModuleName("rbac");
+                genScheme.setSubModuleName("");
+                genScheme.setReplaceFile(true);
+
+                genScheme.setCreateTime(new Date());
+                genScheme.setUpdateTime(new Date());
+
+
+
+                GenUtils.genEntity(genScheme);
+                GenUtils.genDao(genScheme);
+                GenUtils.genService(genScheme);
+                GenUtils.genController(genScheme);
+                GenUtils.genMapper(genScheme);
+            }
+        }
+
+    }
+
+
+    /**
+     * 用户组表
+     */
+    @Test
+    public void testGetApiTable(){
+        /*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*/
+        String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
+        List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_api");
+        if(tables!= null && tables.size()>0){
+            if (tables.size()==1){
+                Map<String, String> table = tables.get(0);
+                GenTable genTable = new GenTable();
+                genTable.setClassName("SysApi");
+                genTable.setComments(table.get("Comment"));
+                genTable.setTableName(table.get("Name"));
+                genTable.setClassNameLower("sysApi");
+
+                //System.out.println(table.get("Create_time"));
+
+                //genTable.setCreateTime(DateUtils.getDateToString(table.get("Create_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                //genTable.setUpdateTime(DateUtils.getDateToString(table.get("Update_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                genTable.setCreateUserId(1L);
+                genTable.setUpdateUserId(1L);
+                genTable.setTodo("Api表");
+                genTable.setDelFlag(1);
+//                genTable.setVersion(Integer.valueOf(table.get("Version")));
+                genTable.setRemarks("Api表");
+                List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_api");
+                genTable.setColumnList(lists);
+
+                GenUtils.initColumnField(genTable);
+                GenScheme genScheme = new GenScheme();
+                genScheme.setGenTable(genTable);
+
+                genScheme.setEmail("624003618@qq.com");
+
+                genScheme.setModuleAuthor("yang qianli");
+                genScheme.setModuleDesc("Api表管理");
+                genScheme.setName("Api表管理");
+                genScheme.setPackageName("com.bzz.cloud");
+                genScheme.setModuleName("rbac");
+                genScheme.setSubModuleName("");
+                genScheme.setReplaceFile(true);
+
+                genScheme.setCreateTime(new Date());
+                genScheme.setUpdateTime(new Date());
+
+
+
+                GenUtils.genEntity(genScheme);
+                GenUtils.genDao(genScheme);
+                GenUtils.genService(genScheme);
+                GenUtils.genController(genScheme);
+                GenUtils.genMapper(genScheme);
+            }
+        }
+
+    }
+
+    /**
+     * 权限表
+     */
+    @Test
+    public void testGetAuthTable(){
+        /*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*/
+        String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
+        List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_authority");
+        if(tables!= null && tables.size()>0){
+            if (tables.size()==1){
+                Map<String, String> table = tables.get(0);
+                GenTable genTable = new GenTable();
+                genTable.setClassName("SysAuthority");
+                genTable.setComments(table.get("Comment"));
+                genTable.setTableName(table.get("Name"));
+                genTable.setClassNameLower("sysAuthority");
+
+                //System.out.println(table.get("Create_time"));
+
+                //genTable.setCreateTime(DateUtils.getDateToString(table.get("Create_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                //genTable.setUpdateTime(DateUtils.getDateToString(table.get("Update_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                genTable.setCreateUserId(1L);
+                genTable.setUpdateUserId(1L);
+                genTable.setTodo("权限表");
+                genTable.setDelFlag(1);
+//                genTable.setVersion(Integer.valueOf(table.get("Version")));
+                genTable.setRemarks("权限表");
+                List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_authority");
+                genTable.setColumnList(lists);
+
+                GenUtils.initColumnField(genTable);
+                GenScheme genScheme = new GenScheme();
+                genScheme.setGenTable(genTable);
+
+                genScheme.setEmail("624003618@qq.com");
+
+                genScheme.setModuleAuthor("yang qianli");
+                genScheme.setModuleDesc("权限表管理");
+                genScheme.setName("权限表管理");
+                genScheme.setPackageName("com.bzz.cloud");
+                genScheme.setModuleName("rbac");
+                genScheme.setSubModuleName("");
+                genScheme.setReplaceFile(true);
+
+                genScheme.setCreateTime(new Date());
+                genScheme.setUpdateTime(new Date());
+
+
+
+                GenUtils.genEntity(genScheme);
+                GenUtils.genDao(genScheme);
+                GenUtils.genService(genScheme);
+                GenUtils.genController(genScheme);
+                GenUtils.genMapper(genScheme);
+            }
+        }
+
+    }
 }

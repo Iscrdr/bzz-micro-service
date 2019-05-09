@@ -2,15 +2,12 @@ package com.bzz.cloud;
 
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.framework.config.BzzCloudDbConfig;
-import com.bzz.cloud.framework.config.RedisConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +24,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableAspectJAutoProxy
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = {"com.bzz.cloud.*.dao"},annotationClass = BzzMyBatisDao.class)
+
 @SpringBootApplication(scanBasePackages={"com.bzz.cloud"})
 @Slf4j
 public class GenApp {

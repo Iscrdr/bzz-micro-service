@@ -1,5 +1,6 @@
 package com.bzz.cloud.gen.web;
 
+import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.gen.entity.GenTable;
 import com.bzz.cloud.gen.service.GenTableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,9 @@ public class GenTableController {
     @PostMapping("/getGenTable")
     @ResponseBody
     public GenTable getGenTable(Long id){
-        GenTable genTable1 = genTableService.get(id);
-        return genTable1;
+
+        //BaseEntity baseEntity = genTableService.get(id);
+        return null;
     }
 
 

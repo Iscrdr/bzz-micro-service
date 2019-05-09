@@ -1,14 +1,13 @@
 package com.bzz.cloud.gen.service;
 
 
-import com.bzz.cloud.core.service.BaseService;
+import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.gen.dao.GenTableColumnDao;
 import com.bzz.cloud.gen.entity.GenTableColumn;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -18,7 +17,7 @@ import java.util.Map;
  */
 @Service
 @Transactional(readOnly = true)
-public class GenTableColumnService extends BaseService<GenTableColumnDao, GenTableColumn,Long> {
+public class GenTableColumnService extends BzzBaseService<GenTableColumnDao, GenTableColumn,Long> {
 
     public List<GenTableColumn> getTableColumn(String dataBase, String tableName){
        return baseDao.getTableColumn(dataBase,tableName);

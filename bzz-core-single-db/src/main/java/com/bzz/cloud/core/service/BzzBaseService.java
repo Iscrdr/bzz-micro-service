@@ -19,8 +19,7 @@ import java.util.Date;
  * @Modified by:
  * @Description:
  */
-@Service
-@Transactional
+
 public class BzzBaseService<D extends BaseDao,T extends BaseEntity,PK extends Serializable> extends BaseService {
 
     @Autowired

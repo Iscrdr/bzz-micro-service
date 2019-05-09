@@ -48,7 +48,7 @@ public class BzzCloudDbConfig{
         return prop;
     }
     
-    @Autowired
+
     @Bean(name = "dataSource")
     public DataSource dataSource(Environment env) {
         Properties properties = build(env, "spring.datasource.hikari.");

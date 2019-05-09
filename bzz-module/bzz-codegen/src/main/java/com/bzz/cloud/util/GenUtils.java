@@ -80,8 +80,10 @@ public class GenUtils {
                     column.setJavaType("boolean");
                 }
 			}
+
 			// 设置java字段名
 			column.setJavaField(BzzStringUtils.toCamelCase(column.getColumnName()));
+            System.out.println(column.getJavaField()+","+column.getJavaType());
 		}
 	}
 	

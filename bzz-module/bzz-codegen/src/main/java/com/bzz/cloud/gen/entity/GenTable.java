@@ -21,7 +21,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class GenTable extends BaseEntity<GenTable,Long> implements Serializable {
+public class GenTable extends BaseEntity<GenTable,Long>  {
 
 	private static final long serialVersionUID = -7171911181062675226L;
 	private String tableName; 	// 表名

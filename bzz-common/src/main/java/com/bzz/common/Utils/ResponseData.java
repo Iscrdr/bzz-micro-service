@@ -13,6 +13,7 @@ public class ResponseData {
      * 注册相关状态码
      */
     public final static String  RESPONE_CODE = "2000"; //返回2000代表正确信息
+
     public final static String  RESPONE_CODE_ERROR = "2001"; //返回2000代表正确信息
     public final static String  MOBILE_CODE_ERROR = "2002"; //手机号不正确,或者已经被注册
     public final static String  EMAIL_CODE_ERROR = "2003"; //邮箱不正确,或者已经被注册
@@ -33,6 +34,10 @@ public class ResponseData {
     public final static String  USERNAME_CREDENTIALS_EXPIRED = "3007"; //密码或者凭证过期
     public final static String  USERNAME_ENABLED = "3008"; //账号禁用
 
-
+    /**
+     * 数据获取成功,失败
+     */
+    public final static String  DATA_SECCUSS_CODE = "4001"; //数据获取成功
+    public final static String  DATA_FAIL_CODE = "4002"; //数据获取失败
 
 }

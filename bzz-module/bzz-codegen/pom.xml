@@ -27,7 +27,7 @@
 
         <dependency>
             <groupId>com.bzz.cloud</groupId>
-            <artifactId>bzz-core-multiple-db</artifactId>
+            <artifactId>bzz-core-single-db</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
