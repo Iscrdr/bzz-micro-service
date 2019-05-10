@@ -12,6 +12,7 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @desc: Api表管理
@@ -31,7 +32,7 @@ public class SysApi extends BaseEntity<SysApi,Long>  {
 		private String url ;  // 请求URL 
 		private Integer sort ;  // 排序 
 		private String icon ;  // 图标：图片地址 
-		private boolean isShow ;  // 是否显示 
+		private boolean isShow ;  // 是否显示
 
 
 

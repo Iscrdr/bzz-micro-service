@@ -12,10 +12,10 @@ import java.util.Date;
 /**
  *
  * @param <T> 当前实体类泛型
- * @param <PK> 主键
+ * @param <PK> 主键类型
  */
 
-public abstract class BaseEntity<T,PK extends Serializable> implements Serializable {
+public abstract class BaseEntity<T,PK> implements Serializable {
 
 	private static final long serialVersionUID = 3927629227639449292L;
 	protected PK id;//实体编号（唯一标识）
@@ -111,16 +111,10 @@ public abstract class BaseEntity<T,PK extends Serializable> implements Serializa
 		return createUserId;
 	}
 
-	public void setCreateUserId(long createUserId) {
-		this.createUserId = createUserId;
-	}
+
 
 	public Long getUpdateUserId() {
 		return updateUserId;
-	}
-
-	public void setUpdateUserId(long updateUserId) {
-		this.updateUserId = updateUserId;
 	}
 
 	public String getTodo() {

@@ -28,6 +28,10 @@ public class BzzBaseService<D extends BaseDao,T extends BaseEntity,PK extends Se
     @Autowired
     private RedisTemplate redisTemplate;
 
+    public T get(Long id) {
+        return (T)baseDao.get(id);
+    }
+
     @Override
     public long insert(BaseEntity entity) {
         setCommData(entity,0);
@@ -50,6 +54,7 @@ public class BzzBaseService<D extends BaseDao,T extends BaseEntity,PK extends Se
         Date date = new Date();
         entity.setUpdateTime(date);//更新时间
 
+        //获取当前登录用户
         BaseEntity currentUser = (BaseEntity)redisTemplate.opsForValue().get("currentUser");
         /*
          * 插入
@@ -62,16 +67,13 @@ public class BzzBaseService<D extends BaseDao,T extends BaseEntity,PK extends Se
             //设置创建人
             if(entity.getCreateUserId() == null && currentUser != null){
                 entity.setCreateUserId((Long)currentUser.getId());
+                entity.setUpdateUserId((Long)currentUser.getId());
             }else if(entity.getCreateUserId() == null && currentUser == null){
                 throw new RuntimeException("保存到数据库中的数据必须设置创建人的id: "+entity.toString());
-            }
-
-            //设置最后修改人
-            if(entity.getUpdateUserId() == null){
-                entity.setUpdateUserId((Long)currentUser.getId());
             }else if(entity.getUpdateUserId() == null && currentUser == null){
                 throw new RuntimeException("保存到数据库中的数据必须设置最后修改人的id: "+entity.toString());
             }
+
             entity.setDelFlag(0);
             entity.setVersion(1);
         }else {
@@ -80,10 +82,13 @@ public class BzzBaseService<D extends BaseDao,T extends BaseEntity,PK extends Se
              */
             entity.setVersion(entity.getVersion()+1);
             //设置最后修改人
-            if(currentUser == null){
+            if(entity.getUpdateUserId() == null && currentUser != null){
+                entity.setUpdateUserId((Long)currentUser.getId());
+            }else if(entity.getUpdateUserId() == null && currentUser == null){
                 throw new RuntimeException("保存到数据库中的数据必须设置最后修改人的id: "+entity.toString());
             }
-            entity.setUpdateUserId((Long)currentUser.getId());
+            entity.setVersion(entity.getVersion()+1);
+
         }
 
     }

@@ -16,5 +16,6 @@ import com.bzz.cloud.core.dao.BaseDao;
  */
 @BzzMyBatisDao("sysGroupDao")
 public interface SysGroupDao<S extends BaseEntity<SysGroup, Long>> extends BaseDao<SysGroup,Long> {
-	
+
+    void insertGroupRole(SysGroup sysGroup);
 }

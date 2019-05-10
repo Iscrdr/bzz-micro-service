@@ -170,6 +170,66 @@
 								 )
 	</insert>
 
+
+	<insert id="insertUserGroup"   >
+		INSERT INTO sys_user_group(
+			user_id,
+			group_id
+		)
+		<foreach collection="sysGroupList" item="group" separator=" union all ">
+			SELECT #{id}, #{group.id} FROM dual
+		</foreach>
+	</insert>
+
+
+
+	<select id="findSysAuthority" resultType="com.bzz.cloud.rbac.entity.SysAuthority">
+		SELECT
+			au.id AS id,
+		    au.api_id AS "sysApi.id",
+			au.name AS name,
+			au.code AS code,
+			au.create_user_id AS createUserId,
+			au.create_time AS createTime,
+			au.update_user_id AS updateUserId,
+			au.update_time AS updateTime,
+			au.todo AS todo,
+			au.remarks AS remarks,
+			au.del_flag AS delFlag,
+			au.version AS version
+
+		FROM sys_authority au
+				 INNER JOIN sys_api ai on ai.id = au.api_id
+				 INNER JOIN sys_role_api ra on ra.api_id = ai.id
+				 INNER JOIN sys_role r on r.id = ra.role_id
+				 INNER JOIN sys_user_role ur on r.id = ur.role_id
+				 INNER JOIN sys_user u on u.id = ur.user_id
+
+		<where>
+			au.del_flag = 0 AND u.del_flag = 0
+			<if test="email != null and email != ''">
+				AND	u.email = #{email}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND	u.mobile = #{mobile}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND	u.user_name = #{userName}
+			</if>
+		</where>
+
+	</select>
+
+
+
+
+
+
+
+
+
+
+
 		<sql id="pageMysql">
 			SELECT
 			<include refid="userColumns"/>

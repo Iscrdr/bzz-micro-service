@@ -4,6 +4,7 @@ import com.bzz.cloud.core.entity.BaseEntity;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @desc: 角色实体类
@@ -24,11 +25,13 @@ public class SysRole extends BaseEntity<SysRole, Long> {
 
     private static final long serialVersionUID = -9149665408422812632L;
 
-    private Long id ; // 编号
     private String name ; // 角色名
     private String roleType ; // 角色类型
     private boolean isSys ; // 是否是系统用户：指开发者
     private boolean enabled ; // 是否可用
 
+    private List<SysUser> sysUserList ; //一个角色 对应多个用户
+    private List<SysGroup> sysGroupList ;// 一个角色 对应多个用户组
+    private List<SysApi> sysApiList ; // 一个角色 对应多个api
 
 }

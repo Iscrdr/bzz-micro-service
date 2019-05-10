@@ -1,5 +1,6 @@
 package com.bzz.cloud.oauth.entity;
 
+import com.bzz.cloud.core.entity.BaseEntity;
 import lombok.*;
 
 import java.util.Date;
@@ -16,7 +17,7 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OauthClientDetails {
+public class OauthClientDetails extends BaseEntity<SysUser, Long> {
     private String clientId;
     private String resourceIds;
     private String clientSecret;

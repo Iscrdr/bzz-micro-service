@@ -4,9 +4,13 @@
 package com.bzz.cloud.rbac.dao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
+import com.bzz.cloud.rbac.entity.SysUser;
 import org.springframework.stereotype.Repository;
 import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.core.dao.BaseDao;
+
+import java.util.List;
+
 /**
  * @desc: 角色管理
  *
@@ -17,5 +21,8 @@ import com.bzz.cloud.core.dao.BaseDao;
  */
 @BzzMyBatisDao("sysRoleDao")
 public interface SysRoleDao<S extends BaseEntity<SysRole, Long>> extends BaseDao<SysRole,Long> {
-	
+
+    void insertRoleUser(SysRole role);
+
+    void insertRoleApi(SysRole role);
 }

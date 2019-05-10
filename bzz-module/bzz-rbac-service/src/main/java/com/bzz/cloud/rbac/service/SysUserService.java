@@ -4,6 +4,7 @@ package com.bzz.cloud.rbac.service;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.rbac.dao.SysUserDao;
+import com.bzz.cloud.rbac.entity.SysAuthority;
 import com.bzz.cloud.rbac.entity.SysUser;
 
 
@@ -31,7 +32,9 @@ public class SysUserService extends BzzBaseService<SysUserDao, SysUser,Long> {
 		return sysUser1;
 	}
 
-
+	public void insertUserGroup(SysUser sysUser){
+		baseDao.insertUserGroup(sysUser);
+	}
 	public long insertOracle(SysUser sysUser){
 		return baseDao.insert(sysUser);
 	}
@@ -63,5 +66,10 @@ public class SysUserService extends BzzBaseService<SysUserDao, SysUser,Long> {
 		page.setList(sysUsers);
 		return page;
 	}
+
+	public List<SysAuthority> findSysAuthority(SysUser sysUser){
+		return baseDao.findSysAuthority(sysUser);
+	}
+
 
 }

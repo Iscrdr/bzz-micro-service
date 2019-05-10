@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
 
 
 /**
@@ -25,14 +26,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SysGroup extends BaseEntity<SysGroup,Long>   {
 
-		private String parentId ;  // 父级编号 
-		private String parentIds ;  // 所有父级编号 
+		private SysGroup parentId ;  // 父级编号
+
 		private String name ;  // 名称 
 		private Integer sort ;  // 排序 
 		private String areaId ;  // 归属区域 
 		private String code ;  // 区域编码 
-		private String groupType ;  // 机构类型 
-		private String grade ;  // 机构等级 
+		private int groupType ;  // 机构类型
+		private int grade ;  // 机构等级
 		private String address ;  // 联系地址 
 		private String zipCode ;  // 邮政编码 
 		private String master ;  // 负责人 
@@ -41,7 +42,9 @@ public class SysGroup extends BaseEntity<SysGroup,Long>   {
 		private String email ;  // 邮箱 
 		private boolean enabled ;  // 是否可用 
 		private String primaryPerson ;  // 主负责人 
-		private String deputyPerson ;  // 副负责人 
+		private String deputyPerson ;  // 副负责人
+
+		private List<SysRole> sysRoleList; //用户组与角色关系：多对多
 
 
 

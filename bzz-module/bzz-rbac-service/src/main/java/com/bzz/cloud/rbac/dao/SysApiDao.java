@@ -16,5 +16,5 @@ import com.bzz.cloud.core.dao.BaseDao;
  */
 @BzzMyBatisDao("sysApiDao")
 public interface SysApiDao<S extends BaseEntity<SysApi, Long>> extends BaseDao<SysApi,Long> {
-	
+	void insertApiAndAuthority(SysApi sysApi);
 }

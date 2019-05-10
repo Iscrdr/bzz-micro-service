@@ -19,7 +19,7 @@ import java.util.List;
  * @author yang-ql
  * @version 2014-05-16
  */
-public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,PK extends Serializable> {
+public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity<T,PK> ,PK extends Serializable> {
 	
 	/**
 	 * 日志对象

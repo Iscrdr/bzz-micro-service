@@ -5,10 +5,13 @@ package com.bzz.cloud.rbac.service;
 
 import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.rbac.entity.SysRole;
+import com.bzz.cloud.rbac.entity.SysUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bzz.cloud.rbac.dao.SysRoleDao;
+
+import java.util.List;
 
 
 /**
@@ -24,5 +27,11 @@ import com.bzz.cloud.rbac.dao.SysRoleDao;
 public class SysRoleService extends BzzBaseService<SysRoleDao, SysRole,Long> {
 
 
-	
+    public void insertRoleUser(SysRole role) {
+        baseDao.insertRoleUser(role);
+    }
+
+    public void insertRoleApi(SysRole role) {
+        baseDao.insertRoleApi(role);
+    }
 }

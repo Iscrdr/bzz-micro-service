@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 @Getter
@@ -43,6 +44,9 @@ public class SysUser extends BaseEntity<SysUser, Long> {
 	private boolean enabled;	// 是否被禁用,禁用的用户不能身份验证
 
 	private String captcha;//短信验证码,不到数据库，用户web层校验
+
+	private List<SysGroup> sysGroupList;//用户组（部门）
+
 
 
 }

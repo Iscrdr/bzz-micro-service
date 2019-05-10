@@ -24,5 +24,7 @@ import com.bzz.cloud.rbac.dao.SysGroupDao;
 public class SysGroupService extends BzzBaseService<SysGroupDao, SysGroup,Long> {
 
 
-	
+    public void insertGroupRole(SysGroup sysGroup) {
+        baseDao.insertGroupRole(sysGroup);
+    }
 }
