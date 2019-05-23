@@ -35,7 +35,7 @@ public class ReqLoggerAspect {
 	public void declareJoinPointExpression() {
 	}
 	
-	@Before("declareJoinPointExpression()")
+	/*@Before("declareJoinPointExpression()")
 	public void addBeforeLogger(JoinPoint joinPoint) {
 		try {
 			RequestAttributes ra = RequestContextHolder.getRequestAttributes();
@@ -47,7 +47,7 @@ public class ReqLoggerAspect {
 			String uri = request.getRequestURI();
 			String userAgent = request.getHeader("User-Agent");
 			Cookie cookie = null;
-			/*Cookie[] cookies = request.getCookies();
+			*//*Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				for (Cookie c : cookies) {
 					if (c.getName().endsWith("Token")) {
@@ -55,7 +55,7 @@ public class ReqLoggerAspect {
 						break;
 					}
 				}
-			}*/
+			}*//*
 			String CookieString=cookie==null?"": JsonUtils.object2Json(cookie);
 			String params = JsonUtils.object2Json(request.getParameterMap());
 			
@@ -66,12 +66,12 @@ public class ReqLoggerAspect {
 			Class targetClass = Class.forName(targetName);
 			Method[] methods = targetClass.getMethods();
 			
-			logger.info("url: {},uri: {}, method: {}, params: {},Cookie:{},UserAgent:{}",
+			logger.info("请求url: {},uri: {}, method: {}, params: {},Cookie:{},UserAgent:{}",
 					url,uri, method, params, CookieString,userAgent);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	@Around(value = "declareJoinPointExpression()")
 	public Object doAround(ProceedingJoinPoint proceeding) throws Throwable {
@@ -86,9 +86,13 @@ public class ReqLoggerAspect {
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 		ServletRequestAttributes sra = (ServletRequestAttributes) ra;
 		HttpServletRequest request = sra.getRequest();
-		
-		logger.info("请求：{} ,开始时间：{}，结束时间：{}， 耗时：{}ms", request.getRequestURI(),startTime,endTime, afterTime - beforeTime);
-		
+		String url = request.getRequestURL().toString();
+		String method = request.getMethod();
+		Cookie[] cookies = request.getCookies();
+		String userAgent = request.getHeader("User-Agent");
+		String params = JsonUtils.object2Json(request.getParameterMap());
+
+		logger.info("请求url: {},开始时间：{},结束时间：{}, 耗时：{}ms, method: {}, params: {},Cookie:{},UserAgent:{}",url,startTime,endTime,afterTime - beforeTime, method, params,cookies==null?"": cookies.toString(),userAgent);
 		//此处可以在log输出result，依据业务要求处理
 		return result;
 	}

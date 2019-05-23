@@ -1,17 +1,25 @@
 package com.bzz.cloud;
 
-import com.bzz.cloud.rbac.entity.SysAuthority;
-import com.bzz.cloud.rbac.entity.SysGroup;
-import com.bzz.cloud.rbac.entity.SysUser;
+import com.bzz.cloud.rbac.entity.*;
+import com.bzz.cloud.rbac.service.SysApiService;
 import com.bzz.cloud.rbac.service.SysGroupService;
 import com.bzz.cloud.rbac.service.SysUserService;
-import com.bzz.common.Utils.IdUtils;
+import com.bzz.common.Utils.JsonUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -30,6 +38,8 @@ public class SysUserTest {
 
     @Autowired
     private SysUserService sysUserService;
+
+
 
     /**
      * 添加角色
@@ -104,7 +114,50 @@ public class SysUserTest {
         for (SysAuthority sysAuthority1:sysAuthority){
             System.out.println(sysAuthority1.getCode());
         }
+
+
     }
+    /**
+     * 查询用户拥有的权限
+     */
+    @Test
+    public void testfindSysUserRoleApiAuthority(){
+       /* SysUser sysUser1 = new SysUser();
+        sysUser1.setUserName("admin");
+        sysUser1 = sysUserService.findSysUserRoleApiAuthority(sysUser1);
+        List<SysRole> sysRoleList = sysUser1.getSysRoleList();
+        for(SysRole sysRole: sysRoleList){
+            System.out.println("role:"+sysRole.getName()+","+sysRole.getRoleType());
+            List<SysApi> sysApiList = sysRole.getSysApiList();
+            for(SysApi sysApi:sysApiList){
+                System.out.println("api:"+sysApi.getName()+","+sysApi.getPath());
+                List<SysAuthority> sysAuthorityList = sysApi.getSysAuthorityList();
+                for(SysAuthority sysAuthority:sysAuthorityList){
+                    System.out.println("sysAuthority:"+sysAuthority.getName()+","+sysAuthority.getCode());
+                }
+            }
+        }*/
+
+
+    }
+    /**
+     * 查询用户拥有的角色
+     */
+    @Test
+    public void testFindSysRole() throws JsonProcessingException {
+        SysUser sysUser1 = new SysUser();
+        sysUser1.setUserName("admin");
+        sysUser1 = sysUserService.getUserByLoginName(sysUser1);
+        sysUser1.setPassword(null);
+
+        JsonUtils.filter(SysUser.class,null,"password,accountNonExpired,accountNonLocked,credentialsNonExpired,country,province,city,area,sysGroupList,sysRoleList,createUserId,createTime,updateUserId,updateTime,delFlag,version");
+        String s = JsonUtils.object2Json(sysUser1);
+
+        System.out.println(s);
+
+    }
+
+
 
 
 }

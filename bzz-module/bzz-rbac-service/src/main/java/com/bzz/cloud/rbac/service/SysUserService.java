@@ -5,6 +5,7 @@ import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.rbac.dao.SysUserDao;
 import com.bzz.cloud.rbac.entity.SysAuthority;
+import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
 
 
@@ -25,6 +26,8 @@ import java.util.List;
 @Service
 @Transactional
 public class SysUserService extends BzzBaseService<SysUserDao, SysUser,Long> {
+
+
 
 
 	public SysUser getUserByLoginName(SysUser sysUser){
@@ -61,7 +64,7 @@ public class SysUserService extends BzzBaseService<SysUserDao, SysUser,Long> {
 
 		int count = baseDao.findCount(sysUser);
 		List<SysUser> sysUsers = baseDao.selectList(sysUser);
-		Page<SysUser> page = sysUser.getPage();
+		Page<SysUser> page = new Page<>();
 		page.setTotalCount(count);
 		page.setList(sysUsers);
 		return page;

@@ -19,6 +19,7 @@
 		t.account_non_locked AS accountNonLocked,
 		t.credentials_non_expired AS credentialsNonExpired,
 		t.enabled AS enabled,
+		t.client_id AS clientId,
 		t.create_user_id AS createUserId,
 		t.create_time AS createTime,
 		t.update_user_id AS updateUserId,
@@ -26,7 +27,43 @@
 		t.todo AS todo,
 		t.remarks AS remarks,
 		t.del_flag AS delFlag,
-		t.version AS version
+		t.version AS version,
+
+		a.id AS 'area.id',
+		a.name AS 'area.name',
+		a.city_code AS 'area.cityCode',
+		a.zip_code AS 'area.zipCode',
+		a.lng AS 'area.lng',
+		a.lat AS 'area.lat',
+		a.pinyin AS 'area.pinyin',
+		a.jianpin AS 'area.jianpin',
+
+		b.id AS 'city.id',
+		b.name AS 'city.name',
+		b.city_code AS 'city.cityCode',
+		b.zip_code AS 'city.zipCode',
+		b.lng AS 'city.lng',
+		b.lat AS 'city.lat',
+		b.pinyin AS 'city.pinyin',
+		b.jianpin AS 'city.jianpin',
+
+		c.id AS 'province.id',
+		c.name AS 'province.name',
+		c.city_code AS 'province.cityCode',
+		c.zip_code AS 'province.zipCode',
+		c.lng AS 'province.lng',
+		c.lat AS 'province.lat',
+		c.pinyin AS 'province.pinyin',
+		c.jianpin AS 'province.jianpin',
+
+		d.id AS 'country.id',
+		d.name AS 'country.name',
+		/*c.city_code AS country.cityCode,*/
+		d.zip_code AS 'country.zipCode',
+		d.lng AS 'country.lng',
+		d.lat AS 'country.lat',
+		d.pinyin AS 'country.pinyin',
+		d.jianpin AS 'country.jianpin'
 
 	</sql>
 
@@ -47,6 +84,7 @@
 		tt.account_non_locked AS accountNonLocked,
 		tt.credentials_non_expired AS credentialsNonExpired,
 		tt.enabled AS enabled,
+		tt.client_id AS clientId,
 		tt.create_user_id AS createUserId,
 		tt.create_time AS createTime,
 		tt.update_user_id AS updateUserId,
@@ -57,18 +95,57 @@
 		tt.version AS version
 
 	</sql>
+
+
+
+
+
 	<!--根据用户名获得用户 -->
 	<select id="getUserByLoginName" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user t WHERE t.del_flag = 0 AND t.user_name = #{userName}
+		FROM sys_user t
+		LEFT JOIN sys_area a on t.area_id = a.id
+		LEFT JOIN sys_area b on a.parent_id = b.id
+		LEFT JOIN sys_area c on b.parent_id = c.id
+		LEFT JOIN sys_area d on c.parent_id = d.id
+		WHERE t.del_flag = 0
+			<if test="id != null and id != ''">
+				AND	t.id = #{id}
+			</if>
+			<if test="email != null and email != ''">
+				AND	t.email = #{email}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND	t.mobile = #{mobile}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND	t.user_name = #{userName}
+			</if>
 	</select>
 
 	<!--根据编号获得用户 -->
 	<select id="get" resultType="com.bzz.cloud.rbac.entity.SysUser">
 		SELECT
 		<include refid="userColumns"/>
-		FROM sys_user t WHERE t.id = #{id}
+		FROM sys_user t
+		LEFT JOIN sys_area a on t.area_id = a.id
+		LEFT JOIN sys_area b on a.parent_id = b.id
+		LEFT JOIN sys_area c on b.parent_id = c.id
+		LEFT JOIN sys_area d on c.parent_id = d.id
+		WHERE t.del_flag = 0
+		<if test="id != null and id != ''">
+			AND	t.id = #{id}
+		</if>
+		<if test="email != null and email != ''">
+			AND	t.email = #{email}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			AND	t.mobile = #{mobile}
+		</if>
+		<if test="userName != null and userName != ''">
+			AND	t.user_name = #{userName}
+		</if>
 	</select>
 
 
@@ -134,6 +211,7 @@
 				photo,
 				nick_name,
 				new_password,
+				client_id,
 				account_non_expired,
 				account_non_locked,
 				credentials_non_expired,
@@ -157,6 +235,7 @@
 								 #{photo},
 								 #{nickName},
 								 #{newPassword},
+								 #{client_id},
 								 #{accountNonExpired},
 								 #{accountNonLocked},
 								 #{credentialsNonExpired},
@@ -217,13 +296,7 @@
 				AND	u.user_name = #{userName}
 			</if>
 		</where>
-
 	</select>
-
-
-
-
-
 
 
 

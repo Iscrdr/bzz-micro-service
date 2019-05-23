@@ -19,7 +19,7 @@ public abstract class BaseEntity<T,PK> implements Serializable {
 
 	private static final long serialVersionUID = 3927629227639449292L;
 	protected PK id;//实体编号（唯一标识）
-	protected Page<T> page;//当前实体分页对象
+	//protected Page<T> page;//当前实体分页对象
 	protected Long createUserId; //创建时间
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date createTime; //创建时间
@@ -47,7 +47,7 @@ public abstract class BaseEntity<T,PK> implements Serializable {
 	}
 
 	//protected String dbType;//数据库类型,如果为null,默认为mysql,目前支持oracle,mysql,mssql
-	public Page<T> getPage() {
+	/*public Page<T> getPage() {
 		if (page == null){
 			page = new Page<T>();
 		}
@@ -57,7 +57,7 @@ public abstract class BaseEntity<T,PK> implements Serializable {
 	public Page<T> setPage(Page<T> page) {
 		this.page = page;
 		return page;
-	}
+	}*/
 
     public Date getCreateTime() {
         return createTime;

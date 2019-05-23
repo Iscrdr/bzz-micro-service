@@ -1,0 +1,15 @@
+spring:
+#  main:
+#    allow-bean-definition-overriding: true
+  application:
+    name: oauthservice
+  profiles:
+    active: core
+  #profiles : dev
+
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.web: TRACE
+

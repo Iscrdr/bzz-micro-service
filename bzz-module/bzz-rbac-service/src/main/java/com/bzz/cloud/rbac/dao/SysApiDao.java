@@ -6,6 +6,10 @@ import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysApi;
 import com.bzz.cloud.core.dao.BaseDao;
+import com.bzz.cloud.rbac.entity.SysUser;
+
+import java.util.List;
+
 /**
  * @desc: Api表管理
  *
@@ -16,5 +20,7 @@ import com.bzz.cloud.core.dao.BaseDao;
  */
 @BzzMyBatisDao("sysApiDao")
 public interface SysApiDao<S extends BaseEntity<SysApi, Long>> extends BaseDao<SysApi,Long> {
-	void insertApiAndAuthority(SysApi sysApi);
+	//void insertApiAndAuthority(SysApi sysApi);
+
+    SysUser getAllApi(SysUser sysUser);
 }

@@ -10,19 +10,67 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bzz-oauth2</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <name>bzz-oauth2</name>
-    <modules>
-        <module>bzz-oauth2-server</module>
-        <module>bzz-oauth2-client</module>
-    </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <spring.social.version>2.0.0.M4</spring.social.version>
+    </properties>
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.bzz.cloud</groupId>
+            <artifactId>bzz-rbac-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-core</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-config</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-security</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-web</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.12.1</version>
+        </dependency>
+
+
+
+    </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
             </plugin>
         </plugins>
     </build>

@@ -35,7 +35,7 @@ public class SysRoleTest {
      */
     @Test
     public void testAddRole(){
-        SysRole role = new SysRole();
+        /*SysRole role = new SysRole();
         role.setSys(true);
         role.setName("系统管理员");
         role.setRoleType("SYS");
@@ -58,7 +58,20 @@ public class SysRoleTest {
         role2.setUpdateUserId(1124988228517109759L);
         role2.setRemarks("普通用户");
         role2.setTodo("普通用户");
-        sysRoleService.insert(role2);
+        sysRoleService.insert(role2);*/
+
+
+        SysRole role3 = new SysRole();
+        role3.setSys(true);
+        role3.setName("系统管理员");
+        role3.setRoleType("ADMIN");
+        role3.setEnabled(true);
+
+        role3.setCreateUserId(1124988228517109759L);
+        role3.setUpdateUserId(1124988228517109759L);
+        role3.setRemarks("系统管理员");
+        role3.setTodo("系统管理员");
+        sysRoleService.insert(role3);
     }
 
     /**
@@ -70,14 +83,10 @@ public class SysRoleTest {
         sysUser.setUserName("qianli8822");
         sysUser.setEmail("624003611@qq.com");
         List<SysUser> list = sysUserService.selectList(sysUser);
-
         SysRole role1 = new SysRole();
         role1.setId(1126741685360009216L);
-
         role1.setSysUserList(list);
-
         sysRoleService.insertRoleUser(role1);
-
     }
 
     /**
@@ -88,11 +97,26 @@ public class SysRoleTest {
         SysRole role1 = new SysRole();
         role1.setId(1126741685360009216L);
 
-        SysApi sysApi = new SysApi();
-        sysApi.setId(1126739319122436096L);
+        SysApi sysApi1 = new SysApi();
+        sysApi1.setId(1129049334688653312L);
+
+        SysApi sysApi2 = new SysApi();
+        sysApi2.setId(1129049335057752064L);
+
+        SysApi sysApi3 = new SysApi();
+        sysApi3.setId(1129049335095500800L);
+        SysApi sysApi4 = new SysApi();
+        sysApi4.setId(1129049335129055232L);
+
+        SysApi sysApi5 = new SysApi();
+        sysApi5.setId(1129049335162609664L);
 
         List<SysApi> list = new ArrayList<>();
-        list.add(sysApi);
+        list.add(sysApi1);
+        list.add(sysApi2);
+        list.add(sysApi3);
+        list.add(sysApi4);
+        list.add(sysApi5);
         role1.setSysApiList(list);
 
         sysRoleService.insertRoleApi(role1);

@@ -40,6 +40,7 @@ public class GenUtils {
 	public static void initColumnField(GenTable genTable){
 		for (GenTableColumn column : genTable.getColumnList()){
 			column.setGenTable(genTable);
+            System.out.println(column.getColumnName()+","+column.getJdbcType());
 			// 设置字段说明
 			if (StringUtils.isBlank(column.getComments())){
 				column.setComments(column.getComments());
@@ -56,6 +57,7 @@ public class GenUtils {
 			}else if (StringUtils.startsWithIgnoreCase(column.getJdbcType(), "BIGINT")
 					|| StringUtils.startsWithIgnoreCase(column.getJdbcType(), "NUMBER")
                     || StringUtils.startsWithIgnoreCase(column.getJdbcType(), "INT")
+                    || StringUtils.startsWithIgnoreCase(column.getJdbcType(), "DOUBLE")
             ){
 				// 如果是浮点型
 				String[] ss = StringUtils.split(StringUtils.substringBetween(column.getJdbcType(), "(", ")"), ",");

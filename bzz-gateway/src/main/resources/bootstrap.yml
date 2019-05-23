@@ -4,8 +4,8 @@ spring:
       enabled: true
       config:
         enabled: true
-      connect-string: hadoop-03:2181,hadoop-04:2181,hadoop-05:2181
-      #connect-string: 127.0.0.1:2181
+      #connect-string: hadoop-03:2181,hadoop-04:2181,hadoop-05:2181
+      connect-string: xiaostarstar:2181
       discovery:
         #        instancePort: 8761
         #        instanceHost: 127.0.0.1

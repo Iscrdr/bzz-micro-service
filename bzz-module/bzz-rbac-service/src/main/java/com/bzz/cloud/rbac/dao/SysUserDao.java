@@ -5,6 +5,7 @@ import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysAuthority;
+import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,9 @@ public interface SysUserDao<S extends BaseEntity<SysUser, Long>> extends BaseDao
 	void insertUserGroup(SysUser sysUser);// 保存用户与用户组的关系
 
 	List<SysAuthority> findSysAuthority(SysUser sysUser);// 用户权限
+
+
+
+
+
 }

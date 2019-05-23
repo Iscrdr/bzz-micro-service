@@ -26,6 +26,7 @@ public class ResponseData {
      * 登录相关状态码
      */
     public final static String  LOGIN_CODE = "3000"; //登录成功
+    public final static String  LOGIN_REPEAT_CODE = "3009"; //登录成功
     public final static String  LOGIN_ERROR_CODE = "3001"; //登录失败
     public final static String  USERNAME_NOT_FOUND = "3002"; //账号没有找到
     public final static String  PASSWORD_ERROR = "3004"; //密码不正确
@@ -33,7 +34,7 @@ public class ResponseData {
     public final static String  USERNAME_ACCOUNT_LOCKED = "3006"; //账号被锁定
     public final static String  USERNAME_CREDENTIALS_EXPIRED = "3007"; //密码或者凭证过期
     public final static String  USERNAME_ENABLED = "3008"; //账号禁用
-
+    public final static String  USER_ACCOUNT_NOUNAUTHORIZED = "401"; //账号没有客户端授权
     /**
      * 数据获取成功,失败
      */

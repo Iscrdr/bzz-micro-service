@@ -357,4 +357,126 @@ public class GenTableTest {
         }
 
     }
+
+
+    /**
+     * 权限表
+     */
+    @Test
+    public void testAAGetAuthTable(){
+        /*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*/
+       // String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
+        List<Map<String,String>> tables = genTableService.getTable("bzz", "branch_info");
+        if(tables!= null && tables.size()>0){
+            if (tables.size()==1){
+                Map<String, String> table = tables.get(0);
+                GenTable genTable = new GenTable();
+                genTable.setClassName("BranchInfo");
+                genTable.setComments(table.get("Comment"));
+                genTable.setTableName(table.get("Name"));
+                genTable.setClassNameLower("branchInfo");
+
+                //System.out.println(table.get("Create_time"));
+
+                //genTable.setCreateTime(DateUtils.getDateToString(table.get("Create_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                //genTable.setUpdateTime(DateUtils.getDateToString(table.get("Update_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                genTable.setCreateUserId(1L);
+                genTable.setUpdateUserId(1L);
+                genTable.setTodo("BranchInfo");
+                genTable.setDelFlag(1);
+//                genTable.setVersion(Integer.valueOf(table.get("Version")));
+                genTable.setRemarks("BranchInfo");
+                List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "branch_info");
+                genTable.setColumnList(lists);
+
+                GenUtils.initColumnField(genTable);
+                GenScheme genScheme = new GenScheme();
+                genScheme.setGenTable(genTable);
+
+                genScheme.setEmail("624003618@qq.com");
+
+                genScheme.setModuleAuthor("yang qianli");
+                genScheme.setModuleDesc("branch_info");
+                genScheme.setName("branch_info");
+                genScheme.setPackageName("com.bzz.cloud");
+                genScheme.setModuleName("rbac");
+                genScheme.setSubModuleName("");
+                genScheme.setReplaceFile(true);
+
+                genScheme.setCreateTime(new Date());
+                genScheme.setUpdateTime(new Date());
+
+
+
+                GenUtils.genEntity(genScheme);
+                GenUtils.genDao(genScheme);
+                GenUtils.genService(genScheme);
+                GenUtils.genController(genScheme);
+                GenUtils.genMapper(genScheme);
+            }
+        }
+
+    }
+
+
+    /**
+     * 地域表
+     */
+    @Test
+    public void testArea(){
+        /*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*/
+        // String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
+        List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_area");
+        if(tables!= null && tables.size()>0){
+            if (tables.size()==1){
+                Map<String, String> table = tables.get(0);
+                GenTable genTable = new GenTable();
+                genTable.setClassName("SysArea");
+                genTable.setComments(table.get("Comment"));
+                genTable.setTableName(table.get("Name"));
+                genTable.setClassNameLower("sysArea");
+
+                //System.out.println(table.get("Create_time"));
+
+                //genTable.setCreateTime(DateUtils.getDateToString(table.get("Create_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                //genTable.setUpdateTime(DateUtils.getDateToString(table.get("Update_time"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+                genTable.setCreateUserId(1L);
+                genTable.setUpdateUserId(1L);
+                genTable.setTodo("行政区域");
+                genTable.setDelFlag(1);
+//                genTable.setVersion(Integer.valueOf(table.get("Version")));
+                genTable.setRemarks("行政区域");
+                List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_area");
+                genTable.setColumnList(lists);
+
+                GenUtils.initColumnField(genTable);
+                GenScheme genScheme = new GenScheme();
+                genScheme.setGenTable(genTable);
+
+                genScheme.setEmail("624003618@qq.com");
+
+                genScheme.setModuleAuthor("yang qianli");
+                genScheme.setModuleDesc("行政区域");
+                genScheme.setName("行政区域");
+                genScheme.setPackageName("com.bzz.cloud");
+                genScheme.setModuleName("rbac");
+                genScheme.setSubModuleName("");
+                genScheme.setReplaceFile(true);
+
+                genScheme.setCreateTime(new Date());
+                genScheme.setUpdateTime(new Date());
+
+
+
+                GenUtils.genEntity(genScheme);
+                GenUtils.genDao(genScheme);
+                GenUtils.genService(genScheme);
+                GenUtils.genController(genScheme);
+                GenUtils.genMapper(genScheme);
+            }
+        }
+
+    }
 }

@@ -140,9 +140,11 @@ public class RegisterController {
     @ResponseBody
     public ResponseResult getMobileCode(String mobile){
         ResponseResult rr = new ResponseResult();
+
         Map<String,String> msgMap = new HashMap<String,String>();
         //校验手机号
         if( ValidatorUtils.isMobile(mobile)){
+            rr.setData(mobile);
 
             //从缓存中获取验证码，key为手机号
             String code = stringRedisTemplate.opsForValue().get(mobile);
@@ -150,8 +152,6 @@ public class RegisterController {
                 //验证码已经
                 rr.setSuccess(true);
                 msgMap.put(ResponseData.RESPONE_CODE,"验证码已经发送，请您查看手机短信");
-
-                return rr;
             }else {
                 //生成验证码
                 code = SMSCodeUtils.getRandom();
@@ -164,18 +164,18 @@ public class RegisterController {
                     stringRedisTemplate.opsForValue().set(mobile, code,60*60*60,TimeUnit.SECONDS);
                     rr.setSuccess(true);
                     msgMap.put(ResponseData.RESPONE_CODE,"验证码已经发送，请您查看手机短信");
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     rr.setSuccess(false);
                     msgMap.put(ResponseData.SMS_CODE_ERROR,"验证码获取失败,请等待5分钟后重新获取");
                 }
-                return rr;
+
             }
+            rr.setMsgMap(msgMap);
+            return rr;
         }
         rr.setSuccess(false);
         msgMap.put(ResponseData.SMS_CODE_ERROR,"手机号填写不正确");
-        rr.setData(mobile);
         rr.setMsgMap(msgMap);
         return rr;
     }

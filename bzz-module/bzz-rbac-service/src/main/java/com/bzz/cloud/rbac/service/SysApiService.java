@@ -5,10 +5,13 @@ package com.bzz.cloud.rbac.service;
 
 import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.rbac.entity.SysApi;
+import com.bzz.cloud.rbac.entity.SysUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bzz.cloud.rbac.dao.SysApiDao;
+
+import java.util.List;
 
 
 /**
@@ -23,6 +26,8 @@ import com.bzz.cloud.rbac.dao.SysApiDao;
 @Transactional
 public class SysApiService extends BzzBaseService<SysApiDao, SysApi,Long> {
 
-
+    public SysUser getAllApi(SysUser sysUser){
+        return baseDao.getAllApi(sysUser);
+    }
 	
 }

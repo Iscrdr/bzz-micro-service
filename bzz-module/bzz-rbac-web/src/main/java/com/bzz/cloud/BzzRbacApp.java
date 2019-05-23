@@ -5,6 +5,7 @@ import com.bzz.cloud.framework.config.BzzCloudDbConfig;
 import com.bzz.cloud.framework.config.RedisConfig;
 import com.netflix.loadbalancer.BestAvailableRule;
 import com.netflix.loadbalancer.IRule;
+
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
 import org.mybatis.spring.annotation.MapperScan;
@@ -15,6 +16,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,8 +42,8 @@ import java.util.Arrays;
 @MapperScan(basePackages = {"com.bzz.cloud.*.dao"},annotationClass = BzzMyBatisDao.class)
 @Configuration
 @EnableConfigurationProperties
-
 @EnableTransactionManagement
+@EnableFeignClients
 @EnableHystrix
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages={"com.bzz.cloud"})

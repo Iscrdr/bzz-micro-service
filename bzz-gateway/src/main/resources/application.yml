@@ -1,34 +1,34 @@
 server:
   port: 8760
   servlet:
-    context-path: /api/bzz-gateway
+    context-path: /gateway
 spring:
   application:
-    name: bzz-gateway
+    name: gatewayservice
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
       routes:
-      - id: bzz-gateway
-        uri: lb://bzz-gateway
+      - id: gatewayservice
+        uri: lb://gatewayservice
         predicates:
-        - Path=/api/bzzgateway/{segment}
+        - Path=/gateway/**
 #       filters:
           ##        - PrefixPath=/bzzgateway
 
-      - id: bzzoauth
-        uri: lb://bzzoauth
+      - id: oauthservice
+        uri: lb://oauthservice
         predicates:
-        - Path=/api/bzzoauth/{segment}
+        - Path=/bzzoauth/**
 #        filters:
 #        - PrefixPath=/bzzoauth
 
-      - id: bzz-rbac-server
-        uri: lb://bzz-rbac-server
+      - id: rbacservice
+        uri: lb://rbacservice
         predicates:
-        - Path=/api/rbac/{segment}
+        - Path=/rbac/**
 #        filters:
 #        - PrefixPath=/api
 

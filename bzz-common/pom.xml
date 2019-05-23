@@ -134,8 +134,12 @@
 				<artifactId>aliyun-java-sdk-core</artifactId>
 				<version>4.0.3</version>
 			</dependency>
+			<dependency>
+				<groupId>com.belerweb</groupId>
+				<artifactId>pinyin4j</artifactId>
+				<version>2.5.0</version>
+			</dependency>
 
-
-        </dependencies>
+		</dependencies>
 
 </project>

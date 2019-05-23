@@ -1,0 +1,47 @@
+server:
+  port: 8770
+  servlet:
+    context-path: /rbac
+spring:
+  profiles:
+    active: core
+  application:
+    name: rbacservice
+  jackson:
+    parser:
+      allow-single-quotes: true
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.web: TRACE
+#    com:
+#      bzz:
+#        cloud:
+#          rbac:
+#            dao: TRACE
+
+
+
+security:
+  oauth2:
+    client:
+      clientId: unity_client_1
+      clientSecret: admin
+      userAuthorizationUri: http://oauthservice/bzzoauth/oauth/authorize
+      grant-type: password
+      scope: read,write
+      access-token-uri: http://oauthservice/bzzoauth/oauth/token
+    resource:
+      userInfoUri: http://oauthservice/bzzoauth/oauth/user
+    authorization:
+      check-token-access: http://oauthservice/bzzoauth/oauth/check_token
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          strategy: SEMAPHORE
