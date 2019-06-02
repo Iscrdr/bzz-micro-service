@@ -1,6 +1,8 @@
 package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import java.util.Date;
@@ -30,8 +32,10 @@ public class SysRole extends BaseEntity<SysRole, Long> {
     private boolean isSys ; // 是否是系统用户：指开发者
     private boolean enabled ; // 是否可用
 
+    @JsonIgnore
     private List<SysUser> sysUserList ; //一个角色 对应多个用户
-    private List<SysGroup> sysGroupList ;// 一个角色 对应多个用户组
+
+    @JsonManagedReference
     private List<SysApi> sysApiList ; // 一个角色 对应多个api
 
 }

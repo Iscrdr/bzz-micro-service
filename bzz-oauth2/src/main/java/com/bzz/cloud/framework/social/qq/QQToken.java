@@ -1,13 +1,15 @@
-package com.bzz.cloud.framework.qqoauth;
+package com.bzz.cloud.framework.social.qq;
 
 /**
  * @Author : yang qianli
  * @email: 624003618@qq.com
- * @Date: 2019-05-22 21-21
+ * @Date: 2019-05-30 03-59
  * @Modified by:
  * @Description:
  */
-public class QQToken {
+
+class QQToken {
+
     /**
      * token
      */

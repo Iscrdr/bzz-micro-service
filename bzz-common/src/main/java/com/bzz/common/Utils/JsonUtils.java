@@ -4,6 +4,7 @@ import com.bzz.common.filter.BzzJsonFilter;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,9 +23,10 @@ public class JsonUtils {
 	static {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 		mapper = new ObjectMapper();
+
 		mapper.setDateFormat(dateFormat);
 		// 允许对象忽略json中不存在的属性
-		//mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		// 允许出现特殊字符和转义符
 		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
 		// 允许出现单引号
@@ -70,6 +72,7 @@ public class JsonUtils {
 		Object obj = null;
 		try {
 			obj = mapper.readValue(json, clazz);
+
 		}  catch (IOException e) {
 			e.printStackTrace();
 		}

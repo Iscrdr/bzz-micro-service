@@ -2,8 +2,10 @@ package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFilter;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import javax.validation.constraints.NotBlank;
 
@@ -18,13 +20,10 @@ import java.util.Map;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-@JsonFilter("dynamicExclude")
 public class SysUser extends BaseEntity<SysUser, Long> {
-
-	private static final long serialVersionUID = 5683080187082892863L;
 
 
 	@NotBlank(message = "用户名不能为空!")
@@ -76,10 +75,14 @@ public class SysUser extends BaseEntity<SysUser, Long> {
 	private SysArea city; //市
 	private SysArea area; //区、县
 
+	private QQUser qqUser; //区、县
 
+	@JsonIgnore
 	private List<SysGroup> sysGroupList;//用户组（部门）
 
+	@JsonIgnore
 	private List<SysRole> sysRoleList;//用户（角色）
+
 
 	public String getUserid(){
 		return this.getId()+"";
@@ -110,5 +113,6 @@ public class SysUser extends BaseEntity<SysUser, Long> {
 
 		return geographic;
 	}
+
 
 }

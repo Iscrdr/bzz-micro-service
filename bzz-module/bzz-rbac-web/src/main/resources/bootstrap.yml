@@ -5,8 +5,8 @@ spring:
       enabled: true
       config:
         enabled: true
-      #connect-string: hadoop-03:2181,hadoop-04:2181,hadoop-05:2181
-      connect-string: xiaostarstar:2181
+      connect-string: hadoop-03:2181,hadoop-04:2181,hadoop-05:2181
+      #connect-string: xiaostarstar:2181
       discovery:
         root: bzz
         register: true

@@ -1,11 +1,12 @@
 package com.bzz.common.Utils;
 
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CommonStringUtils extends StringUtils  {
+public class CommonStringUtils extends StringUtils {
 	
 	
 	//转变的依赖字符

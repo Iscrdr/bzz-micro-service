@@ -1,9 +1,9 @@
-package com.bzz.cloud.framework.qqoauth;
+package com.bzz.cloud.framework.social.qq;
 
 /**
  * @Author : yang qianli
  * @email: 624003618@qq.com
- * @Date: 2019-05-22 21-14
+ * @Date: 2019-05-30 03-44
  * @Modified by:
  * @Description:
  */
@@ -34,7 +34,7 @@ public class QQApi {
     /**
      * redirect_uri 腾讯回调地址
      */
-    public final static String redirectUri = "http://www.ictgu.cn/login/qq";
+    public final static String redirectUri = "http://2j499609f3.zicp.vip/api/bzzoauth/login";
 
     /**
      * 获取 OpenID 的 API 地址
@@ -45,5 +45,16 @@ public class QQApi {
      * 获取 token 的地址拼接
      */
     public final static String TOKEN_ACCESS_API = "%s?grant_type=%s&client_id=%s&client_secret=%s&code=%s&redirect_uri=%s";
+
+
+    /**
+     * 获取 QQ 登录信息的 API 地址
+     */
+    public final static String USER_INFO_URL = "https://graph.qq.com/user/get_user_info";
+
+    /**
+     * 获取 QQ 用户信息的地址拼接
+     */
+    public final static String USER_INFO_API = "%s?access_token=%s&oauth_consumer_key=%s&openid=%s";
 
 }

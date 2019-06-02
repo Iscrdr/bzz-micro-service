@@ -5,6 +5,7 @@ package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,10 +29,11 @@ import java.util.Set;
 @Setter
 @ToString
 @NoArgsConstructor
-public class SysApi extends BaseEntity<SysApi,Long> implements Comparable<SysApi> {
+public class SysApi extends BaseEntity<SysApi,Long> implements Comparable<SysApi>  {
 
 	private static final long serialVersionUID = -8909227574776991224L;
 
+	@JsonBackReference
 	private SysApi sysApi; //父id
 	private boolean menu;	//是否是菜单
 	private String name;  // 名称
@@ -45,7 +47,9 @@ public class SysApi extends BaseEntity<SysApi,Long> implements Comparable<SysApi
 
 	@JsonManagedReference
 	private List<SysApi> routes; //子菜单
-	private List<SysAuthority> sysAuthorityList; // 一个角色 对应多个api
+
+	@JsonIgnore
+	private List<SysAuthority> sysAuthorityList; // 一个api对应国歌权限
 
 	public List<String> getAuthority(){
 		List<SysAuthority> sysAuthorities = this.getSysAuthorityList();

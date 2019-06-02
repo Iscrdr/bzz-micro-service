@@ -1,7 +1,6 @@
-package com.bzz.cloud.oauth.entity;
+package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.common.Utils.JsonUtils;
 import lombok.*;
 
@@ -73,6 +72,13 @@ public class QQUser extends BaseEntity<QQUser, Long> {
      * 大小为100×100像素的QQ头像URL。需要注意，不是所有的用户都拥有QQ的100×100的头像，但40×40像素则是一定会有。
      */
     private String figureurl_qq_2;
+
+
+    private String figureurl_qq;
+
+    private String figureurl_type;
+
+
     /**
      * 性别。 如果获取不到则默认返回”男”
      */
@@ -101,21 +107,28 @@ public class QQUser extends BaseEntity<QQUser, Long> {
 
     public static void main(String[] args) {
         String userString = "{\n" +
-                "\"ret\":0,\n" +
-                "\"msg\":\"\",\n" +
-                "\"nickname\":\"Peter\",\n" +
-                "\"figureurl\":\"http://qzapp.qlogo.cn/qzapp/111111/942FEA70050EEAFBD4DCE2C1FC775E56/30\",\n" +
-                "\"figureurl_1\":\"http://qzapp.qlogo.cn/qzapp/111111/942FEA70050EEAFBD4DCE2C1FC775E56/50\",\n" +
-                "\"figureurl_2\":\"http://qzapp.qlogo.cn/qzapp/111111/942FEA70050EEAFBD4DCE2C1FC775E56/100\",\n" +
-                "\"figureurl_qq_1\":\"http://q.qlogo.cn/qqapp/100312990/DE1931D5330620DBD07FB4A5422917B6/40\",\n" +
-                "\"figureurl_qq_2\":\"http://q.qlogo.cn/qqapp/100312990/DE1931D5330620DBD07FB4A5422917B6/100\",\n" +
-                "\"gender\":\"男\",\n" +
-                "\"is_yellow_vip\":\"1\",\n" +
-                "\"vip\":\"1\",\n" +
-                "\"yellow_vip_level\":\"7\",\n" +
-                "\"level\":\"7\",\n" +
-                "\"is_yellow_year_vip\":\"1\"\n" +
-                "} ";
+                "\"ret\": 0,\n" +
+                "\"msg\": \"\",\n" +
+                "\"is_lost\": 0,\n" +
+                "\"nickname\": \"冰舞\",\n" +
+                "\"gender\": \"男\",\n" +
+                "\"province\": \"北京\",\n" +
+                "\"city\": \"海淀\",\n" +
+                "\"year\": \"1988\",\n" +
+                "\"constellation\": \"\",\n" +
+                "\"figureurl\": \"http://qzapp.qlogo.cn/qzapp/100687189/89708EB6F3BC89FA8ED8E62E6C8848B2/30\",\n" +
+                "\"figureurl_1\": \"http://qzapp.qlogo.cn/qzapp/100687189/89708EB6F3BC89FA8ED8E62E6C8848B2/50\",\n" +
+                "\"figureurl_2\": \"http://qzapp.qlogo.cn/qzapp/100687189/89708EB6F3BC89FA8ED8E62E6C8848B2/100\",\n" +
+                "\"figureurl_qq_1\": \"http://thirdqq.qlogo.cn/g?b=oidb&k=ricap3ygI9cFOI6avoQe7Og&s=40\",\n" +
+                "\"figureurl_qq_2\": \"http://thirdqq.qlogo.cn/g?b=oidb&k=ricap3ygI9cFOI6avoQe7Og&s=100\",\n" +
+                "\"figureurl_qq\": \"http://thirdqq.qlogo.cn/g?b=oidb&k=ricap3ygI9cFOI6avoQe7Og&s=140\",\n" +
+                "\"figureurl_type\": \"1\",\n" +
+                "\"is_yellow_vip\": \"0\",\n" +
+                "\"vip\": \"0\",\n" +
+                "\"yellow_vip_level\": \"0\",\n" +
+                "\"level\": \"0\",\n" +
+                "\"is_yellow_year_vip\": \"0\"\n" +
+                "}";
         QQUser user = (QQUser)JsonUtils.json2Object(userString, QQUser.class);
         System.out.println(user);
     }

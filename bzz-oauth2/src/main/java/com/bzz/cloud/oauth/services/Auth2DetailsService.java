@@ -62,15 +62,15 @@ public class Auth2DetailsService implements UserDetailsService, SocialUserDetail
 
         return new Auth2User(loginName, password,
                 enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
-                grantedAuthorities);
+                grantedAuthorities,sysUser);
 
 
 
     }
 
     @Override
-    public SocialUserDetails loadUserByUserId(String loginName) throws UsernameNotFoundException {
-        return buildUser(loginName);
+    public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+        return buildUser(userId);
     }
 
 
@@ -93,8 +93,16 @@ public class Auth2DetailsService implements UserDetailsService, SocialUserDetail
 
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
-        grantedAuthorities.add(grantedAuthority);
+        List<SysRole> sysRoleList = sysUser.getSysRoleList();
+        if(null != sysRoleList && sysRoleList.size()>0){
+            for(SysRole role:sysRoleList){
+                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRoleType());
+                grantedAuthorities.add(grantedAuthority);
+            }
+        }else {
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
+            grantedAuthorities.add(grantedAuthority);
+        }
 
         return new SocialUser(loginName, password,
                 enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,

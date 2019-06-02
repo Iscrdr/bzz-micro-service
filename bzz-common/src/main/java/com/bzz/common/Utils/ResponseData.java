@@ -35,6 +35,7 @@ public class ResponseData {
     public final static String  USERNAME_CREDENTIALS_EXPIRED = "3007"; //密码或者凭证过期
     public final static String  USERNAME_ENABLED = "3008"; //账号禁用
     public final static String  USER_ACCOUNT_NOUNAUTHORIZED = "401"; //账号没有客户端授权
+    public final static String  USER_CLIENT_NOUNAUTHORIZED = "4011"; //账号没有客户端授权
     /**
      * 数据获取成功,失败
      */

@@ -146,7 +146,7 @@ public class SysGroupTest {
         List<SysRole> sysRoleList = new ArrayList<>();
         sysRoleList.add(sysRole1);
         sysRoleList.add(sysRole2);
-        sysGroup1.setSysRoleList(sysRoleList);
+        //sysGroup1.setSysRoleList(sysRoleList);
         sysGroupService.insertGroupRole(sysGroup1);
 
 

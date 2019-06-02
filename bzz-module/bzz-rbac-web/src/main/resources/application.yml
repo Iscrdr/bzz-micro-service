@@ -13,7 +13,7 @@ spring:
 logging:
   level:
     org.springframework.security: TRACE
-    org.springframework.web: TRACE
+  #  org.springframework.web: TRACE
 #    com:
 #      bzz:
 #        cloud:

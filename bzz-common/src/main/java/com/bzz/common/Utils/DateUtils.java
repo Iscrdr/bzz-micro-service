@@ -44,4 +44,15 @@ public class DateUtils {
 		return date1;
 
 	}
+
+	public static String getCurrentTime(Date date,SimpleDateFormat sdf){
+		String format = null;
+		try{
+			format = sdf.format(date);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return format;
+
+	}
 }

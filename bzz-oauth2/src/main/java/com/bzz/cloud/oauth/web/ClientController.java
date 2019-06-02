@@ -1,5 +1,8 @@
 package com.bzz.cloud.oauth.web;
 
+import com.bzz.cloud.annotation.FieldsExclude;
+import com.bzz.cloud.oauth.entity.Auth2User;
+import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.utils.HttpRequestUitls;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +38,11 @@ public class ClientController {
     }
 
     @GetMapping("/getPrincipal")
-    @ResponseBody
-    public Object getClient(HttpServletRequest request, HttpServletResponse response){
+    public String getClient(HttpServletRequest request, HttpServletResponse response){
         String token = HttpRequestUitls.getToken(request);
         OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(token);
-        Object principal = oAuth2Authentication.getPrincipal();
-        System.out.println(principal.toString());
-        return principal!=null ? principal:null;
+        Auth2User auth2User = (Auth2User)oAuth2Authentication.getPrincipal();
+        return auth2User.getUsername();
 
 
     }

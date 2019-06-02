@@ -20,6 +20,7 @@
 		t.credentials_non_expired AS credentialsNonExpired,
 		t.enabled AS enabled,
 		t.client_id AS clientId,
+		t.qq_info_id AS 'qqUser.id',
 		t.create_user_id AS createUserId,
 		t.create_time AS createTime,
 		t.update_user_id AS updateUserId,
@@ -121,6 +122,9 @@
 			</if>
 			<if test="userName != null and userName != ''">
 				AND	t.user_name = #{userName}
+			</if>
+			<if test="qqUser != null and qqUser != '' and qqUser.id != null and qqUser.id != '' ">
+				AND	t.qq_info_id = #{qqUserId}
 			</if>
 	</select>
 

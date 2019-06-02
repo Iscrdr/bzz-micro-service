@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.AbstractMappingJack
  * @Modified by:
  * @Description:
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class DynamicJsonResponseAdvice extends AbstractMappingJacksonResponseBodyAdvice {
 
     private Logger logger = LoggerFactory.getLogger(DynamicJsonResponseAdvice.class);
@@ -44,9 +44,10 @@ public class DynamicJsonResponseAdvice extends AbstractMappingJacksonResponseBod
         FieldsExclude annotation = methodParameter.getMethod().getAnnotation(FieldsExclude.class);
         if(null != annotation && annotation.returnType().equals(aClass)){
             String exclude = annotation.exclude();
-            /*BzzJsonFilter jacksonFilter = new BzzJsonFilter();
-            jacksonFilter.exclude(aClass,exclude);*/
-            mappingJacksonValue.setFilters(configFilters(exclude.split(",")));
+            BzzJsonFilter jacksonFilter = new BzzJsonFilter();
+            jacksonFilter.exclude(aClass,exclude);
+            mappingJacksonValue.setFilters(jacksonFilter);
+            //mappingJacksonValue.setFilters(configFilters(exclude.split(",")));
             logger.info("过滤 {} 中的字段{}: ",aClass.getName(),exclude);
         }
 

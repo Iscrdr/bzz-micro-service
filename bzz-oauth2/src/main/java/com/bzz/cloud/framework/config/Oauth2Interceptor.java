@@ -28,8 +28,11 @@ public class Oauth2Interceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         System.out.println(requestURI);
         if(requestURI.startsWith("/bzzoauth/login")
+                || requestURI.startsWith("/bzzoauth/qq/login")
                 || requestURI.startsWith("/login")
+                || requestURI.startsWith("/qq/login")
                 || requestURI.startsWith("/bzzoauth/error")
+                || requestURI.startsWith("/bzzoauth/social")
 
         ){
             return true;

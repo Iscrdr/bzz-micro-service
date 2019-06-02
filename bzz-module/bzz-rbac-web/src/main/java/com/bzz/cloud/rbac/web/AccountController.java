@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,7 +51,7 @@ public class AccountController {
     }
 
     @GetMapping("/currentUser")
-    @FieldsExclude(returnType = SysUser.class,exclude = "password,newPassword,accountNonExpired,accountNonLocked,credentialsNonExpired,country,province,city,area,sysGroupList,sysRoleList,createUserId,createTime,updateUserId,updateTime,delFlag,version")
+    @ResponseBody
     public SysUser currentUser(HttpServletRequest request,HttpServletResponse response){
 
         SysUser sysUser = null ;
@@ -61,6 +62,8 @@ public class AccountController {
             if(StringUtils.isNotBlank(principal)){
                 sysUser.setUserName(principal);
                 sysUser = sysUserService.getUserByLoginName(sysUser);
+                sysUser.setPassword(null);
+                sysUser.setNewPassword(null);
 
             }
         } catch (Exception e) {
@@ -91,8 +94,8 @@ public class AccountController {
 
 
     @GetMapping("/getMenuData")
-    @FieldsExclude(returnType = SysUser.class,exclude = "accountNonExpired,accountNonLocked,credentialsNonExpired,createUserId,createTime,updateUserId,updateTime,delFlag,version")
-    public SysUser getMenuData(HttpServletRequest request,HttpServletResponse response){
+    @FieldsExclude(returnType = SysUser.class,exclude = "sysAuthorityList,sysApi,createUserId,createTime,updateUserId,updateTime,delFlag,version,todo,remarks")
+    public List<SysApi> getMenuData(HttpServletRequest request,HttpServletResponse response){
 
         SysUser sysUser = null ;
         String principal;
@@ -101,25 +104,50 @@ public class AccountController {
             sysUser = new SysUser();
             if(StringUtils.isNotBlank(principal)){
                 sysUser.setUserName(principal);
-                //sysUser = sysUserService.getUserByLoginName(sysUser);
-               // sysUser = sysUserService.findSysUserRoleApiAuthority(sysUser);
                 List<SysRole> sysRoleList = sysUser.getSysRoleList();
-
                 List<String> authority = new ArrayList<>();
+                List<SysApi> sysApiList = new ArrayList<>();
                 for(SysRole role:sysRoleList){
                     authority.add(role.getRoleType());//角色权限
-                    List<SysApi> sysApiList = role.getSysApiList();
-                    for (SysApi api:sysApiList){
-                        //api.getSysAuthorityList().add(new SysAuthority().setCode(role.getRoleType()));
-                    }
+                    List<SysApi> sysRoleApiList = role.getSysApiList();
+                    sysApiList.addAll(sysRoleApiList);
                 }
-
-
+                SysApi rootApi = new SysApi();
+                rootApi.setId(0L);
+                List<SysApi> sysApis = treeApiList(sysApiList, rootApi);
+                Collections.sort(sysApis);
+                return sysApis;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return sysUser;
+        return null;
+    }
+
+
+    /**
+     * 获取某个父节点下面的所有子节点
+     * @param sysApiList
+     * @param parentApi
+     * @return
+     */
+    private   List<SysApi> treeApiList( List<SysApi> sysApiList, SysApi parentApi){
+        List<SysApi> apiList = new ArrayList<>();
+        for(SysApi api: sysApiList){
+            //遍历出父id等于参数的id，add进子节点集合
+            if(null != api && api.getSysApi()!=null
+                    && api.getSysApi().getId()!=null
+                    && parentApi != null
+                    && parentApi.getId() != null
+                    && api.getSysApi().getId().equals(parentApi.getId())
+            ){
+                List<SysApi> childApi = treeApiList(sysApiList, api);
+                api.setRoutes(childApi);
+                //递归遍历下一级
+                apiList.add(api);
+            }
+        }
+        return apiList;
     }
 
 }

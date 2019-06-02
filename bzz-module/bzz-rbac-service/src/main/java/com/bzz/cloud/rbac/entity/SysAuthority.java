@@ -4,6 +4,8 @@
 package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +32,7 @@ public class SysAuthority extends BaseEntity<SysAuthority,Long>   {
 	private String name ;  // 功能名称，例如：用户管理
 	private String code ;  // 权限名称，大写，例如：ADMIN，USER
 
+	@JsonManagedReference
 	private List<SysApi> sysApiList; // 权限对应的 api
 
 

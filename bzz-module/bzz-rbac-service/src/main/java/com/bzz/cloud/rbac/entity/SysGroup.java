@@ -4,6 +4,9 @@
 package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +29,7 @@ import java.util.List;
 @NoArgsConstructor
 public class SysGroup extends BaseEntity<SysGroup,Long>   {
 
+		@JsonBackReference
 		private SysGroup parentId ;  // 父级编号
 
 		private String name ;  // 名称 
@@ -44,9 +48,8 @@ public class SysGroup extends BaseEntity<SysGroup,Long>   {
 		private String primaryPerson ;  // 主负责人 
 		private String deputyPerson ;  // 副负责人
 
-		private List<SysRole> sysRoleList; //用户组与角色关系：多对多
-
-
+	    @JsonIgnore
+		private List<SysUser> sysUserList; //用户组与角色关系：多对多
 
 
 }
