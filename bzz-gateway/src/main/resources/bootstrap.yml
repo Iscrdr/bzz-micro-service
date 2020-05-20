@@ -1,0 +1,44 @@
+spring:
+  cloud:
+    zookeeper:
+      config:
+        enabled: true
+      #connect-string: hadoop-03:2181,hadoop-04:2181,hadoop-05:2181
+      connect-string: 192.168.132.150:2181
+      discovery:
+        #        instancePort: 8761
+        #        instanceHost: 127.0.0.1
+        root: bzz
+        register: true
+        prefer-ip-address: true
+#      dependencies:
+#        gatewayservice:
+#          loadBalancerType: ROUND_ROBIN
+#          path: /gatewayservice
+#        oauthservice:
+#          loadBalancerType: ROUND_ROBIN
+#          path: /oauthservice
+#        rbacservice:
+#          loadBalancerType: ROUND_ROBIN
+#          path: /rbacservice
+#
+#        ribbon:
+#          enable: true
+#        headers:
+#          enabled: true
+#        resttemplate:
+#          enabled: true
+#      dependencies:
+#        bzzrbac:
+#          loadBalancerType: ROUND_ROBIN
+#          path: /bzz-rbac-server
+#        bzzoauth:
+#          loadBalancerType: ROUND_ROBIN
+#          path: /bzzoauth
+
+
+
+
+
+
+

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bzz.cloud.rbac.dao.SysUserDao">
+
+	<sql id="userColumns">
+		t.id AS id,
+		t.user_name AS userName,
+		t.password AS password,
+		t.work_num AS workNum,
+		t.name AS name,
+		t.email AS email,
+		t.phone AS phone,
+		t.mobile AS mobile,
+		t.user_type AS userType,
+		t.photo AS photo,
+		t.nick_name AS nickName,
+		t.new_password AS newPassword,
+		t.account_non_expired AS accountNonExpired,
+		t.account_non_locked AS accountNonLocked,
+		t.credentials_non_expired AS credentialsNonExpired,
+		t.enabled AS enabled,
+		t.client_id AS clientId,
+		t.qq_info_id AS 'qqUser.id',
+		t.create_user_id AS createUserId,
+		t.create_time AS createTime,
+		t.update_user_id AS updateUserId,
+		t.update_time AS updateTime,
+		t.todo AS todo,
+		t.remarks AS remarks,
+		t.del_flag AS delFlag,
+		t.version AS version,
+
+		a.id AS 'area.id',
+		a.name AS 'area.name',
+		a.city_code AS 'area.cityCode',
+		a.zip_code AS 'area.zipCode',
+		a.lng AS 'area.lng',
+		a.lat AS 'area.lat',
+		a.pinyin AS 'area.pinyin',
+		a.jianpin AS 'area.jianpin',
+
+		b.id AS 'city.id',
+		b.name AS 'city.name',
+		b.city_code AS 'city.cityCode',
+		b.zip_code AS 'city.zipCode',
+		b.lng AS 'city.lng',
+		b.lat AS 'city.lat',
+		b.pinyin AS 'city.pinyin',
+		b.jianpin AS 'city.jianpin',
+
+		c.id AS 'province.id',
+		c.name AS 'province.name',
+		c.city_code AS 'province.cityCode',
+		c.zip_code AS 'province.zipCode',
+		c.lng AS 'province.lng',
+		c.lat AS 'province.lat',
+		c.pinyin AS 'province.pinyin',
+		c.jianpin AS 'province.jianpin',
+
+		d.id AS 'country.id',
+		d.name AS 'country.name',
+		/*c.city_code AS country.cityCode,*/
+		d.zip_code AS 'country.zipCode',
+		d.lng AS 'country.lng',
+		d.lat AS 'country.lat',
+		d.pinyin AS 'country.pinyin',
+		d.jianpin AS 'country.jianpin'
+
+	</sql>
+
+	<sql id="userOracleColumns">
+		tt.id AS id,
+		tt.user_name AS userName,
+		tt.password AS password,
+		tt.work_num AS workNum,
+		tt.name AS name,
+		tt.email AS email,
+		tt.phone AS phone,
+		tt.mobile AS mobile,
+		tt.user_type AS userType,
+		tt.photo AS photo,
+		tt.nick_name AS nickName,
+		tt.new_password AS newPassword,
+		tt.account_non_expired AS accountNonExpired,
+		tt.account_non_locked AS accountNonLocked,
+		tt.credentials_non_expired AS credentialsNonExpired,
+		tt.enabled AS enabled,
+		tt.client_id AS clientId,
+		tt.create_user_id AS createUserId,
+		tt.create_time AS createTime,
+		tt.update_user_id AS updateUserId,
+		tt.update_time AS updateTime,
+		tt.todo AS todo,
+		tt.remarks AS remarks,
+		tt.del_flag AS delFlag,
+		tt.version AS version
+
+	</sql>
+
+
+
+
+
+	<!--根据用户名获得用户 -->
+	<select id="getUserByLoginName" resultType="com.bzz.cloud.rbac.entity.SysUser">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user t
+		LEFT JOIN sys_area a on t.area_id = a.id
+		LEFT JOIN sys_area b on a.parent_id = b.id
+		LEFT JOIN sys_area c on b.parent_id = c.id
+		LEFT JOIN sys_area d on c.parent_id = d.id
+		WHERE t.del_flag = 0
+			<if test='id != null and id != ""'>
+				AND	t.id = #{id}
+			</if>
+			<if test='email != null and email != ""'>
+				AND	t.email = #{email}
+			</if>
+			<if test='mobile != null and mobile != ""'>
+				AND	t.mobile = #{mobile}
+			</if>
+			<if test='userName != null and userName != ""'>
+				AND	t.user_name = #{userName}
+			</if>
+			<if test='qqUser != null and qqUser != "" and qqUser.id != null and qqUser.id !="" '>
+				AND	t.qq_info_id = #{qqUserId}
+			</if>
+	</select>
+
+	<!--根据编号获得用户 -->
+	<select id="get" resultType="com.bzz.cloud.rbac.entity.SysUser">
+		SELECT
+		<include refid="userColumns"/>
+		FROM sys_user t
+		LEFT JOIN sys_area a on t.area_id = a.id
+		LEFT JOIN sys_area b on a.parent_id = b.id
+		LEFT JOIN sys_area c on b.parent_id = c.id
+		LEFT JOIN sys_area d on c.parent_id = d.id
+		WHERE t.del_flag = 0
+		<if test="id != null and id != ''">
+			AND	t.id = #{id}
+		</if>
+		<if test="email != null and email != ''">
+			AND	t.email = #{email}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			AND	t.mobile = #{mobile}
+		</if>
+		<if test="userName != null and userName != ''">
+			AND	t.user_name = #{userName}
+		</if>
+	</select>
+
+
+
+	<select id="selectList" resultType="com.bzz.cloud.rbac.entity.SysUser">
+		SELECT
+			<include refid="userColumns"/>
+		FROM sys_user t
+		WHERE t.del_flag = 0
+			<if test="email != null and email != ''">
+			  	AND	t.email = #{email}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND	t.mobile = #{mobile}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND	t.user_name = #{userName}
+			</if>
+	</select>
+
+
+
+	<!-- 分页查询用户信息 -->
+	<select id="selectPageList" resultType="com.bzz.cloud.rbac.entity.SysUser">
+		<if test="dbType == null and dbType == ''  ">
+			<include refid="pageMysql" />
+		</if>
+		<if test="dbType != null and dbType != '' and dbType == 'mysql'">
+			<include refid="pageMysql" />
+		</if>
+		<if test="dbType != null and dbType != '' and dbType == 'oracle'">
+			<include refid="pageOracle"/>
+		</if>
+	</select>
+
+
+
+	<select id="findCount" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM sys_user t
+		<where>
+			<if test="email != null and email != ''">
+				AND	t.email = #{email}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				OR	t.mobile = #{mobile}
+			</if>
+			<if test="userName != null and userName != ''">
+				OR	t.user_name = #{userName}
+			</if>
+			<!--<if test="userName != null and userName != ''">
+				AND t.user_name LIKE
+				<if test="dbType == 'oracle'">'%'||#{userName}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{userName}, '%')</if>
+			</if>-->
+		</where>
+
+	</select>
+	<select id="findPage" resultType="com.bzz.cloud.rbac.entity.SysUser">
+		SELECT
+		<include refid="userOracleColumns"/>
+		FROM sys_user tt
+		WHERE tt.del_flag = 0
+		  <if test='sysUser != null and sysUser != ""'>
+			  <if test='sysUser.email != null and sysUser.email != ""'>
+				  AND	tt.email = #{sysUser.email}
+			  </if>
+			  <if test='sysUser.mobile != null and sysUser.mobile != ""'>
+				  AND	tt.mobile = #{sysUser.mobile}
+			  </if>
+			  <if test='sysUser.userName != null and sysUser.userName != ""'>
+				  AND	tt.user_name = #{sysUser.userName}
+			  </if>
+		  </if>
+
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO sys_user(
+				id,
+				user_name,
+				password,
+				work_num,
+				name,
+				email,
+				phone,
+				mobile,
+				user_type,
+				photo,
+				nick_name,
+				new_password,
+				client_id,
+				account_non_expired,
+				account_non_locked,
+				credentials_non_expired,
+				enabled,
+				create_user_id,
+				create_time,
+				update_user_id,
+				update_time,
+				todo,
+				del_flag
+				) VALUES (
+								 #{id},
+								 #{userName},
+								 #{password},
+								 #{workNum},
+								 #{name},
+								 #{email},
+								 #{phone},
+								 #{mobile},
+								 #{userType},
+								 #{photo},
+								 #{nickName},
+								 #{newPassword},
+								 #{client_id},
+								 #{accountNonExpired},
+								 #{accountNonLocked},
+								 #{credentialsNonExpired},
+								 #{enabled},
+								 #{createUserId},
+								 #{createTime},
+								 #{updateUserId},
+								 #{updateTime},
+								 #{todo},
+								 #{delFlag}
+								 )
+	</insert>
+
+
+	<insert id="insertUserGroup"   >
+		INSERT INTO sys_user_group(
+			user_id,
+			group_id
+		)
+		<foreach collection="sysGroupList" item="group" separator=" union all ">
+			SELECT #{id}, #{group.id} FROM dual
+		</foreach>
+	</insert>
+
+
+
+	<select id="findSysAuthority" resultType="com.bzz.cloud.rbac.entity.SysAuthority">
+		SELECT
+			au.id AS id,
+		    au.api_id AS "sysApi.id",
+			au.name AS name,
+			au.code AS code,
+			au.create_user_id AS createUserId,
+			au.create_time AS createTime,
+			au.update_user_id AS updateUserId,
+			au.update_time AS updateTime,
+			au.todo AS todo,
+			au.remarks AS remarks,
+			au.del_flag AS delFlag,
+			au.version AS version
+
+		FROM sys_authority au
+				 INNER JOIN sys_api ai on ai.id = au.api_id
+				 INNER JOIN sys_role_api ra on ra.api_id = ai.id
+				 INNER JOIN sys_role r on r.id = ra.role_id
+				 INNER JOIN sys_user_role ur on r.id = ur.role_id
+				 INNER JOIN sys_user u on u.id = ur.user_id
+
+		<where>
+			au.del_flag = 0 AND u.del_flag = 0
+			<if test="email != null and email != ''">
+				AND	u.email = #{email}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND	u.mobile = #{mobile}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND	u.user_name = #{userName}
+			</if>
+		</where>
+	</select>
+
+
+
+
+
+
+		<sql id="pageMysql">
+			SELECT
+			<include refid="userColumns"/>
+			FROM sys_user t
+			<where>
+				t.del_flag = 0
+				<if test="userName != null and userName != ''">
+					AND t.user_name LIKE CONCAT('%', #{userName}, '%')
+				</if>
+
+
+			</where>
+			<choose>
+				<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+					ORDER BY ${page.orderBy}
+				</when>
+				<otherwise>
+					ORDER BY t.update_time DESC LIMIT #{page.pageNum},#{page.pageSize}
+				</otherwise>
+
+			</choose>
+		</sql>
+
+		<sql id="pageOracle">
+			SELECT *
+			from (
+					SELECT <include refid="userColumns"/>,rownum rownu FROM sys_user t
+					<where>
+						t.del_flag = 0
+						<if test="userName != null and userName != ''">
+							AND t.user_name LIKE
+							<if test="dbType == 'oracle'">'%'||#{userName}||'%'</if>
+						</if>
+					</where> AND
+					rownum &lt;= #{page.pageNum} * #{page.pageSize}
+				) tt
+			where tt.rownu > (#{page.pageNum}-1) * #{page.pageSize}
+		</sql>
+</mapper>

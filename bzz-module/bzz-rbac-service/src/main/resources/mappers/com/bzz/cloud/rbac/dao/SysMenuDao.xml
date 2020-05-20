@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bzz.cloud.rbac.dao.SysMenuDao">
+
+    <sql id="sysMenuColumns">
+				t.id AS id,
+				t.parent_id AS 'parentMenu.id',
+				t.is_menu AS menu,
+				t.name AS name,
+				t.path AS path,
+				t.component AS component,
+				t.redirect AS redirect,
+				t.icon AS icon,
+				t.locale AS locale,
+
+				t.hide_in_menu AS hideInMenu,
+				t.hide_children_in_menu AS hideChildrenInMenu,
+
+				t.sort AS sort,
+				t.create_user_id AS createUserId,
+				t.create_time AS createTime,
+				t.update_user_id AS updateUserId,
+				t.update_time AS updateTime,
+				t.todo AS todo,
+				t.remarks AS remarks,
+				t.del_flag AS delFlag,
+				t.version AS version
+    </sql>
+
+    <!--通过id查询-->
+    <select id="get" resultType="com.bzz.cloud.rbac.entity.SysMenu">
+        select
+        	<include refid="sysMenuColumns"/>
+        from sys_menu t
+        <where>
+            t.del_flag = 0 AND t.id = #{id}
+        </where>
+    </select>
+	<!--通过角色查询菜单-->
+	<select id="getSysMenu" resultType="com.bzz.cloud.rbac.entity.SysMenu">
+		select
+		<include refid="sysMenuColumns"/>
+		from sys_menu t
+		left join sys_menu_authority smu on t.id = smu.menu_id
+		left join sys_authority sa on sa.id = smu.authority_id
+		right join sys_role_menu srm on srm.menu_id = t.id
+		right join sys_role sr on sr.id = srm.role_id
+		<where>
+			t.del_flag = 0 AND sr.code in
+			<foreach collection="roles" item="role" index="index" open="(" close=")" separator=",">
+				#{role.code}
+			</foreach>
+		</where>
+	</select>
+    <!--查询-->
+    <select id="findList" resultType="com.bzz.cloud.rbac.entity.SysMenu">
+        select
+        	<include refid="sysMenuColumns"/>
+        from sys_menu t
+        <where>
+            t.del_flag = 0
+        </where>
+    </select>
+
+    <!--插入-->
+    <insert id="insert">
+        INSERT INTO sys_menu(
+							id ,
+							parent_id ,
+							is_menu ,
+							name ,
+							path,
+							component ,
+							redirect ,
+							icon ,
+							sort ,
+							hide_in_menu ,
+							hide_children_in_menu,
+							create_user_id,
+							create_time,
+							update_user_id,
+							update_time,
+							todo,
+							remarks,
+							del_flag,
+							version
+        ) VALUES (
+							 #{id},
+							 #{parentMenu.id},
+							 #{menu},
+							 #{name},
+							 #{path},
+							 #{component},
+							 #{redirect},
+							 #{icon},
+							 #{sort},
+							 #{hideInMenu},
+							 #{hideChildrenInMenu},
+							 #{createUserId},
+							 #{createTime},
+							 #{updateUserId},
+							 #{updateTime},
+							 #{todo},
+							 #{remarks},
+							 #{delFlag},
+							 #{version}
+
+        )
+    </insert>
+
+
+
+    <!-- 更新用户 -->
+    <update id="update">
+        UPDATE
+			sys_menu
+        SET
+					id = #{id},
+					parent_id = #{parentMenu.id},
+					is_menu = #{menu},
+					name = #{name},
+					path = #{path},
+					component = #{component},
+					redirect = #{redirect},
+					icon = #{icon},
+					sort = #{sort},
+					hide_in_menu = #{hideInMenu},
+					hide_children_in_menu = #{hideChildrenInMenu},
+					create_user_id =	#{createUserId},
+					create_time =	#{createTime},
+					update_user_id =	#{updateUserId},
+					update_time =	#{updateTime},
+					todo =	#{todo},
+					remarks =	#{remarks},
+					del_flag =	#{delFlag},
+					version =	#{version}
+
+    </update>
+
+    <!-- 逻辑删除用户 -->
+    <update id="deleteFalse">
+        UPDATE
+			sys_menu
+        SET
+            del_flag = 1
+        WHERE
+            id = #{id}
+	</update>
+
+
+    <!-- 物理删除用户 -->
+    <delete id="delete">
+        DELETE FROM
+			sys_menu
+        WHERE
+            id = #{id}
+	</delete>
+
+
+	<!--用户角色关联关系-->
+	<resultMap id="userRoleMenuAuthority" type="com.bzz.cloud.rbac.entity.SysUser">
+
+		<id property="id" column="id"/>
+		<result property="userName" column="userName"/>
+		<result property="nickName" column="nickName"/>
+		<result property="loginType" column="loginType"/>
+		<result property="workNum" column="workNum"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="phone" column="phone"/>
+		<result property="mobile" column="mobile"/>
+		<result property="userType" column="userType"/>
+		<result property="photo" column="photo"/>
+		<result property="accountNonExpired" column="accountNonExpired"/>
+		<result property="accountNonLocked" column="accountNonLocked"/>
+		<result property="credentialsNonExpired" column="credentialsNonExpired"/>
+		<result property="enabled" column="enabled"/>
+		<result property="clientId" column="clientId"/>
+
+		<!--<result property="createUserId" column="createUserId"/>
+		<result property="createTime" column="createTime"/>
+		<result property="updateUserId" column="updateUserId"/>
+		<result property="updateTime" column="updateTime"/>
+		<result property="todo" column="todo"/>
+		<result property="remarks" column="remarks"/>
+		<result property="delFlag" column="delFlag"/>
+		<result property="version" column="version"/>-->
+
+		<!-- 注意点  集合的属性值  ：必须是实体类中 集合的成员变量名 -->
+		<collection property="sysRoleList" ofType="com.bzz.cloud.rbac.entity.SysRole">
+			<id property="id" column="Rid"/>
+			<result property="name" column="Rname"/>
+			<result property="roleType" column="RroleType"/>
+			<result property="code" column="Rcode"/>
+			<result property="isSys" column="RisSys"/>
+			<result property="enabled" column="Renabled"/>
+
+			<!--<result property="createUserId" column="RcreateUserId"/>
+			<result property="createTime" column="RcreateTime"/>
+			<result property="updateUserId" column="RupdateUserId"/>
+			<result property="updateTime" column="RupdateTime"/>
+			<result property="todo" column="Rtodo"/>
+			<result property="remarks" column="Rremarks"/>
+			<result property="delFlag" column="RdelFlag"/>
+			<result property="version" column="rversion"/>-->
+
+			<collection property="sysMenuList" ofType="com.bzz.cloud.rbac.entity.SysMenu">
+				<id property="id" column="Aid"/>
+				<id property="key" column="Akey"/>
+				<id property="parentMenu.id" column="AparentMenu"/>
+				<result property="menu" column="AisMenu"/>
+				<result property="name" column="Aname"/>
+				<result property="path" column="Apath"/>
+				<result property="sort" column="Asort"/>
+				<result property="icon" column="Aicon"/>
+				<result property="component" column="Acomponent"/>
+				<result property="redirect" column="Aredirect"/>
+				<result property="hideInMenu" column="AhideInMenu"/>
+				<result property="hideChildrenInMenu" column="AhideChildrenInMenu"/>
+				<!--<result property="createUserId" column="AcreateUserId"/>
+				<result property="createTime" column="AcreateTime"/>
+				<result property="updateUserId" column="AupdateUserId"/>
+				<result property="updateTime" column="AupdateTime"/>
+				<result property="todo" column="Atodo"/>
+				<result property="remarks" column="Aremarks"/>
+				<result property="delFlag" column="delFlag"/>
+				<result property="version" column="Aversion"/>-->
+
+				<collection property="authorityList" ofType="com.bzz.cloud.rbac.entity.SysAuthority">
+					<id property="id" column="AUid"/>
+					<result property="name" column="AUname"/>
+					<result property="authority" column="AAuthority"/>
+					<!--<result property="createUserId" column="AUcreateUserId"/>
+					<result property="createTime" column="AUcreateTime"/>
+					<result property="updateUserId" column="AUupdateUserId"/>
+					<result property="updateTime" column="AUupdateTime"/>
+					<result property="todo" column="AUtodo"/>
+					<result property="remarks" column="AUremarks"/>
+					<result property="delFlag" column="AUdelFlag"/>
+					<result property="version" column="AUversion"/>-->
+				</collection>
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="getAllMenu" resultMap="userRoleMenuAuthority">
+		SELECT
+		<!--usercolumn-->
+		u.id AS id,
+		u.user_name AS userName,
+		u.password AS password,
+		u.work_num AS workNum,
+		u.name AS name,
+		u.email AS email,
+		u.phone AS phone,
+		u.mobile AS mobile,
+		u.user_type AS userType,
+		u.photo AS photo,
+		u.nick_name AS nickName,
+		u.new_password AS newPassword,
+		u.account_non_expired AS accountNonExpired,
+		u.account_non_locked AS accountNonLocked,
+		u.credentials_non_expired AS credentialsNonExpired,
+		u.enabled AS enabled,
+		u.client_id AS clientId,
+		<!--u.create_user_id AS createUserId,
+		u.create_time AS createTime,
+		u.update_user_id AS updateUserId,
+		u.update_time AS updateTime,
+		u.todo AS todo,
+		u.remarks AS remarks,
+		u.del_flag AS delFlag,
+		u.version AS version,-->
+		<!--rolecolumn-->
+		r.id AS Rid,
+		r.name AS Rname,
+		r.code AS Rcode,
+		r.role_type AS RroleType,
+		r.is_sys AS RisSys,
+		r.enabled AS Renabled,
+		<!--r.create_user_id AS RcreateUserId,
+		r.create_time AS RcreateTime,
+		r.update_user_id AS RupdateUserId,
+		r.update_time AS RupdateTime,
+		r.todo AS Rtodo,
+		r.remarks AS Rremarks,
+		r.del_flag AS RdelFlag,
+		r.version AS Rversion,-->
+		<!--apicolumn menu-->
+		a.id AS Aid,
+		a.key AS Akey,
+		a.parent_id AS AparentMenu,
+		a.is_menu AS AisMenu,
+		a.name AS Aname,
+		a.path AS Apath,
+		a.sort AS Asort,
+		a.icon AS Aicon,
+		a.component AS Acomponent,
+		a.redirect AS Aredirect,
+		a.hide_in_menu AS AhideInMenu,
+		a.hide_children_in_menu AS AhideChildrenInMenu,
+		<!--a.create_user_id AS AcreateUserId,
+		a.create_time AS AcreateTime,
+		a.update_user_id AS AupdateUserId,
+		a.update_time AS AupdateTime,
+		a.todo AS Atodo,
+		a.remarks AS Aremarks,
+		a.del_flag AS AdelFlag,
+		a.version AS Aversion,-->
+		<!--authoritycolumn-->
+		au.id AS AUid,
+		au.name AS AUname,
+		au.authority AS AAuthority
+		<!--		au.create_user_id AS AUcreateUserId,
+                au.create_time AS AUcreateTime,
+                au.update_user_id AS AUupdateUserId,
+                au.update_time AS AUupdateTime,
+                au.todo AS AUtodo,
+                au.remarks AS AUremarks,
+                au.del_flag AS AUdelFlag,
+                au.version AS AUversion-->
+
+                FROM sys_user u
+                LEFT JOIN sys_user_role ur on ur.user_id = u.id
+                LEFT JOIN sys_role r on r.id = ur.role_id
+                LEFT JOIN sys_role_menu ra on ra.role_id = r.id
+                LEFT JOIN sys_menu a on a.id = ra.menu_id
+                LEFT JOIN sys_menu_authority sau on sau.menu_id = a.id
+                LEFT JOIN sys_authority au on au.id = sau.authority_id
+                <where>
+                    u.del_flag = 0
+                    <if test="email != null and email != ''">
+                        AND	u.email = #{email}
+                    </if>
+                    <if test="mobile != null and mobile != ''">
+                        AND	u.mobile = #{mobile}
+                    </if>
+                    <if test="userName != null and userName != ''">
+                        AND	u.user_name = #{userName}
+                    </if>
+                </where>
+
+
+            </select>
+
+        </mapper>

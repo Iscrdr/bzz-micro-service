@@ -1,0 +1,140 @@
+# spring
+spring:
+  redis:
+    #数据库索引
+    database: 0
+    host: localhost
+    port: 6379
+#    password: root
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+      shutdown-timeout: 100ms
+
+
+  datasource:
+    type: com.alibaba.druid.pool.xa.DruidXADataSource
+    dataSourceA:
+ # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+#      web-stat-filter:
+#        enabled: true
+#        urlPattern:
+#        exclusions:
+#        sessionStatMaxCount:
+#        sessionStatEnable:
+#        principalSessionName:
+#        principalCookieName:
+#        profileEnable:
+      # StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+#      stat-view-servlet:
+#        enabled: true
+#        urlPattern:
+#        resetEnable: false
+#        loginUsername: admin
+#        loginPassword: admin
+#        allow: 127.0.0.1
+#        deny:
+      druid:
+        name: dataSourceA
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.132.150:3306/bzz?serverTimezone=GMT%2B8&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true&autoReconnect=true&failOverReadOnly=false
+        username: root
+        password: root
+        # 下面为连接池的补充设置，应用到上面所有数据源中
+        # 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
+        initialSize: 5
+        # 最小连接池数量
+        minIdle: 5
+        # 最大连接池数量
+        maxActive: 20
+        # 获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁
+        maxWait: 60000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        timeBetweenEvictionRunsMillis: 120000
+        # 空闲30分钟被收回
+        # Destory线程中如果检测到当前连接的最后活跃时间和当前时间的差值大于minEvictableIdleTimeMillis，则关闭当前连接。
+        minEvictableIdleTimeMillis: 30
+        maxEvictableIdleTimeMillis: 179000
+        #用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用。
+        validationQuery: SELECT 1
+        validationQueryTimeout: 10000
+        #keepAlive: true
+        #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+        testWhileIdle: true
+        #true 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+        testOnBorrow: false
+        #true 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+        testOnReturn: false
+        # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+        poolPreparedStatements: false
+        # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+        maxPoolPreparedStatementPerConnectionSize: -1
+        #removeAbandoned: true
+        #removeAbandonedTimeout: 1800
+        #logAbandoned: true
+        filters: stat,wall
+        # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+        # 合并多个DruidDataSource的监控数据
+        useGlobalDataSourceStat: true
+    dataSourceB:
+      druid:
+        name: dataSourceB
+        driverClassName: oracle.jdbc.OracleDriver
+        url: jdbc:oracle:thin:@localhost:1521:orcl
+        #url: jdbc:mysql://localhost:3306/test2?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true
+        username: scott
+        password: root
+        # 下面为连接池的补充设置，应用到上面所有数据源中
+        # 初始化大小，最小，最大
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        # 配置获取连接等待超时的时间
+        maxWait: 60000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        timeBetweenEvictionRunsMillis: 1000
+        # 空闲30分钟被收回
+        # Destory线程中如果检测到当前连接的最后活跃时间和当前时间的差值大于minEvictableIdleTimeMillis，则关闭当前连接。
+        minEvictableIdleTimeMillis: 30
+        # 空闲1小时被收回
+        maxEvictableIdleTimeMillis: 179000
+        validationQuery: SELECT 1 FROM DUAL
+        validationQueryTimeout: 10000
+        #keepAlive: true
+        testWhileIdle: true
+        testOnBorrow: true
+        testOnReturn: false
+        # 打开PSCache，并且指定每个连接上PSCache的大小
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 100
+        #removeAbandoned: true
+        #removeAbandonedTimeout: 1800
+        #logAbandoned: true
+        filters: stat,wall
+        # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+        # 合并多个DruidDataSource的监控数据
+        useGlobalDataSourceStat: true
+
+  jta:
+    transaction-manager-id: transactionManager
+    atomikos:
+      properties:
+        log-base-dir: classpath:tx-logs
+
+  main:
+    allow-bean-definition-overriding: true
+
+
+
+

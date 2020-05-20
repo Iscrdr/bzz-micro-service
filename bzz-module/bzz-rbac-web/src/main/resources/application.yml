@@ -1,0 +1,53 @@
+spring:
+  profiles:
+    active: core
+  application:
+    name: rbacservice
+  jackson:
+    parser:
+      allow-single-quotes: true
+
+  main:
+    allow-bean-definition-overriding: true
+
+  #  org.springframework.web: TRACE
+#    com:
+#      bzz:
+#        cloud:
+#          rbac:
+#            dao: TRACE
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            mvc:
+              method:
+                annotation:
+                  RequestMappingHandlerMapping: trace
+
+
+security:
+  oauth2:
+    client:
+      clientId: unity_client_1
+      clientSecret: admin
+      userAuthorizationUri: http://oauthservice/oauthservice/oauth/authorize
+      grant-type: password
+      scope: read,write
+      access-token-uri: http://oauthservice/oauthservice/oauth/token
+    resource:
+      userInfoUri: http://oauthservice/oauthservice/oauth/user
+    authorization:
+      check-token-access: http://oauthservice/oauthservice/oauth/check_token
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          strategy: SEMAPHORE

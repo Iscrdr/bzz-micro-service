@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bzz.cloud.rbac.dao.SysAreaDao">
+
+    <sql id="sysAreaColumns">
+				t.id AS id,
+				t.name AS name,
+				t.parent_id AS 'sysArea.id',
+				t.short_name AS shortName,
+				t.level_type AS levelType,
+				t.city_code AS cityCode,
+				t.zip_code AS zipCode,
+				t.merger_name AS mergerName,
+				t.lng AS lng,
+				t.lat AS lat,
+				t.pinyin AS pinyin,
+				t.jianpin AS jianpin,
+				t.create_user_id AS createUserId,
+				t.create_time AS createTime,
+				t.update_user_id AS updateUserId,
+				t.update_time AS updateTime,
+				t.todo AS todo,
+				t.remarks AS remarks,
+				t.del_flag AS delFlag,
+				t.version AS version
+    </sql>
+
+	<sql id="sysAreaColumns2">
+		tt.id AS id,
+				tt.name AS name,
+				tt.parent_id AS 'sysArea.id',
+				tt.short_name AS shortName,
+				tt.level_type AS levelType,
+				tt.city_code AS cityCode,
+				tt.zip_code AS zipCode,
+				tt.merger_name AS mergerName,
+				tt.lng AS lng,
+				tt.lat AS lat,
+				tt.pinyin AS pinyin,
+				tt.jianpin AS jianpin,
+				tt.create_user_id AS createUserId,
+				tt.create_time AS createTime,
+				tt.update_user_id AS updateUserId,
+				tt.update_time AS updateTime,
+				tt.todo AS todo,
+				tt.remarks AS remarks,
+				tt.del_flag AS delFlag,
+				tt.version AS version
+	</sql>
+    <!--通过id查询-->
+    <select id="get" resultType="com.bzz.cloud.rbac.entity.SysArea">
+        select
+        	<include refid="sysAreaColumns"/>
+        from sys_area t
+        <where>
+            t.del_flag = 0 AND t.id = #{id}
+        </where>
+    </select>
+
+    <!--查询-->
+    <select id="findList" resultType="com.bzz.cloud.rbac.entity.SysArea">
+        select
+        	<include refid="sysAreaColumns"/>
+        from sys_area t
+        <where>
+            t.del_flag = 0
+        </where>
+    </select>
+
+    <!--插入-->
+    <insert id="insert">
+        INSERT INTO sys_area(
+								id,
+							name,
+							parent_id,
+							short_name,
+							level_type,
+							city_code,
+							zip_code,
+							merger_name,
+							lng,
+							lat,
+							pinyin,
+							jianpin,
+							create_user_id,
+							create_time,
+							update_user_id,
+							update_time,
+							todo,
+							remarks,
+							del_flag,
+							version
+        ) VALUES (
+	                            #{id},
+                            #{name},
+                            #{sysArea.id},
+                            #{shortName},
+                            #{levelType},
+                            #{cityCode},
+                            #{zipCode},
+                            #{mergerName},
+                            #{lng},
+                            #{lat},
+                            #{pinyin},
+                            #{jianpin},
+                            #{createUserId},
+                            #{createTime},
+                            #{updateUserId},
+                            #{updateTime},
+                            #{todo},
+                            #{remarks},
+                            #{delFlag},
+                            #{version}
+
+        )
+    </insert>
+
+    <!-- 更新用户 -->
+    <update id="update">
+        UPDATE
+			sys_area
+        SET
+						id =	#{id},
+					name =	#{name},
+					parent_id =	#{sysArea.id},
+					short_name =	#{shortName},
+					level_type =	#{levelType},
+					city_code =	#{cityCode},
+					zip_code =	#{zipCode},
+					merger_name =	#{mergerName},
+					lng =	#{lng},
+					lat =	#{lat},
+					pinyin =	#{pinyin},
+					jianpin =	#{jianpin},
+					create_user_id =	#{createUserId},
+					create_time =	#{createTime},
+					update_user_id =	#{updateUserId},
+					update_time =	#{updateTime},
+					todo =	#{todo},
+					remarks =	#{remarks},
+					del_flag =	#{delFlag},
+					version =	#{version}
+
+    </update>
+
+    <!-- 逻辑删除用户 -->
+    <update id="deleteFalse">
+        UPDATE
+			sys_area
+        SET
+            del_flag = 1
+        WHERE
+            id = #{id}
+	</update>
+
+
+    <!-- 物理删除用户 -->
+    <delete id="delete">
+        DELETE FROM
+            sys_area
+        WHERE
+            id = #{id}
+	</delete>
+
+	<!-- 获取所有的下级行政区 -->
+	<resultMap id="childSysAreaMap" type="com.bzz.cloud.rbac.entity.SysArea">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="sysArea.id" column="parent_id"/>
+		<result property="shortName" column="short_name"/>
+		<result property="levelType" column="level_type"/>
+		<result property="cityCode" column="city_code"/>
+		<result property="zipCode" column="zip_zode"/>
+		<result property="lng" column="lng"/>
+		<result property="lat" column="lat"/>
+		<result property="pinyin" column="pinyin"/>
+		<result property="jianpin" column="jianpin"/>
+
+		<result property="createUserId" column="createUserId"/>
+		<result property="createTime" column="createTime"/>
+		<result property="updateUserId" column="updateUserId"/>
+		<result property="updateTime" column="updateTime"/>
+		<result property="todo" column="todo"/>
+		<result property="remarks" column="remarks"/>
+		<result property="delFlag" column="delFlag"/>
+		<result property="version" column="version"/>
+		<!-- 注意点  集合的属性值  ：必须是实体类中 集合的成员变量名 -->
+		<collection property="childSysAreaList" fetchType="eager"  select="findAllChildArea" column="id" >
+
+		</collection>
+	</resultMap>
+
+	<select id="findAllChildArea" resultMap="childSysAreaMap" parameterType="com.bzz.cloud.rbac.entity.SysArea">
+		SELECT
+			<include refid="sysAreaColumns"/>
+		FROM sys_area t
+		WHERE t.parent_id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bzz.cloud.rbac.dao.SysRoleDao">
+
+    <sql id="sysRoleColumns">
+						t.id AS id,
+				t.name AS name,
+				t.code AS code,
+				t.role_type AS roleType,
+				t.is_sys AS isSys,
+				t.enabled AS enabled,
+				t.create_user_id AS createUserId,
+				t.create_time AS createTime,
+				t.update_user_id AS updateUserId,
+				t.update_time AS updateTime,
+				t.todo AS todo,
+				t.remarks AS remarks,
+				t.del_flag AS delFlag,
+				t.version AS version
+    </sql>
+
+    <!--通过id查询-->
+    <select id="get" resultType="com.bzz.cloud.rbac.entity.SysRole">
+        select
+        	<include refid="sysRoleColumns"/>
+        from sys_role t
+        <where>
+            t.del_flag = 0 AND t.id = #{id}
+        </where>
+    </select>
+
+
+
+    <!--查询-->
+    <select id="findList" resultType="com.bzz.cloud.rbac.entity.SysRole">
+        select
+        	<include refid="sysRoleColumns"/>
+        from sys_role t
+        <where>
+            t.del_flag = 0
+        </where>
+    </select>
+
+    <!--插入-->
+    <insert id="insert">
+        INSERT INTO sys_role(
+								id,
+							name,
+                             code,
+							role_type,
+							is_sys,
+							enabled,
+							create_user_id,
+							create_time,
+							update_user_id,
+							update_time,
+							todo,
+							remarks,
+							del_flag,
+							version
+        ) VALUES (
+							 #{id},
+							 #{name},
+							 #{code},
+							 #{roleType},
+							 #{isSys},
+							 #{enabled},
+							 #{createUserId},
+							 #{createTime},
+							 #{updateUserId},
+							 #{updateTime},
+							 #{todo},
+							 #{remarks},
+							 #{delFlag},
+							 #{version}
+
+        )
+    </insert>
+
+
+	<!--插入-->
+	<insert id="insertRoleUser">
+		INSERT INTO sys_user_role(
+			role_id,
+			user_id
+		)
+		<foreach collection="sysUserList" item="user" separator=" union all ">
+			SELECT #{id}, #{user.id} FROM dual
+		</foreach>
+	</insert>
+	<!--插入-->
+	<insert id="insertRoleApi">
+		INSERT INTO sys_role_menu(
+		role_id,
+		api_id
+		)
+		<foreach collection="sysApiList" item="api" separator=" union all ">
+			SELECT #{id}, #{api.id} FROM dual
+		</foreach>
+	</insert>
+
+
+
+    <!-- 更新用户 -->
+    <update id="update">
+        UPDATE
+			sys_role
+        SET
+						id =	#{id},
+					name =	#{name},
+						code =	#{code},
+					role_type =	#{roleType},
+					is_sys =	#{isSys},
+					enabled =	#{enabled},
+					create_user_id =	#{createUserId},
+					create_time =	#{createTime},
+					update_user_id =	#{updateUserId},
+					update_time =	#{updateTime},
+					todo =	#{todo},
+					remarks =	#{remarks},
+					del_flag =	#{delFlag},
+					version =	#{version}
+
+    </update>
+
+    <!-- 逻辑删除用户 -->
+    <update id="deleteFalse">
+        UPDATE
+			sys_role
+        SET
+            del_flag = 1
+        WHERE
+            id = #{id}
+	</update>
+
+
+    <!-- 物理删除用户 -->
+    <delete id="delete">
+        DELETE FROM
+            sys_role
+        WHERE
+            id = #{id}
+	</delete>
+
+
+</mapper>

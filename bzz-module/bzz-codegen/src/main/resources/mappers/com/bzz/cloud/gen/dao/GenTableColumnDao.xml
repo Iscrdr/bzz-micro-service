@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bzz.cloud.gen.dao.GenTableColumnDao">
+
+	<sql id="genTableColumns">
+		t.id,
+		t.table_name,
+		t.comments,
+		t.class_name,
+
+		t.create_user_id,
+		t.create_time,
+		t.update_user_id,
+		t.update_time,
+		t.todo,
+		t.remarks,
+		t.version,
+		t.del_flag
+	</sql>
+
+
+
+	<select id="getTableColumn" resultType="com.bzz.cloud.gen.entity.GenTableColumn" >
+
+		SELECT t.COLUMN_NAME AS columnName,
+		t.COLUMN_COMMENT AS comments,
+		(CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull,
+		(t.ORDINAL_POSITION * 10) AS sort,
+		t.COLUMN_TYPE AS jdbcType
+		FROM information_schema.`COLUMNS` t
+		WHERE t.TABLE_SCHEMA = (select database())
+		<if test="tableName != null and tableName != ''">
+			AND t.TABLE_NAME = (#{tableName})
+		</if>
+		ORDER BY t.ORDINAL_POSITION
+	</select>
+
+</mapper>

@@ -1,0 +1,37 @@
+server:
+  servlet:
+    context-path: /rbacservice
+  port: 8770
+# spring
+spring:
+  cloud:
+    zookeeper:
+      config:
+        enabled: true
+      #connect-string: hadoop-03:2181,hadoop-04:2181,hadoop-05:2181
+      connect-string: 192.168.132.150:2181
+      discovery:
+        root: bzz
+        register: true
+        prefer-ip-address: true
+        enable: true
+#      dependencies:
+#        loadBalancerType: ROUND_ROBIN
+#        headers:
+#          enabled: true
+#        resttemplate:
+#          enabled: true
+#      dependencies:
+#        service-zookeeper:
+#
+#          required: true
+#          path: /bzzoauth
+#          loadBalancerType: ROUND_ROBIN
+
+
+ribbon:
+  http:
+    client:
+      enabled: true
+  eager-load:
+    enabled: true
