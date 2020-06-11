@@ -26,7 +26,7 @@
         <commons-lang3.version>3.2</commons-lang3.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
-        <commons-beanutils.version>1.9.1</commons-beanutils.version>
+        <commons-beanutils.version>1.9.2</commons-beanutils.version>
 		<jackson-version>2.9.8</jackson-version>
 
 		<mysql-driver.version>8.0.17</mysql-driver.version>
