@@ -1,12 +1,8 @@
 package com.bzz.cloud.core.dao;
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.IdUtils;
-import com.bzz.common.Utils.RedisUtil;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author Yang qianli

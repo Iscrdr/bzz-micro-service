@@ -1,7 +1,7 @@
 package com.bzz.cloud.framework.social.qq;
 
 import com.bzz.cloud.rbac.entity.QQUser;
-import com.bzz.common.Utils.DateUtils;
+import com.bzz.common.utils.DateUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;

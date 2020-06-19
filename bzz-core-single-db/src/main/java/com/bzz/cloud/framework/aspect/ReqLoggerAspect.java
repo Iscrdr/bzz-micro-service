@@ -1,7 +1,7 @@
 package com.bzz.cloud.framework.aspect;
 
-import com.bzz.common.Utils.DateUtils;
-import com.bzz.common.Utils.JsonUtils;
+import com.bzz.common.utils.DateUtils;
+import com.bzz.common.utils.JsonUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

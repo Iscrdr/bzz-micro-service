@@ -6,7 +6,7 @@ import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.Oauth2FeignClientService;
 import com.bzz.cloud.rbac.service.SysUserService;
-import com.bzz.common.Utils.ResponseResult;
+import com.bzz.common.utils.ResponseResult;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

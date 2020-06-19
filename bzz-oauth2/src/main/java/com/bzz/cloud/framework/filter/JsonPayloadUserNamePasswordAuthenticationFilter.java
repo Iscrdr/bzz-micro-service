@@ -1,19 +1,15 @@
 package com.bzz.cloud.framework.filter;
 
-import com.bzz.cloud.oauth.entity.Auth2User;
 import com.bzz.cloud.rbac.entity.SysUser;
-import com.bzz.common.Utils.ResponseData;
+import com.bzz.common.utils.ResponseData;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
-import lombok.SneakyThrows;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletRequest;

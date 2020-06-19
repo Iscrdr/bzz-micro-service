@@ -1,16 +1,13 @@
 package com.bzz.cloud.gen.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.BzzStringUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor

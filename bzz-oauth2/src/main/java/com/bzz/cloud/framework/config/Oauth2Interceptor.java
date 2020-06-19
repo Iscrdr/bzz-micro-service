@@ -1,12 +1,11 @@
 package com.bzz.cloud.framework.config;
 
 import com.bzz.cloud.rbac.utils.HttpRequestUitls;
-import com.bzz.common.Utils.JsonUtils;
-import com.bzz.common.Utils.ResponseResult;
+import com.bzz.common.utils.JsonUtils;
+import com.bzz.common.utils.ResponseResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -6,6 +6,13 @@ spring:
   jackson:
     parser:
       allow-single-quotes: true
+  redis:
+    database: 0
+    port: 6379
+    host: 192.168.132.150
+    password:
+    timeout: 5000ms
+
 
   main:
     allow-bean-definition-overriding: true
@@ -51,3 +58,4 @@ hystrix:
           enabled: false
         isolation:
           strategy: SEMAPHORE
+

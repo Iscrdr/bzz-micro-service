@@ -2,7 +2,7 @@ package com.bzz.cloud;
 
 import com.bzz.cloud.rbac.entity.SysArea;
 import com.bzz.cloud.rbac.service.SysAreaService;
-import com.bzz.common.Utils.JsonUtils;
+import com.bzz.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

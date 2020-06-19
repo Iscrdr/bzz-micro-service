@@ -2,7 +2,8 @@ package com.bzz.cloud.core.dao;
 
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.Page;
+import com.bzz.common.utils.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
 import java.util.List;
@@ -96,5 +97,5 @@ public interface  BaseDao<T extends BaseEntity,PK extends Serializable>  {
      * @param list
      * @return
      */
-    Integer deleteBacth(List<T> list);
+    Integer deleteBacth(@Param("list") List<Long>  list);
 }

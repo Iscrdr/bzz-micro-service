@@ -7,7 +7,7 @@ import java.util.Properties;
 
 
 import com.bzz.cloud.framework.dynamicdatasource.DataSourceContextHolder;
-import com.bzz.common.Utils.Page;
+import com.bzz.common.utils.Page;
 import com.bzz.common.database.DynamicDialect;
 import com.bzz.common.database.dialect.MySQLDialect;
 import com.bzz.common.database.dialect.OracleDialect;
@@ -19,8 +19,6 @@ import org.apache.ibatis.executor.resultset.DefaultResultSetHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
@@ -39,7 +37,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.stereotype.Component;
 
 
@@ -114,7 +111,7 @@ public class PageInterceptor implements Interceptor {
                     //将originalSql放入本地线程中，以便在结果中计算count，封装为对象
                     dataSourceAndDialect.put("originalSql",originalSql);
 
-                    pageSql = dynamicDialect.getPageSql(originalSql, page.getCurrent(), page.getPageSize());
+                    pageSql = dynamicDialect.getPageSql(originalSql, page.getCurrent()-1, page.getPageSize());
                     metaStatementHandler.setValue("delegate.boundSql.sql", pageSql);
                     if (logger.isDebugEnabled()) {
                         BoundSql boundSql = statementHandler.getBoundSql();
@@ -170,12 +167,14 @@ public class PageInterceptor implements Interceptor {
                     String countSqlString = dynamicDialect.getCountSqlString(originalSql1.toString());
                     // 修改sql，用于返回总记录数
                     Long totalRecord = getTotalRecord(configuration, countSqlString, parameterHandler);
-                    page.setTotalCount(totalRecord.intValue());
+                    page.setTotal(totalRecord.intValue());
 
-                    metaResultSetHandler.setValue("mappedStatement.resultMaps[0].type.name", Page.class.getName());
+                    //metaResultSetHandler.setValue("mappedStatement.resultMaps[0].type.name", Page.class.getName());
                     Object result = invocation.proceed();
-
-                    page.setList((List) result);
+                    List list = new ArrayList();
+                    list.addAll((List)result);
+                    page.setData(list);
+                    page.setSuccess(true);
                     page.init();
 
                     // 设置返回值

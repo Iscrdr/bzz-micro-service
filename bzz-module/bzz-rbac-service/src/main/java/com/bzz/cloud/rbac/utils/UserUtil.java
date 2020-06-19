@@ -4,12 +4,9 @@ import com.bzz.cloud.rbac.entity.SysAuthority;
 import com.bzz.cloud.rbac.entity.SysMenu;
 import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
-import com.bzz.common.Utils.JsonUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author : yang qianli

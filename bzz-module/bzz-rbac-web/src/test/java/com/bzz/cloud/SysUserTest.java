@@ -1,26 +1,18 @@
 package com.bzz.cloud;
 
 import com.bzz.cloud.rbac.entity.*;
-import com.bzz.cloud.rbac.service.SysMenuService;
 import com.bzz.cloud.rbac.service.SysGroupService;
 import com.bzz.cloud.rbac.service.SysUserService;
-import com.bzz.common.Utils.JsonUtils;
-import com.bzz.common.Utils.Page;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonGenerator;
+import com.bzz.common.utils.JsonUtils;
+import com.bzz.common.utils.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
 import java.util.*;
 
 /**

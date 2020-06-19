@@ -1,6 +1,6 @@
 package com.bzz.common;
 
-import com.bzz.common.Utils.PropertiesLoader;
+import com.bzz.common.utils.PropertiesLoader;
 import jdk.nashorn.internal.objects.Global;
 import org.apache.commons.lang3.StringUtils;
 

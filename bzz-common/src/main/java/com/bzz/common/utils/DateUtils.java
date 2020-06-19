@@ -1,4 +1,4 @@
-package com.bzz.common.Utils;
+package com.bzz.common.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

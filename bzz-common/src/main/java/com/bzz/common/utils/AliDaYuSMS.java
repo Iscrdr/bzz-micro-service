@@ -1,4 +1,4 @@
-package com.bzz.common.Utils;
+package com.bzz.common.utils;
 
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;

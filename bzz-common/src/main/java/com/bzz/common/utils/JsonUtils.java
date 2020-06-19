@@ -1,4 +1,4 @@
-package com.bzz.common.Utils;
+package com.bzz.common.utils;
 
 import com.bzz.common.filter.BzzJsonFilter;
 

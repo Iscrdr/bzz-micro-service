@@ -20,6 +20,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
@@ -45,8 +46,9 @@ import java.util.Arrays;
 @EnableFeignClients
 @EnableHystrix
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages={"com.bzz.cloud"})
+@SpringBootApplication(scanBasePackages={"com.bzz"})
 @Slf4j
+@EnableAspectJAutoProxy(proxyTargetClass=true,exposeProxy=true)
 public class BzzRbacApp {
     public static void main(String[] args) {
         SpringApplication.run(BzzRbacApp.class,args);

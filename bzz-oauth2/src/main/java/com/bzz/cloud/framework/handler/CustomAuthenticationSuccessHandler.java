@@ -1,16 +1,12 @@
 package com.bzz.cloud.framework.handler;
 
 import com.bzz.cloud.oauth.entity.Auth2User;
-import com.bzz.cloud.rbac.entity.SysAuthority;
 import com.bzz.cloud.rbac.entity.SysMenu;
 import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
-import com.bzz.cloud.rbac.service.SysMenuService;
-import com.bzz.cloud.rbac.service.SysRoleService;
-import com.bzz.common.Utils.DateUtils;
-import com.bzz.common.Utils.JsonUtils;
-import com.bzz.common.Utils.ResponseData;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.bzz.common.utils.DateUtils;
+import com.bzz.common.utils.JsonUtils;
+import com.bzz.common.utils.ResponseData;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,12 +21,9 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 

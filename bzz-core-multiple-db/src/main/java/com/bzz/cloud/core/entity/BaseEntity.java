@@ -3,6 +3,7 @@ package com.bzz.cloud.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
@@ -28,56 +29,59 @@ public abstract class BaseEntity<T,PK> implements Serializable {
 	/**
 	 * 创建时间
 	 */
-	@JsonIgnore
+
 	protected Long createUserId;
 	/**
 	 * 创建时间
 	 */
-	@JsonIgnore
+
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date createTime;
 	/**
 	 * 修改人id
 	 */
-	@JsonIgnore
+
 	protected Long updateUserId;
 	/**
 	 * 修改时间
 	 */
-	@JsonIgnore
+
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date updateTime;
 	/**
 	 * 描述,备忘录
 	 */
-	@JsonIgnore
+
 	protected String remarks;
 	/**
 	 * 描述,备忘录
 	 */
-	@JsonIgnore
+
 	protected String todo;
 	/**
 	 * 假删除，1正常，0删除、作废
 	 */
-	@JsonIgnore
+
 	protected int delFlag;
 	/**
 	 * 版本号，默认从1开始
 	 */
-	@JsonIgnore
+
 	protected int version;
 
 	/**
 	 * 开始时间 （时间查询辅助字段）
 	 */
-	@JsonIgnore
-	protected Date beginTime;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	protected Date beginTime;
 	/**
 	 * 结束时间（时间查询辅助字段）
 	 */
-	@JsonIgnore
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	protected Date endTime;
 
 
@@ -86,12 +90,12 @@ public abstract class BaseEntity<T,PK> implements Serializable {
 
 	}
 
-	@JsonIgnore
+
 	@XmlTransient
 	public PK getId() {
 		return id;
 	}
-	@JsonIgnore
+
 	@XmlTransient
 	public void setId(PK id) {
 		this.id = id;

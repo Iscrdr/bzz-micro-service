@@ -4,7 +4,7 @@ package com.bzz.cloud.core.service;
 
 import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.Page;
+import com.bzz.common.utils.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,12 +145,12 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 
 	/**
 	 * 批量删除数据（一般为逻辑删除，更新del_flag字段为1）
-	 * @param list
+	 * @param ids
 	 * @return
 	 */
 	@Transactional(readOnly = false)
-	public  int deleteBacth(List<T> list){
-		return  baseDao.deleteBacth(list);
+	public  int deleteBacth(List<Long> ids){
+		return  baseDao.deleteBacth(ids);
 	}
 
 

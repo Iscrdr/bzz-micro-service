@@ -7,21 +7,14 @@ package com.bzz.cloud.util;
 import com.bzz.cloud.gen.entity.GenScheme;
 import com.bzz.cloud.gen.entity.GenTable;
 import com.bzz.cloud.gen.entity.GenTableColumn;
-import com.bzz.common.Utils.BzzStringUtils;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.bzz.common.utils.BzzStringUtils;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-
 
 
 /**

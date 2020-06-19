@@ -45,7 +45,7 @@
 
 	<!-- 类型别名 -->
 	<typeAliases>
-		<typeAlias alias="Page" type="com.bzz.common.Utils.Page" /><!--分页  -->
+		<typeAlias alias="Page" type="com.bzz.common.utils.Page" /><!--分页  -->
 	</typeAliases>
 
 	<!-- 插件配置 -->

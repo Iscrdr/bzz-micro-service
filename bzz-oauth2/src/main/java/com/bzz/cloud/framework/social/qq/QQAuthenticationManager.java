@@ -1,8 +1,7 @@
 package com.bzz.cloud.framework.social.qq;
 
 import com.bzz.cloud.rbac.entity.QQUser;
-import com.bzz.common.Utils.JsonUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.bzz.common.utils.JsonUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.security.authentication.AuthenticationManager;

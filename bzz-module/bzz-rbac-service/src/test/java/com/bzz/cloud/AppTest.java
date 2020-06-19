@@ -1,29 +1,19 @@
 package com.bzz.cloud;
 
 import com.bzz.cloud.rbac.entity.SysMenu;
-import com.bzz.cloud.rbac.entity.SysAuthority;
-import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
-import com.bzz.common.Utils.JsonUtils;
-import com.bzz.common.filter.BzzJsonFilter;
+import com.bzz.common.utils.JsonUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.google.gson.Gson;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
@@ -89,4 +79,25 @@ public class AppTest {
 
 
     }
+
+
+    @Test
+    public void testJson2Object() throws JsonProcessingException {
+        String json = "{\"id\":1124988228517109800,\"createUserId\":1,\"createTime\":\"2020-05-27 00:00:00\",\"updateUserId\":1,\"updateTime\":\"2018-02-24 13:53:56\",\"todo\":\"test\",\"delFlag\":0,\"version\":1,\"userName\":\"admin\",\"nickName\":\"管理员\",\"birthDay\":\"1994-01-31\",\"password\":\"$2a$10$Ar9QTSGnaF9uwJUxgDOkB.TMEXAZ077nm7QXrLnrwpGAePjKzVTLC\",\"workNum\":\"10001\",\"name\":\"admin\",\"email\":\"624003611@qq.com\",\"mobile\":\"18618261317\",\"userType\":1,\"photo\":\"https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png\",\"avatar\":\"https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png\",\"accountNonExpired\":true,\"accountNonLocked\":true,\"credentialsNonExpired\":true,\"enabled\":true,\"clientId\":\"unity_client_1\"}";
+        SysUser sysUser = new SysUser();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        //设置为true时，属性名称不带双引号
+        mapper.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, true);
+        //反序列化是是否允许属性名称不带双引号
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        SysUser sysUser1 = mapper.readValue(json, SysUser.class);
+        System.out.println(sysUser1.toString());
+
+
+    }
+
 }

@@ -1,9 +1,6 @@
-package com.bzz.common.Utils;
+package com.bzz.common.utils;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * @DESC: 验证码工具类

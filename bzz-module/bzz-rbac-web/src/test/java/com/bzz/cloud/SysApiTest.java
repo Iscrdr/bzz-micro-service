@@ -5,7 +5,7 @@ import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.SysMenuService;
 import com.bzz.cloud.rbac.service.SysAuthorityService;
-import com.bzz.common.Utils.JsonUtils;
+import com.bzz.common.utils.JsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

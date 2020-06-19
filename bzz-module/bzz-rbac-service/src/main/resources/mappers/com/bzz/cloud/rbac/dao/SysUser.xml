@@ -7,6 +7,7 @@
 		t.user_name AS userName,
 		t.password AS password,
 		t.work_num AS workNum,
+        t.birth_day AS birthDay,
 		t.name AS name,
 		t.email AS email,
 		t.phone AS phone,
@@ -72,6 +73,7 @@
 		tt.id AS id,
 		tt.user_name AS userName,
 		tt.password AS password,
+		tt.birth_day AS birthDay,
 		tt.work_num AS workNum,
 		tt.name AS name,
 		tt.email AS email,
@@ -96,9 +98,6 @@
 		tt.version AS version
 
 	</sql>
-
-
-
 
 
 	<!--根据用户名获得用户 -->
@@ -214,25 +213,61 @@
 		<include refid="userOracleColumns"/>
 		FROM sys_user tt
 		WHERE tt.del_flag = 0
-		  <if test='sysUser != null and sysUser != ""'>
-			  <if test='sysUser.email != null and sysUser.email != ""'>
-				  AND	tt.email = #{sysUser.email}
-			  </if>
-			  <if test='sysUser.mobile != null and sysUser.mobile != ""'>
-				  AND	tt.mobile = #{sysUser.mobile}
-			  </if>
-			  <if test='sysUser.userName != null and sysUser.userName != ""'>
-				  AND	tt.user_name = #{sysUser.userName}
-			  </if>
-		  </if>
+		<if test='sysUser != null  and sysUser.userName != null and sysUser.userName != ""'>
+			AND tt.user_name = #{sysUser.userName}
+		</if>
+		<if test='sysUser != null  and sysUser.email != null and sysUser.email != ""'>
+			AND tt.email = #{sysUser.email}
+		</if>
+		<if test='sysUser != null and sysUser.mobile != null and sysUser.mobile != ""'>
+			AND tt.mobile = #{sysUser.mobile}
+		</if>
+
+		<if test='sysUser != null and sysUser.nickName != null and sysUser.nickName != ""'>
+			AND tt.nick_name = #{sysUser.nickName}
+		</if>
+		<if test='sysUser != null and sysUser.workNum != null and sysUser.workNum != ""'>
+			AND tt.work_num = #{sysUser.workNum}
+		</if>
+		<if test='sysUser != null and sysUser.beginTime != null  and sysUser.endTime != null '>
+		    AND	tt.create_time  BETWEEN  #{sysUser.beginTime} AND #{sysUser.endTime}
+		</if>
+
 
 	</select>
 
+	<update id="update" >
+		UPDATE sys_user
+		SET
+			user_name = #{userName},
+
+			birth_day = #{birthDay},
+			work_num = #{workNum},
+			email = #{email},
+			phone = #{phone},
+			mobile = #{mobile},
+			user_type = #{userType},
+			photo = #{photo},
+			nick_name = #{nickName},
+
+			client_id = #{clientId},
+			account_non_expired = #{accountNonExpired},
+			account_non_locked = #{accountNonLocked},
+			credentials_non_expired = #{credentialsNonExpired},
+			update_time = #{updateTime},
+			enabled = #{enabled},
+			todo = #{todo},
+		    remarks = #{remarks},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+
+	</update>
 	<insert id="insert"  useGeneratedKeys="true" keyProperty="id" >
 		INSERT INTO sys_user(
 				id,
 				user_name,
 				password,
+				birth_day,
 				work_num,
 				name,
 				email,
@@ -257,6 +292,7 @@
 								 #{id},
 								 #{userName},
 								 #{password},
+								 #{birthDay},
 								 #{workNum},
 								 #{name},
 								 #{email},
@@ -266,7 +302,7 @@
 								 #{photo},
 								 #{nickName},
 								 #{newPassword},
-								 #{client_id},
+								 #{clientId},
 								 #{accountNonExpired},
 								 #{accountNonLocked},
 								 #{credentialsNonExpired},
@@ -279,6 +315,21 @@
 								 #{delFlag}
 								 )
 	</insert>
+	<!--批量逻辑删除-->
+	<delete id="deleteBacth">
+		UPDATE sys_user
+		SET
+			del_flag = 1
+		WHERE
+		id in (
+
+		<foreach collection="list" open="(" close=")" separator=" , " item="value">
+			#{value}
+		</foreach>
+		)
+
+
+	</delete>
 
 
 	<insert id="insertUserGroup"   >

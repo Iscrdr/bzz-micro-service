@@ -1,8 +1,7 @@
 package com.bzz.cloud.config;
 
 import com.bzz.cloud.annotation.FieldsExclude;
-import com.bzz.common.Utils.JsonUtils;
-import com.bzz.common.Utils.ResponseData;
+import com.bzz.common.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -18,7 +17,7 @@ import java.io.PrintWriter;
 @Component
 public class JsonReturnHandler implements HandlerMethodReturnValueHandler {
 
-    private Logger logger = LoggerFactory.getLogger(JsonResponseAdvice.class);
+    private Logger logger = LoggerFactory.getLogger(JsonReturnHandler.class);
 
     @Override
     public boolean supportsReturnType(MethodParameter methodParameter) {

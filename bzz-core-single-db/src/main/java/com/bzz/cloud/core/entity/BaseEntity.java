@@ -1,7 +1,7 @@
 package com.bzz.cloud.core.entity;
 
 
-import com.bzz.common.Utils.Page;
+import com.bzz.common.utils.Page;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

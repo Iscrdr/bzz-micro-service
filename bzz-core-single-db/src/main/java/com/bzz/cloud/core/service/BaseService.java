@@ -4,7 +4,7 @@ package com.bzz.cloud.core.service;
 
 import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.Page;
+import com.bzz.common.utils.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

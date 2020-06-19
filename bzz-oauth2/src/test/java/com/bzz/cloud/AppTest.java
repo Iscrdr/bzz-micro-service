@@ -3,34 +3,40 @@ package com.bzz.cloud;
 import static org.junit.Assert.assertTrue;
 
 import com.bzz.cloud.rbac.entity.SysUser;
-import com.bzz.common.Utils.JsonUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.bzz.common.utils.JsonUtils;
+import com.bzz.common.utils.RSAUtils;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Unit test for simple App.
- */
+
 public class AppTest {
-    /**
-     * Rigorous Test :-)
-     */
+
+    private final static String RSAKEY="qianli8811";
+
     @Test
-    public void shouldAnswerWithTrue() {
-        assertTrue( true );
+    public void rsaEncode() throws Exception {
+        PublicKey publicKey = RSAUtils.getPublicKey(RSAKEY);
+        String format = publicKey.getFormat();
+        byte[] encrypt = RSAUtils.encrypt("admin".getBytes(), format);
     }
+
+    @Test
+    public void rsaDecode() {
+
+    }
+
+
     @Test
     public void testPassword() {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         // 加密
         String password = passwordEncoder.encode("unity_1".trim());
         System.out.println(password);
-
-
     }
 
     @Test
@@ -50,11 +56,7 @@ public class AppTest {
        /* ObjectMapper objectMapper = new ObjectMapper();
         SysUser sysUser1 = objectMapper.readValue(json, sysUser.getClass());*/
 
-
-
         System.out.println(JsonUtils.json2Object(json, sysUser.getClass()));
-
-
 
     }
 }

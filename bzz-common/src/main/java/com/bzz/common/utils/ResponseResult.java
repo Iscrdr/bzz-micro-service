@@ -1,8 +1,7 @@
-package com.bzz.common.Utils;
+package com.bzz.common.utils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @Desc: HTTP响应结果
@@ -13,11 +12,19 @@ import java.util.Objects;
  * @Description:
  */
 public class ResponseResult {
-    private boolean success; //是否成功
+    /**
+     * 是否成功,
+     */
+    private boolean success;
 
-    private Object data;    //响应数据
-
-    private Map<String,String> msgMap = new HashMap<String,String>();//key为代码，value为错误信息
+    /**
+     * 响应数据
+     */
+    private Object data;
+    /**
+     * key为代码，value为错误信息
+     */
+    private Map<String,String> msgMap = new HashMap<String,String>();
 
 
     public boolean isSuccess() {

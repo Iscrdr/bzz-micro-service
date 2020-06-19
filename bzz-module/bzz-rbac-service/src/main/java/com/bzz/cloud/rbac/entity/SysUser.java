@@ -2,14 +2,18 @@ package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotBlank;
 
 import javax.validation.constraints.Email;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,15 +47,25 @@ public class SysUser extends BaseEntity<SysUser, Long> {
 	 */
 	private String nickName;
 
+
+
+
+	/**
+	 * 生日
+	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date birthDay;
+
 	/**
 	 * 登录类型
 	 */
 	private String loginType;
 
 	/**
-	 * 秘密
+	 * 密码
 	 */
-	@Size(min = 6, max = 12, message = "密码长度必须在{min}和{max}之间")
+	@Size(min = 6, max = 16, message = "密码长度必须在{min}和{max}之间")
 	private String password;
 
 	/**
@@ -71,6 +85,7 @@ public class SysUser extends BaseEntity<SysUser, Long> {
 	/**
 	 * 邮箱
 	 */
+	@NotBlank
 	@Email(message = "邮箱格式不正确")
 	private String email;
 

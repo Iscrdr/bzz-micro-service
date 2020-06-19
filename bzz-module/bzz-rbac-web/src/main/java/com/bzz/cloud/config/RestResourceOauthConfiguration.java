@@ -8,12 +8,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
@@ -34,12 +37,22 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
     @Autowired
     private AuthorizationServerProperties authorizationServerProperties;
 
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
     @Bean
     public AuthorizationServerProperties authorizationServerProperties(){
         return new AuthorizationServerProperties();
     }
 
-
+    /**
+     * TokenStore:使用数据库或Redis存储token，
+     */
+    @Bean
+    public TokenStore tokenStore() {
+        //return new JdbcTokenStore(dataSource);
+        return new RedisTokenStore(redisConnectionFactory);
+    }
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
@@ -77,9 +90,6 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
             config.tokenServices(remoteTokenServices);
         }
 
-
-
-
     }
     /**
      * 创建一个默认的资源服务token
@@ -93,8 +103,6 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
         remoteTokenServices.setCheckTokenEndpointUrl(authorizationServerProperties.getCheckTokenAccess());
         remoteTokenServices.setClientId(oAuth2ClientProperties.getClientId());
         remoteTokenServices.setClientSecret(oAuth2ClientProperties.getClientSecret());
-
-
 
         return remoteTokenServices;
 

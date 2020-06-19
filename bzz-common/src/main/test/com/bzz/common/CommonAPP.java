@@ -1,6 +1,6 @@
 package com.bzz.common;
 
-import com.bzz.common.Utils.PinYin4jUtils;
+import com.bzz.common.utils.PinYin4jUtils;
 
 
 import java.sql.*;

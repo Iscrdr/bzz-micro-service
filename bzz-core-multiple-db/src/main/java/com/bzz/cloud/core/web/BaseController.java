@@ -12,10 +12,9 @@ import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.core.service.BaseService;
 import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.core.utils.RequestPage;
-import com.bzz.common.Utils.MsgData;
-import com.bzz.common.Utils.Page;
-import com.bzz.common.Utils.ResponseData;
-import com.bzz.common.Utils.ResponseResult;
+import com.bzz.common.utils.Page;
+import com.bzz.common.utils.ResponseData;
+import com.bzz.common.utils.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +40,8 @@ public abstract class BaseController<B extends BaseService,D extends BaseDao, T 
     @Autowired
     protected BzzBaseService<D,T> bzzBaseService;
 
-    public Page list(HttpServletRequest request, HttpServletResponse response,@RequestBody RequestPage<T> requestPage){
-        Page page = requestPage.getPage();
-        BaseEntity baseEntity = requestPage.getBaseEntity();
-        page = bzzBaseService.findPage(page, baseEntity);
+    public Page<T> list(HttpServletRequest request, HttpServletResponse response,@RequestBody RequestPage<T> requestPage){
+        Page<T> page = bzzBaseService.findPage(requestPage.getPage(), requestPage.getBaseEntity());
         return page;
     }
 

@@ -1,7 +1,7 @@
 package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.JsonUtils;
+import com.bzz.common.utils.JsonUtils;
 import lombok.*;
 
 /**

@@ -3,7 +3,7 @@
  * 
  * $Id: PropertiesLoader.java 1690 2012-02-22 13:42:00Z calvinxiu $
  */
-package com.bzz.common.Utils;
+package com.bzz.common.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

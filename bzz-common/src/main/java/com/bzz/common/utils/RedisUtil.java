@@ -1,8 +1,11 @@
-package com.bzz.common.Utils;
+package com.bzz.common.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,13 +18,18 @@ import java.util.concurrent.TimeUnit;
  * @Modified by:
  * @Description:
  */
+
+@Component
 public class RedisUtil {
 
+    @Autowired
     private  RedisTemplate<String, Object> redisTemplate;
-
-    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+    @PostConstruct
+    public void init() {
         this.redisTemplate = redisTemplate;
     }
+
+
     //=============================common============================
     /**
      * 指定缓存失效时间

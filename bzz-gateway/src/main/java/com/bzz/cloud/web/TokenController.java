@@ -1,9 +1,9 @@
 package com.bzz.cloud.web;
 
 import com.bzz.cloud.services.OauthTokenService;
-import com.bzz.common.Utils.JsonUtils;
-import com.bzz.common.Utils.MsgData;
-import com.bzz.common.Utils.ResponseData;
+import com.bzz.common.utils.JsonUtils;
+import com.bzz.common.utils.MsgData;
+import com.bzz.common.utils.ResponseData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

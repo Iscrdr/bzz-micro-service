@@ -2,8 +2,8 @@ package com.bzz.cloud.core.service;
 
 import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.IdUtils;
-import com.bzz.common.Utils.RedisUtil;
+import com.bzz.common.utils.IdUtils;
+import com.bzz.common.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

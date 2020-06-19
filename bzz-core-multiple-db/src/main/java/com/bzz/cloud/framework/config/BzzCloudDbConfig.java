@@ -48,7 +48,8 @@ public class BzzCloudDbConfig{
         prop.put("druid.minIdle", env.getProperty(prefix + "minIdle", Integer.class));
         prop.put("druid.maxWait", env.getProperty(prefix + "maxWait", Integer.class));
         prop.put("druid.poolPreparedStatements", env.getProperty(prefix + "poolPreparedStatements", Boolean.class));
-        
+
+
         prop.put("druid.maxPoolPreparedStatementPerConnectionSize",
                 env.getProperty(prefix + "maxPoolPreparedStatementPerConnectionSize", Integer.class));
         

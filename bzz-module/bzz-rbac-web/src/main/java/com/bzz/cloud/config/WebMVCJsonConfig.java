@@ -1,12 +1,18 @@
 package com.bzz.cloud.config;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
@@ -18,6 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBody
 
 
 import javax.annotation.PostConstruct;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -82,10 +89,19 @@ public class WebMVCJsonConfig implements WebMvcConfigurer {
     }
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        //设置为true时，属性名称不带双引号
+        mapper.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, true);
+        //反序列化是是否允许属性名称不带双引号
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         /**
          * json格式数据处理
          */
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        jackson2HttpMessageConverter.setObjectMapper(mapper);
 
         List<MediaType> mediaTypes = new ArrayList<>();
         mediaTypes.add(MediaType.APPLICATION_JSON);
@@ -115,9 +131,8 @@ public class WebMVCJsonConfig implements WebMvcConfigurer {
         /*StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(Charset.forName("utf-8"));
         List<MediaType> mediaTypes1 = new ArrayList<>();
         mediaTypes1.add(MediaType.TEXT_PLAIN);
-        stringHttpMessageConverter.setSupportedMediaTypes(mediaTypes1);*/
-
-        //converters.add(stringHttpMessageConverter);
+        stringHttpMessageConverter.setSupportedMediaTypes(mediaTypes1);
+        converters.add(stringHttpMessageConverter);*/
 
     }
 

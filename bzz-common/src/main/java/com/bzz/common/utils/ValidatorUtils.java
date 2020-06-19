@@ -1,4 +1,4 @@
-package com.bzz.common.Utils;
+package com.bzz.common.utils;
 
 import java.util.regex.Pattern;
 
@@ -14,7 +14,6 @@ public class ValidatorUtils {
     /**
      * 正则表达式：验证用户名
      */
-    //public static final String REGEX_USERNAME = "^[a-zA-Z]\\w{5,17}$";
     public static final String REGEX_USERNAME = "^[a-zA-Z]\\w{2,20}$";
 
     /**
@@ -25,7 +24,6 @@ public class ValidatorUtils {
     /**
      * 正则表达式：验证手机号
      */
-    // public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
     public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4,\\D])|(17[0-9])|(18[0-9]))\\d{8}$";
 
     /**

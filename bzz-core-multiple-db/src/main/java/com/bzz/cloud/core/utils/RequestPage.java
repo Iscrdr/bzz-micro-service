@@ -1,7 +1,7 @@
 package com.bzz.cloud.core.utils;
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.bzz.common.Utils.Page;
+import com.bzz.common.utils.Page;
 import lombok.Getter;
 import lombok.Setter;
 
