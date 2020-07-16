@@ -41,7 +41,7 @@ public class PropertiesLoader {
 	/**
 	 * 取出Property，但以System的Property优先,取不到返回空字符串.
 	 */
-	private String getValue(String key) {
+	public String getValue(String key) {
 		String systemProperty = System.getProperty(key);
 		if (systemProperty != null) {
 			return systemProperty;
@@ -55,7 +55,7 @@ public class PropertiesLoader {
 	/**
 	 * 取出String类型的Property，但以System的Property优先,如果都为Null则抛出异常.
 	 */
-	public String getProperty(String key) {
+	public  String getProperty(String key) {
 		String value = getValue(key);
 		if (value == null) {
 			throw new NoSuchElementException();
@@ -136,8 +136,6 @@ public class PropertiesLoader {
 
 		for (String location : resourcesPaths) {
 
-//			logger.debug("Loading properties file from:" + location);
-
 			InputStream is = null;
 			try {
 				Resource resource = resourceLoader.getResource(location);
@@ -150,5 +148,11 @@ public class PropertiesLoader {
 			}
 		}
 		return props;
+	}
+
+	public static void main(String[] args) {
+		PropertiesLoader pl = new PropertiesLoader("common.properties");
+		String property = pl.getProperty("ACCESS_KEY_ID");
+		System.out.println(property);
 	}
 }

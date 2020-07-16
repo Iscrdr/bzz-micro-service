@@ -23,9 +23,6 @@ import java.util.Date;
 @Transactional(rollbackFor = Exception.class)
 public class BzzBaseService<D extends BaseDao,T extends BaseEntity> extends BaseService {
 
-    @Autowired
-    protected D baseDao;
-
 
     @Override
     public long insert(BaseEntity entity) {

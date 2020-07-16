@@ -5,6 +5,15 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * @desc       ：String工具扩展类
+ * @author     ：Iscrdr
+ * @date       ：2020-07-16 15:39
+ * @email      ：624003618@qq.com
+ * @modified By：
+ * @version:     1.0.0
+ */
 public class BzzStringUtils extends StringUtils {
     private static final char SEPARATOR = '_';
     private static final String CHARSET_NAME = "UTF-8";

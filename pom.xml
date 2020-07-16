@@ -30,7 +30,7 @@
       <!--<module>bzz-core-single-db</module>-->
       <!--bzz.业务模块-->
       <module>bzz-module</module>
-      <module>bzz-oauth</module>
+
 
   </modules>
   <repositories>

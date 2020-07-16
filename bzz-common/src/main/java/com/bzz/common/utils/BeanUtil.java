@@ -18,7 +18,11 @@ import java.util.Map;
  */
 public class BeanUtil {
 
-    // Map --> Bean 2: 利用org.apache.commons.beanutils 工具类实现 Map --> Bean
+    /**
+     * Map --> Bean 2: 利用org.apache.commons.beanutils 工具类实现 Map --> Bean
+     * @param map
+     * @param obj
+     */
     public static void transMap2Bean2(Map<String, Object> map, Object obj) {
         if (map == null || obj == null) {
             return;
@@ -29,8 +33,11 @@ public class BeanUtil {
             System.out.println("transMap2Bean2 Error " + e);
         }
     }
-
-    // Map --> Bean 1: 利用Introspector,PropertyDescriptor实现 Map --> Bean
+    /**
+     * Map --> Bean 1: 利用Introspector,PropertyDescriptor实现 Map --> Bean
+     * @param map
+     * @param obj
+     */
     public static void transMap2Bean(Map<String, Object> map, Object obj) {
 
         try {
@@ -54,8 +61,11 @@ public class BeanUtil {
         }
         return;
     }
-
-    // Bean --> Map 1: 利用Introspector和PropertyDescriptor 将Bean --> Map
+    /**
+     * Bean --> Map 1: 利用Introspector和PropertyDescriptor 将Bean --> Map
+     * @param map
+     * @param obj
+     */
     public static Map<String, Object> transBean2Map(Object obj) {
 
         if(obj == null){

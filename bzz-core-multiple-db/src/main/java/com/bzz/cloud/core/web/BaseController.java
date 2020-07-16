@@ -1,12 +1,4 @@
-package com.bzz.cloud.core.web;/**
- * @description：Controller抽象公共类，封装公共CRUD，分页等功能
- * @author ：Iscrdr
- * @email ：624003618@qq.com
- * @date ：2020-04-23 01:10
- * @modified By：
- * @version: 1.0.0
- */
-
+package com.bzz.cloud.core.web;
 import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.core.service.BaseService;

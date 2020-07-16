@@ -21,16 +21,16 @@ public class AliDaYuSMS {
 
     private  Logger logger = LoggerFactory.getLogger(AliDaYuSMS.class);
 
-    public final static String ACCESS_KEY_ID = "LTAIbaQCshoFTh0b";
-    public final static String ACCESS_SECRET = "d9l41M8fPZV5pV3WjLaGgxZBdISthv";
-
-
     public  String sendSMS(String mobile,String code) throws ClientException {
-        DefaultProfile profile = DefaultProfile.getProfile("default", AliDaYuSMS.ACCESS_KEY_ID, AliDaYuSMS.ACCESS_SECRET);
+
+        PropertiesLoader pl = new PropertiesLoader("common.properties");
+        String access_key_id = pl.getProperty("ACCESS_KEY_ID");
+        String access_secret = pl.getProperty("ACCESS_SECRET");
+
+        DefaultProfile profile = DefaultProfile.getProfile("default", access_key_id, access_secret);
         IAcsClient client = new DefaultAcsClient(profile);
 
         CommonRequest request = new CommonRequest();
-        //request.setProtocol(ProtocolType.HTTPS);
         request.setMethod(MethodType.POST);
         request.setDomain("dysmsapi.aliyuncs.com");
         request.setVersion("2017-05-25");
@@ -41,7 +41,8 @@ public class AliDaYuSMS {
         request.putQueryParameter("TemplateParam", "{\"code\":\""+code+"\",\"product\":\"BZZ服务平台\"}");
         CommonResponse response = client.getCommonResponse(request);
         String result = response.getData();
-        logger.info(result);//打印返回数据
+        //打印返回数据
+        logger.info(result);
         return result;
     }
 }

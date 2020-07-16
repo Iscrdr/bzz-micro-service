@@ -11,7 +11,16 @@ package com.bzz.common.utils;
 public class ConstantUtils {
 
 
-    public static final int DEL_FLAG_NORMAL = 0; //正常
-    public static final int DEL_FLAG_DELETE = 1; //删除
-    public static final int DEL_FLAG_EDIT = 2;   //审核
+    /*
+     * 正常
+     */
+    public static final int DEL_FLAG_NORMAL = 0;
+    /*
+     * 删除
+     */
+    public static final int DEL_FLAG_DELETE = 1;
+    /*
+     * 审核
+     */
+    public static final int DEL_FLAG_EDIT = 2;
 }
