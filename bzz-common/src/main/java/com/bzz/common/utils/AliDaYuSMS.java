@@ -10,6 +10,8 @@ import com.aliyuncs.http.MethodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * @Author : yang qianli
  * @email: 624003618@qq.com
@@ -19,15 +21,18 @@ import org.slf4j.LoggerFactory;
  */
 public class AliDaYuSMS {
 
-    private  Logger logger = LoggerFactory.getLogger(AliDaYuSMS.class);
+    private static  Logger logger = LoggerFactory.getLogger(AliDaYuSMS.class);
 
-    public  String sendSMS(String mobile,String code) throws ClientException {
+    public static  String sendSMS(String mobile,String code) throws ClientException, UnsupportedEncodingException {
 
         PropertiesLoader pl = new PropertiesLoader("common.properties");
         String access_key_id = pl.getProperty("ACCESS_KEY_ID");
         String access_secret = pl.getProperty("ACCESS_SECRET");
 
-        DefaultProfile profile = DefaultProfile.getProfile("default", access_key_id, access_secret);
+        String s1 = Base64Utils.decoderString(access_key_id,"UTF-8");
+        String s2 = Base64Utils.decoderString(access_secret,"UTF-8");
+
+        DefaultProfile profile = DefaultProfile.getProfile("default", s1, s2);
         IAcsClient client = new DefaultAcsClient(profile);
 
         CommonRequest request = new CommonRequest();
@@ -44,5 +49,10 @@ public class AliDaYuSMS {
         //打印返回数据
         logger.info(result);
         return result;
+    }
+
+    public static void main(String[] args) throws UnsupportedEncodingException, ClientException {
+        String s = sendSMS("15501236689", "231778");
+        System.out.println(s);
     }
 }

@@ -1,5 +1,8 @@
 package com.bzz.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
 /**
@@ -31,6 +34,46 @@ public class Base64Utils {
      */
     public static byte[] decoder(byte[] decodeText) {
         return decoder.decode(decodeText);
+    }
+
+
+
+    /**
+     * base64加密
+     *
+     * @param encodeText 加密
+     * @return
+     */
+    public static String encoderString(String text,String charset) throws UnsupportedEncodingException {
+        if(StringUtils.isBlank(charset)){
+            charset = "UTF-8";
+        }
+        byte[] bytes = text.getBytes(charset);
+        return encoder.encodeToString(bytes);
+    }
+
+    /**
+     * base64加密
+     *
+     * @param decodeText 解密
+     */
+    public static String decoderString(String decodeText,String charset) throws UnsupportedEncodingException {
+        if(StringUtils.isBlank(charset)){
+            charset = "UTF-8";
+        }
+        return new String(decoder.decode(decodeText),charset);
+    }
+
+
+
+
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        String text = "d9l41M8fPZV5pV3WjLaGgxZBdISthv";
+        String s = encoderString(text,"UTF-8");
+        System.out.println(s);
+        String s1 = decoderString(s,"UTF-8");
+        System.out.println(s1.equals(text));
+
     }
 
 }
