@@ -6,9 +6,12 @@ import com.bzz.cloud.core.utils.RequestPage;
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.SysUserService;
 import com.bzz.cloud.rbac.uitls.RequestParams;
+import com.bzz.cloud.rbac.vo.ISysUserView;
 import com.bzz.common.utils.Page;
 import com.bzz.common.utils.ResponseData;
 import com.bzz.common.utils.ResponseResult;
+import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +37,7 @@ import java.util.Map;
  * @modified By：
  * @version: 1.0.0
  */
+@Api(tags="SysUserController",value="用户管理CURD")
 @RestController
 @RequestMapping("/rbac")
 public class SysUserController  {
@@ -51,9 +56,22 @@ public class SysUserController  {
      * @modified By：
      * @version:     1.0.0
      */
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", defaultValue = ""),
+            @ApiImplicitParam(name = "nickName", value = "昵称", defaultValue = ""),
+            @ApiImplicitParam(name = "email", value = "邮箱", defaultValue = ""),
+            @ApiImplicitParam(name = "mobile", value = "手机号", defaultValue = ""),
+            @ApiImplicitParam(name = "pageSize", value = "每页的数量", defaultValue = "10"),
+            @ApiImplicitParam(name = "current", value = "当前页码", defaultValue = "1"),
+    }
+    )
+    @ApiOperation(value = "用户列表", notes = "用户分页查询", code = 200, produces = "application/json")
     @RequestMapping(value = "/user/list",method = RequestMethod.POST)
-    @FieldsExclude(returnType = Page.class,exclude = "qqUser,sysGroupList,sysRoleList,beginTime,endTime,orderBy,dbType")
-    public Page<SysUser> list(HttpServletRequest request, HttpServletResponse response,@RequestBody RequestPage<SysUser> requestPage) {
+    @JsonView(ISysUserView.class)
+    @ResponseBody
+    //@FieldsExclude(returnType = Page.class,exclude = "qqUser,sysGroupList,sysRoleList,beginTime,endTime,orderBy,dbType")
+    public Page<SysUser> list(@ApiIgnore(value = "request") HttpServletRequest request, @ApiIgnore(value = "response") HttpServletResponse response,@ApiIgnore(value = "requestPage") @RequestBody RequestPage<SysUser> requestPage) {
         Page<SysUser> page = sysUserService.findPage(requestPage.getPage(), requestPage.getBaseEntity());
         return page;
     }

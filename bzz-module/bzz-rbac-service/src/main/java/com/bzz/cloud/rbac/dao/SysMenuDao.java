@@ -2,6 +2,7 @@
  * Copyright &copy; 2012-2019 <a href="https://github.com/qianli8811/bzz-cloud">bzz-cloud</a> All rights reserved.
  */
 package com.bzz.cloud.rbac.dao;
+import com.bzz.cloud.core.dao.BzzBaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysMenu;
@@ -20,7 +21,7 @@ import java.util.List;
  * @updateDate: 2019-05-10 00:34:36
  */
 @BzzMyBatisDao("sysMenuDao")
-public interface SysMenuDao<S extends BaseEntity<SysMenu, Long>> extends BaseDao<SysMenu,Long> {
+public interface SysMenuDao extends BzzBaseDao<SysMenu,Long> {
 	//void insertApiAndAuthority(SysApi sysApi);
 
     SysUser getAllMenu(SysUser sysUser);

@@ -2,6 +2,7 @@ package com.bzz.cloud.rbac.dao;
 
 
 import com.bzz.cloud.core.dao.BaseDao;
+import com.bzz.cloud.core.dao.BzzBaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysAuthority;
@@ -9,6 +10,7 @@ import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.common.utils.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -18,7 +20,7 @@ import java.util.List;
  * @version 2014-05-16
  */
 @BzzMyBatisDao("sysUserDao")
-public interface SysUserDao<S extends BaseEntity<SysUser, Long>> extends BaseDao<SysUser,Long> {
+public interface SysUserDao extends BzzBaseDao<SysUser,Long> {
 
 	/**
 	 * 通过手机号或者邮箱查询用户
@@ -31,7 +33,7 @@ public interface SysUserDao<S extends BaseEntity<SysUser, Long>> extends BaseDao
 
 	public SysUser getUserByLoginName(SysUser sysUser);
 
-	@Override
+
 	public List<SysUser> selectList(SysUser sysUser);
 
 	/**
@@ -46,13 +48,8 @@ public interface SysUserDao<S extends BaseEntity<SysUser, Long>> extends BaseDao
 	public List<SysAuthority> findSysAuthority(SysUser sysUser);
 
 
-
-
 	/**
 	 * 分页
 	 */
-	@Override
 	public Page findPage(@Param("page") Page page, @Param("sysUser") SysUser sysUser);
-
-
 }

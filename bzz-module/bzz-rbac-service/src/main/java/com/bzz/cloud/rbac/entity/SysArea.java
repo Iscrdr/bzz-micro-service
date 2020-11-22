@@ -26,20 +26,55 @@ public class SysArea extends BaseEntity<SysArea, Long> {
 
 
     private static final long serialVersionUID = 8177559273616895780L;
-    private String name ;  // 城市名称
-    private SysArea sysArea ;  // 上级地区id
-    private String shortName ;  // 城市短名称
-    private Integer levelType ;  // 级别
-    private String cityCode ;  // 城市编码
-    private String zipCode ;  // 邮编
-    private String mergerName ;  // 所属行政区域
-    private Double lng ;  // 维度
-    private Double lat ;  // 经度
-    private String pinyin ;  // 全拼每个汉字首字母大写
-    private String jianpin ;  // 简拼大写
+    /**
+     * 城市名称
+     */
+    private String name ;
+    /**
+     * 上级地区
+     */
+    private SysArea sysArea ;
+    /**
+     * 城市短名称
+     */
+    private String shortName ;
+    /**
+     * 级别
+     */
+    private Integer levelType ;
+    /**
+     * 城市编码
+     */
+    private String cityCode ;
+    /**
+     * 邮编
+     */
+    private String zipCode ;
+    /**
+     * 所属行政区域
+     */
+    private String mergerName ;
+    /**
+     * 维度
+     */
+    private Double lng ;
+    /**
+     * 经度
+     */
+    private Double lat ;
+    /**
+     * 全拼每个汉字首字母大写
+     */
+    private String pinyin ;
+    /**
+     * 简拼大写
+     */
+    private String jianpin ;
 
-
-    private List<SysArea> childSysAreaList ;  // 所有的下级行政区
+    /**
+     * 所有的下级行政区
+     */
+    private List<SysArea> childSysAreaList ;
 
     /**
      * @desc: 获取所有下级行政区域

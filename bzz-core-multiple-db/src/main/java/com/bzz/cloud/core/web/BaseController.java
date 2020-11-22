@@ -30,7 +30,7 @@ public abstract class BaseController<B extends BaseService,D extends BaseDao, T 
 
 
     @Autowired
-    protected BzzBaseService<D,T> bzzBaseService;
+    protected BzzBaseService bzzBaseService;
 
     public Page<T> list(HttpServletRequest request, HttpServletResponse response,@RequestBody RequestPage<T> requestPage){
         Page<T> page = bzzBaseService.findPage(requestPage.getPage(), requestPage.getBaseEntity());

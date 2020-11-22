@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.social.security.SpringSocialConfigurer;
+import org.springframework.web.cors.CorsUtils;
 
 
 /**
@@ -26,6 +27,8 @@ import org.springframework.social.security.SpringSocialConfigurer;
 public class RestJWTResourceOauthConfiguration extends ResourceServerConfigurerAdapter {
 
 
+    @Autowired
+    private PermitAllSecurityConfig permitAllSecurityConfig;
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
@@ -43,7 +46,10 @@ public class RestJWTResourceOauthConfiguration extends ResourceServerConfigurerA
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
+                //.apply(permitAllSecurityConfig)
+                //.and()
                 .authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/oauthservice/login/**").permitAll()
                 .antMatchers("/oauthservice/oauth/**").permitAll()
@@ -51,6 +57,10 @@ public class RestJWTResourceOauthConfiguration extends ResourceServerConfigurerA
                 .antMatchers("/social/qq").permitAll()
                 .antMatchers("/qq/login/**").permitAll()
                 .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/oauthservice/test1").permitAll()
+                .antMatchers("/test1").permitAll()
+                .and()
+                .authorizeRequests()
                 .anyRequest().authenticated()
                 .and().headers().frameOptions().disable().and().httpBasic();
 

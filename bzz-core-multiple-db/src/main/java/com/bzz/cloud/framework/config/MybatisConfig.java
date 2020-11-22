@@ -2,6 +2,7 @@ package com.bzz.cloud.framework.config;
 
 
 import com.bzz.cloud.framework.Interceptor.PageInterceptor;
+import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -21,7 +22,8 @@ import javax.sql.DataSource;
  * @author cloud
  */
 @Configuration
-@MapperScan(basePackages = "com.bzz.cloud.*.dao",sqlSessionFactoryRef = "sqlSessionFactory")
+@MapperScan(basePackages = "com.bzz.cloud.*.dao",sqlSessionFactoryRef = "sqlSessionFactory",
+		annotationClass = BzzMyBatisDao.class)
 public class MybatisConfig {
 
 
@@ -48,5 +50,5 @@ public class MybatisConfig {
 	public SqlSessionTemplate sqlSessionTemplate(@Qualifier(value = "sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
-	
+
 }

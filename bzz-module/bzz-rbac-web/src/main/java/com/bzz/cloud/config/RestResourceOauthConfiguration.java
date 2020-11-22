@@ -54,29 +54,38 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
         return new RedisTokenStore(redisConnectionFactory);
     }
 
+
     @Override
     public void configure(final HttpSecurity http) throws Exception {
-        /*http.csrf().disable().anonymous().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .and()
-                .authorizeRequests()
-                //.antMatchers("/api/register/**").access("permitAll")
-                .antMatchers("/api/getCaptcha").access("permitAll")
-                .anyRequest().authenticated()
-        ;*/
+        /*
+         * antMatchers 有时会把项目名称作为根路径,这时不要加项目名称
+         */
 
         http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/rabcservice/getCaptcha/**").permitAll() //oauth认证url不拦截
-                .antMatchers("/rabcservice/register/**").permitAll() //用户注册不拦截
-                .antMatchers("/rabcservice/login/**").permitAll() //用户登录不拦截
-                .antMatchers("/login/**").permitAll() //用户登录不拦截
-                .antMatchers("/oauthservice/login/**").permitAll()//登用户录url不拦截
-                .antMatchers("/oauthservice/oauth/**").permitAll() //oauth认证url不拦截
+                //oauth认证url 不认证
+                .antMatchers("/rabcservice/getCaptcha/**").permitAll()
+                //用户注册不认证
+                .antMatchers("/rabcservice/register/**").permitAll()
+                //用户登录不认证
+                .antMatchers("/rabcservice/login/**").permitAll()
+                //用户登录不认证
+                .antMatchers("/login/**").permitAll()
+                //登用户录url不认证
+                .antMatchers("/oauthservice/login/**").permitAll()
+                //oauth认证url不认证
+                .antMatchers("/oauthservice/oauth/**").permitAll()
+                //swagger文档不认证
+                .antMatchers("/swagger-ui/**","/swagger-ui/index.html",
+                        "/v3/api-docs",
+                        "/swagger-resources/**",
+                        "/error"
+                        ).permitAll()
                 .anyRequest().authenticated()
-                .and().headers().frameOptions().disable();
+                .and().headers().frameOptions().disable().and().csrf().disable();
     }
 
     @Override

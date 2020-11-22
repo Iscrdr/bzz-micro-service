@@ -2,6 +2,7 @@
  * Copyright &copy; 2012-2019 <a href="https://github.com/qianli8811/bzz-cloud">bzz-cloud</a> All rights reserved.
  */
 package com.bzz.cloud.rbac.dao;
+import com.bzz.cloud.core.dao.BzzBaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysMenu;
@@ -21,7 +22,7 @@ import java.util.List;
  * @updateDate: 2019-05-10 00:01:58
  */
 @BzzMyBatisDao("sysRoleDao")
-public interface SysRoleDao<S extends BaseEntity<SysRole, Long>> extends BaseDao<SysRole,Long> {
+public interface SysRoleDao extends BzzBaseDao<SysRole,Long> {
 
     void insertRoleUser(SysRole role);
 

@@ -6,6 +6,7 @@ package com.bzz.cloud.rbac.service;
 
 import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.rbac.entity.SysArea;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +25,13 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SysAreaService extends BzzBaseService<SysAreaDao, SysArea> {
+public class SysAreaService extends BzzBaseService<SysArea,Long>  {
+
+    @Autowired
+    private SysAreaDao sysAreaDao;
 
     public List<SysArea> findAllChildArea(SysArea sysArea){
-        return baseDao.findAllChildArea(sysArea);
+        return sysAreaDao.findAllChildArea(sysArea);
     }
-	
+
 }

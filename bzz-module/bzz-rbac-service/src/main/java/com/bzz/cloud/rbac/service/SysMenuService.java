@@ -7,6 +7,7 @@ import com.bzz.cloud.core.service.BzzBaseService;
 import com.bzz.cloud.rbac.dao.SysMenuDao;
 import com.bzz.cloud.rbac.entity.SysMenu;
 import com.bzz.cloud.rbac.entity.SysUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SysMenuService extends BzzBaseService<SysMenuDao, SysMenu> {
+public class SysMenuService extends BzzBaseService<SysMenu,Long> {
+
+    @Autowired
+    private SysMenuDao sysMenuDao;
+
     public SysUser getAllMenu(SysUser sysUser){
-        return baseDao.getAllMenu(sysUser);
+        return sysMenuDao.getAllMenu(sysUser);
     }
 
 

@@ -4,7 +4,9 @@
 package com.bzz.cloud.rbac.service;
 
 import com.bzz.cloud.core.service.BzzBaseService;
+import com.bzz.cloud.rbac.dao.SysAreaDao;
 import com.bzz.cloud.rbac.entity.SysGroup;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +23,12 @@ import com.bzz.cloud.rbac.dao.SysGroupDao;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SysGroupService extends BzzBaseService<SysGroupDao, SysGroup> {
+public class SysGroupService extends BzzBaseService<SysGroup,Long> {
 
+    @Autowired
+    private SysGroupDao sysGroupDao;
 
     public void insertGroupRole(SysGroup sysGroup) {
-        baseDao.insertGroupRole(sysGroup);
+        sysGroupDao.insertGroupRole(sysGroup);
     }
 }

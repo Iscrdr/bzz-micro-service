@@ -1,6 +1,7 @@
 package com.bzz.cloud.core.service;
 
 import com.bzz.cloud.core.dao.BaseDao;
+import com.bzz.cloud.core.dao.BzzBaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.common.utils.IdUtils;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -19,21 +21,21 @@ import java.util.Date;
  * @Modified by:
  * @Description:
  */
-@Service
-@Transactional(rollbackFor = Exception.class)
-public class BzzBaseService<D extends BaseDao,T extends BaseEntity> extends BaseService {
+
+public class BzzBaseService<T extends BaseEntity,PK extends Serializable>  extends BaseService {
+
 
 
     @Override
     public long insert(BaseEntity entity) {
         setCommData(entity,0);
-        return baseDao.insert(entity);
+        return bzzBaseDao.insert(entity);
     }
 
     @Override
     public int update(BaseEntity entity) {
         setCommData(entity,1);
-        return baseDao.update(entity);
+        return bzzBaseDao.update(entity);
     }
 
 

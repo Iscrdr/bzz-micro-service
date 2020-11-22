@@ -1,6 +1,7 @@
 package com.bzz.cloud.framework.config;
 
 import com.bzz.cloud.framework.filter.JsonPayloadUserNamePasswordAuthenticationFilter;
+import com.bzz.cloud.framework.filter.PermitAllAuthenticationFilter;
 import com.bzz.cloud.framework.handler.CustomAuthenticationFailHandler;
 import com.bzz.cloud.framework.handler.CustomAuthenticationSuccessHandler;
 
@@ -13,8 +14,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -34,6 +37,9 @@ public class WebSecurityOauth2Config extends WebSecurityConfigurerAdapter {
     @Autowired
     private QQAuthenticationSuccessHandler qqAuthenticationSuccessHandler;
 
+    @Autowired
+    private PermitAllAuthenticationFilter permitAllAuthenticationFilter;
+
 
     @Override
     @Bean
@@ -48,23 +54,15 @@ public class WebSecurityOauth2Config extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(oauth2AuthenticationProvider);
     }
 
+
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(permitAllAuthenticationFilter, JsonPayloadUserNamePasswordAuthenticationFilter.class);
         http
-                .authorizeRequests()
-                .antMatchers("/bzzoauth/login/**").permitAll()
-                .antMatchers("/login/**").permitAll()//登用户录url不拦截
-                //.antMatchers("/qq/login/**").permitAll()//登用户录url不拦截
-                .antMatchers("/bzzoauth/social/qq").permitAll()
-                .antMatchers("/social/qq").permitAll()
-                /*.antMatchers("/login/**").permitAll()//登用户录url不拦截
-               .antMatchers("/qq/login/**").permitAll()//登用户录url不拦截
-               .antMatchers("/oauth/**").permitAll()*///oauth认证不拦截*/
-                .anyRequest().authenticated()
-                .and()
 
-              .addFilterAt(jsonPayloadUserNamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-                http.addFilterAt(qqAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(jsonPayloadUserNamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(qqAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 

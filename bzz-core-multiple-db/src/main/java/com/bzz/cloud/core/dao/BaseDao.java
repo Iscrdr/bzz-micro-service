@@ -41,10 +41,7 @@ public interface  BaseDao<T extends BaseEntity,PK extends Serializable>  {
      */
     List<T> findList(T entity);
 
-    /**
-     * 分页查询
-     */
-    List<T> findPage(int currentPage,int pageSize,T entity);
+
     /**
      * 分页查询
      */

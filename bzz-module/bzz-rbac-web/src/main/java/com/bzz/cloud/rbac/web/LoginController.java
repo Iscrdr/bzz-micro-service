@@ -10,6 +10,7 @@ import com.bzz.cloud.rbac.utils.UserUtil;
 import com.bzz.common.utils.ResponseData;
 import com.bzz.common.utils.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
  * @version: 1.0.0$
  */
 @RestController
+@Api(tags={"LoginController"},value="登录")
 public class LoginController {
     private Logger logger = LoggerFactory.getLogger(AccountController.class);
 

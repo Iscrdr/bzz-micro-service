@@ -30,7 +30,16 @@ public class Oauth2Interceptor implements HandlerInterceptor {
                 || requestURI.equals("/rabc/getCaptcha")
                 || requestURI.equals("/bzzoauth/oauth")
                 || requestURI.equals("/rabc/login")
+                || requestURI.startsWith("/rbacservice/swagger-ui")
+                || requestURI.startsWith("/rbacservice/swagger-ui/index.html")
+                || requestURI.startsWith("/rbacservice/swagger-ui.html")
+                || requestURI.startsWith("/rbacservice/v2/api-docs")
+                || requestURI.startsWith("/rbacservice/v3/api-docs")
+                || requestURI.startsWith("/rbacservice/swagger-resources")
+                || requestURI.startsWith("/rbacservice/swagger-resources/configuration/ui")
+                || requestURI.startsWith("/rbacservice/swagger-resources/configuration/security")
         ){
+
             return true;
         }
 

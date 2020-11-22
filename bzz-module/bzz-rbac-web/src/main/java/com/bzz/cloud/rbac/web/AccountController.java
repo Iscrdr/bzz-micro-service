@@ -7,6 +7,7 @@ import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.Oauth2FeignClientService;
 import com.bzz.cloud.rbac.service.SysUserService;
 import com.bzz.common.utils.ResponseResult;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ import java.util.List;
  * @Description:
  */
 @RestController
+@Api(tags={"AccountController"},value="用户账号")
 public class AccountController {
 
     private Logger logger = LoggerFactory.getLogger(AccountController.class);

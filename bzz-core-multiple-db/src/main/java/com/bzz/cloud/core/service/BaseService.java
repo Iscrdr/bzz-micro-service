@@ -3,6 +3,7 @@ package com.bzz.cloud.core.service;
 
 
 import com.bzz.cloud.core.dao.BaseDao;
+import com.bzz.cloud.core.dao.BzzBaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.common.utils.Page;
 import org.slf4j.Logger;
@@ -20,20 +21,19 @@ import java.util.List;
  * @author yang-ql
  * @version 2014-05-16
  */
-@Service
-@Transactional(rollbackFor = Exception.class)
-public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,PK extends Serializable> {
-	
+
+public class BaseService <T extends BaseEntity ,PK extends Serializable> {
+
 	/**
 	 * 日志对象
 	 */
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	protected D baseDao;
+	protected BzzBaseDao<T,PK> bzzBaseDao;
 
 	public boolean checkUnique(T entity) {
-		List list = baseDao.selectList(entity);
+		List list = bzzBaseDao.selectList(entity);
 		if(null != list && list.size()>0){
 			return false;
 		}
@@ -45,17 +45,16 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 * @param id
 	 * @return
 	 */
-	public T get(PK id){
-		return baseDao.get(id);
+	public Serializable get(PK id){
+		return bzzBaseDao.get(id);
 	}
 	/**
 	 * 插入数据
 	 * @param entity
 	 * @return Object 主键类型
 	 */
-	@Transactional(readOnly = false)
 	public long insert(T entity){
-		return baseDao.insert(entity);
+		return bzzBaseDao.insert(entity);
 	}
 
 	/**
@@ -64,7 +63,7 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 * @return
 	 */
 	public List<T> findList(T entity){
-		return baseDao.findList(entity);
+		return bzzBaseDao.findList(entity);
 	}
 
 
@@ -72,22 +71,17 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 * 分页查询
 	 */
 	public Page findPage(Page page,T entity) {
-		page = baseDao.findPage(page, entity);
+		page = bzzBaseDao.findPage(page, entity);
 		return page;
 	}
-	/**
-	 * 分页查询
-	 */
-	public List<T> findList(int currentPage,int pageSize,T entity){
-		return baseDao.findPage(currentPage,pageSize,entity);
-	}
+
 	/**
 	 * 查询所有数据列表
 	 * @param entity
 	 * @return
 	 */
 	public  List<T> findAllList(T entity){
-		return  baseDao.findAllList(entity);
+		return  bzzBaseDao.findAllList(entity);
 	}
 
 	/**
@@ -96,7 +90,7 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 * @return
 	 */
 	public  int findCount(T entity){
-		return  baseDao.findCount(entity);
+		return  bzzBaseDao.findCount(entity);
 	}
 
 
@@ -108,7 +102,7 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 */
 	@Transactional(readOnly = false)
 	public  int insertBatch(List<T> list){
-		return  baseDao.insertBatch(list);
+		return  bzzBaseDao.insertBatch(list);
 	}
 
 	/**
@@ -118,7 +112,7 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 */
 	@Transactional(readOnly = false)
 	public int update(T entity){
-		return  baseDao.update(entity);
+		return  bzzBaseDao.update(entity);
 	}
 
 	/**
@@ -128,7 +122,7 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 */
 	@Transactional(readOnly = false)
 	public  int updateBatch(List<T> list){
-		return  baseDao.updateBatch(list);
+		return  bzzBaseDao.updateBatch(list);
 	}
 
 
@@ -140,7 +134,7 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 */
 	@Transactional(readOnly = false)
 	public int delete(T entity){
-		return  baseDao.delete(entity);
+		return  bzzBaseDao.delete(entity);
 	}
 
 	/**
@@ -148,9 +142,8 @@ public abstract class BaseService<D extends BaseDao<T,PK>,T extends BaseEntity ,
 	 * @param ids
 	 * @return
 	 */
-	@Transactional(readOnly = false)
 	public  int deleteBacth(List<Long> ids){
-		return  baseDao.deleteBacth(ids);
+		return  bzzBaseDao.deleteBacth(ids);
 	}
 
 

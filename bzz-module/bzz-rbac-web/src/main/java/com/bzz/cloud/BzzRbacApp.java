@@ -1,14 +1,9 @@
 package com.bzz.cloud;
 
-import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.framework.config.BzzCloudDbConfig;
 import com.bzz.cloud.framework.config.RedisConfig;
-import com.netflix.loadbalancer.BestAvailableRule;
-import com.netflix.loadbalancer.IRule;
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.HibernateValidator;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,16 +19,14 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.Arrays;
 
 /**
  * @PACKAGE_NAME: com.bzz.cloud
  * @CLASS_NAME:
- * @Author : yang qianli 
+ * @Author : yang qianli
  * @Date: 2017-12-06 0:02
  * @Modified by:
  * @Date:
@@ -49,6 +42,7 @@ import java.util.Arrays;
 @SpringBootApplication(scanBasePackages={"com.bzz"})
 @Slf4j
 @EnableAspectJAutoProxy(proxyTargetClass=true,exposeProxy=true)
+@EnableOpenApi
 public class BzzRbacApp {
     public static void main(String[] args) {
         SpringApplication.run(BzzRbacApp.class,args);

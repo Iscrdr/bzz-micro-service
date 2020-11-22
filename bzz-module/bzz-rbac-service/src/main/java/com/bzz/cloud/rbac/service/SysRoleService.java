@@ -4,9 +4,11 @@
 package com.bzz.cloud.rbac.service;
 
 import com.bzz.cloud.core.service.BzzBaseService;
+import com.bzz.cloud.rbac.dao.SysMenuDao;
 import com.bzz.cloud.rbac.entity.SysMenu;
 import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,18 +27,20 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SysRoleService extends BzzBaseService<SysRoleDao, SysRole> {
+public class SysRoleService extends BzzBaseService<SysRole,Long> {
 
+    @Autowired
+    private SysRoleDao sysRoleDao;
 
     public void insertRoleUser(SysRole role) {
-        baseDao.insertRoleUser(role);
+        sysRoleDao.insertRoleUser(role);
     }
 
     public void insertRoleApi(SysRole role) {
-        baseDao.insertRoleApi(role);
+        sysRoleDao.insertRoleApi(role);
     }
 
     public List<SysMenu> getSysMenu(List<SysRole> roles){
-          return  baseDao.getSysMenu(roles);
+          return  sysRoleDao.getSysMenu(roles);
     }
 }

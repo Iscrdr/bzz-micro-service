@@ -4,6 +4,7 @@ package com.bzz.cloud.rbac.web;
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.SysUserService;
 import com.bzz.common.utils.*;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
+@Api(tags={"RegisterController"},value="用户注册")
 public class RegisterController {
 
     private Logger logger = LoggerFactory.getLogger(RegisterController.class);

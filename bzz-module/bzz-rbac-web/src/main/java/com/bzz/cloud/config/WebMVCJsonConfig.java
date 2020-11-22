@@ -16,11 +16,14 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
 
 import javax.annotation.PostConstruct;
@@ -36,6 +39,7 @@ import java.util.*;
  */
 @Configuration
 @EnableWebMvc //开启spring mvc的相关默认配置
+
 public class WebMVCJsonConfig implements WebMvcConfigurer {
 
     /**
@@ -49,7 +53,22 @@ public class WebMVCJsonConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new Oauth2Interceptor());
+        registry.addInterceptor(new Oauth2Interceptor()).excludePathPatterns("classpath*:/static/**")
+                // swagger 排除规则
+                .excludePathPatterns("/rbacservice/swagger-ui/**")
+                .excludePathPatterns("/rbacservice/v3/api-docs")
+                .excludePathPatterns("/rbacservice/swagger-resources/**")
+                .excludePathPatterns("/rbacservice/error")
+                .excludePathPatterns("/rbacservice/webjars/**");
+    }
+
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.
+                addResourceHandler( "/rbacservice/swagger-ui/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
+                .resourceChain(false);
     }
 
     @Override
@@ -135,5 +154,6 @@ public class WebMVCJsonConfig implements WebMvcConfigurer {
         converters.add(stringHttpMessageConverter);*/
 
     }
+
 
 }
