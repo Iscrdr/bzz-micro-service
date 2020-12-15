@@ -1,9 +1,6 @@
 package com.bzz.cloud.oauth.web;
 
 import com.bzz.cloud.oauth.entity.Auth2User;
-import com.bzz.cloud.rbac.entity.SysMenu;
-import com.bzz.cloud.rbac.entity.SysRole;
-import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.SysMenuService;
 import com.bzz.cloud.rbac.utils.HttpRequestUitls;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 public class ClientController {

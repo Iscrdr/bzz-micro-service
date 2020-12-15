@@ -398,8 +398,11 @@ public class LoginController {
         //默认根节点
         List<SysMenu> menuList = treeSysMenuList(menuData, 1L);
 
-        JsonUtils.filter(SysMenu.class,null,"createTime,updateTime,page,menu,component,redirect,sort");
-        return JsonUtils.object2Json(menuList);
+        JsonUtils.filter(SysMenu.class,null,"delFlag,version,createTime,updateTime,page,menu,component,redirect,sort");
+        String menuJson = JsonUtils.object2Json(menuList);
+        System.out.println(menuJson);
+
+        return menuJson;
     }
     /**
      * 获取某个父节点下面的所有子节点

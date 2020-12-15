@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bzz.cloud.gen.dao.GenTableDao">
+<mapper namespace="com.bzz.cloud.gen.dao.CodeGenTableDao">
 
 	<sql id="genTableColumns">
 		t.id,
@@ -19,50 +19,42 @@
 	</sql>
 
 	<!--通过id查询-->
-	<select id="get" resultType="com.bzz.cloud.gen.entity.GenTable">
+	<select id="get" resultType="com.bzz.cloud.gen.entity.CodeGenTable">
 		select
 			<include refid="genTableColumns"/>
-		from gen_table t
+		from code_gen_table t
 		<where>
 			t.del_flag = 0 and t.id = #{id}
 		</where>
 	</select>
 
 	<!--查询-->
-	<select id="findList" resultType="com.bzz.cloud.gen.entity.GenTable">
-		select
+	<select id="findList" resultType="com.bzz.cloud.gen.entity.CodeGenTable">
+		SELECT
 		<include refid="genTableColumns"/>
-		from gen_table t
+		FROM code_gen_table t
 		<where>
 			t.del_flag = 0
-			<if test="dbType != null and dbType != '' ">
-				AND t.table_name LIKE
-				<if test="dbType == 'oracle'">'%,'||#{tableName}||',%')</if>
-				<if test="dbType == 'mssql'">'%,'+#{tableName}+',%')</if>
-				<if test="dbType == 'mysql'">CONCAT('%,', #{tableName}, ',%'))</if>
+			<if test="tableName != null and tableName != '' ">
+				AND t.table_name LIKE CONCAT('%', #{tableName}, '%')
 			</if>
 		</where>
 	</select>
 
 	<!--插入-->
 	<insert id="insert">
-		INSERT INTO gen_table(
+		INSERT INTO code_gen_table(
 				id,
 				table_name,
 				comments,
 				class_name,
-				table_type,
-				parent_table,
-				parent_table_fk,
-				/*name_like,
-				pk_list,
-				parent_id,
-				child_list,*/
+
 				create_user_id,
 				create_time,
 				update_user_id,
 				update_time,
 				remarks,
+		        todo,
 				version,
 				del_flag
 		  ) VALUES (
@@ -70,18 +62,13 @@
 				#{tableName},
 				#{comments},
 				#{className},
-				#{tableType},
-				#{parentTable},
-				#{parentTableFk},
-				/*#{nameLike},
-				#{pkList},
-				#{parentId},
-				#{childList},*/
-				#{createUser.id},
+
+				#{createUserId},
 				#{createTime},
-				#{updateUser.id},
+				#{createUserId},
 				#{updateTime},
 				#{remarks},
+				#{todo},
 				#{version},
 				#{delFlag}
 				)
@@ -90,7 +77,7 @@
 	<!-- 更新用户 -->
 	<update id="update">
 		UPDATE
-			gen_table
+			code_gen_table
 		SET
 			id = #{id},
 			table_name = #{tableName} ,
@@ -116,7 +103,7 @@
 	<!-- 逻辑删除用户 -->
 	<update id="deleteFalse">
 		UPDATE
-			gen_table
+			code_gen_table
 		SET
 			del_flag = 1
 		WHERE
@@ -126,7 +113,7 @@
 
 	<!-- 物理删除用户 -->
 	<delete id="delete">
-		DELETE FROM gen_table WHERE id = #{id}
+		DELETE FROM code_gen_table WHERE id = #{id}
 	</delete>
 
 

@@ -40,7 +40,6 @@ import java.util.Arrays;
 @EnableHystrix
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages={"com.bzz"})
-@Slf4j
 @EnableAspectJAutoProxy(proxyTargetClass=true,exposeProxy=true)
 @EnableOpenApi
 public class BzzRbacApp {

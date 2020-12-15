@@ -24,6 +24,7 @@ public abstract class BaseEntity<T,PK> implements Serializable {
 	/**
 	 * 实体编号（唯一标识）
 	 */
+
 	protected PK id;
 
 	/**

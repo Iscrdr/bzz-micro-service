@@ -24,12 +24,16 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-public class ${genTable.className} extends BaseEntity<${genTable.className},Long> implements Serializable  {
-	
+public class ${codeGenTable.className} extends BaseEntity<${codeGenTable.className},Long>   {
+
 
 	<#-- 生成字段属性 -->
-	<#list genTable.columnList as c>
-		private ${c.javaType} ${c.javaField} ; <#if c.comments??> // ${c.comments} </#if>
+	<#list codeGenTable.columnList as c>
+
+        /**
+         * <#if c.comments??> ${c.comments} </#if>
+         */
+		private ${c.javaType} ${c.javaField};
 	</#list>
 
 

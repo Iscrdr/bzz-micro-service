@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.Objects;
 
 @Configuration
@@ -40,6 +42,9 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
+    @Resource
+    private Environment environment;
+
     @Bean
     public AuthorizationServerProperties authorizationServerProperties(){
         return new AuthorizationServerProperties();
@@ -60,6 +65,7 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
         /*
          * antMatchers 有时会把项目名称作为根路径,这时不要加项目名称
          */
+
 
         http
                 .sessionManagement()

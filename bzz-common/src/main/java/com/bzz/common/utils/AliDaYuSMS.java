@@ -51,7 +51,6 @@ public class AliDaYuSMS {
         return result;
     }
 
-
     public static void main(String[] args) throws UnsupportedEncodingException, ClientException {
         String s = sendSMS("15501236689", "231778");
         System.out.println(s);

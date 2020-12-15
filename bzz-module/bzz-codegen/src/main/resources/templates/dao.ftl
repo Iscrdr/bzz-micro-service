@@ -4,8 +4,8 @@
 package ${packageName}.${moduleName}<#if subModuleName != "">.${subModuleName}</#if>.dao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
-import ${packageName}.${moduleName}<#if subModuleName != "">.${subModuleName}</#if>.entity.${genTable.className};
-import com.bzz.cloud.core.dao.BaseDao;
+import ${packageName}.${moduleName}<#if subModuleName != "">.${subModuleName}</#if>.entity.${codeGenTable.className};
+
 /**
  * @desc: ${moduleDesc}
  *
@@ -14,7 +14,7 @@ import com.bzz.cloud.core.dao.BaseDao;
  * @createDate: ${(createTime?string("yyyy-MM-dd HH:mm:ss"))!}
  * @updateDate: ${(updateTime?string("yyyy-MM-dd HH:mm:ss"))!}
  */
-@BzzMyBatisDao("${genTable.classNameLower}Dao")
-public interface ${genTable.className}Dao<S extends BaseEntity<${genTable.className}, Long>> extends BaseDao<${genTable.className},Long> {
-	
+@BzzMyBatisDao("${codeGenTable.classNameLower}Dao")
+public interface ${codeGenTable.className}Dao extends BzzBaseDao<${codeGenTable.className},Long> {
+
 }

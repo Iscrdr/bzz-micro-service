@@ -25,6 +25,10 @@ spring:
         uri: lb://rbacservice
         predicates:
         - Path=/rbacservice/**
+      - id: codegen
+        uri: lb://codegen
+        predicates:
+          - Path=/codegen/**
 
   oauthservice:
     ribbon:

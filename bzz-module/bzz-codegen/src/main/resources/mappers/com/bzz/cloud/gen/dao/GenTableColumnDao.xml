@@ -1,32 +1,167 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bzz.cloud.gen.dao.GenTableColumnDao">
+<mapper namespace="com.bzz.cloud.gen.dao.CodeGenTableColumnDao">
 
-	<sql id="genTableColumns">
-		t.id,
-		t.table_name,
-		t.comments,
-		t.class_name,
+	<sql id="codeGenTableColumns">
+		t.id AS id,
+		t.table_name AS codeGenTable.tableName,
+		t.column_name AS clumnName,
+		t.comments AS comments,
+		t.jdbc_type AS jdbcType,
+		t.is_pk AS isPk,
+		t.is_null AS isNull,
+		t.position AS position,
+		t.java_type AS javaType,
+		t.java_field AS javaField,
+		t.is_show AS isShow,
+		t.is_form AS isForm,
+		t.is_query AS isQuery,
+		t.is_list AS isList,
+		t.query_type AS queryType,
+		t.dict_type AS dictType,
+		t.show_type AS showType,
 
-		t.create_user_id,
-		t.create_time,
-		t.update_user_id,
-		t.update_time,
-		t.todo,
-		t.remarks,
-		t.version,
-		t.del_flag
+		t.create_user_id AS createUserId,
+		t.create_time AS createTime,
+		t.update_user_id AS updateUserId,
+		t.update_time AS updateTime,
+		t.todo AS todo,
+		t.remarks AS remarks,
+		t.version AS version,
+		t.del_flag AS delFlag
 	</sql>
 
+	<select id="get" resultType="com.bzz.cloud.gen.entity.CodeGenTableColumn">
+		SELECT
+		<include refid="codeGenTableColumns"/>
+		FROM
+		code_gen_table_column AS t
+		WHERE
+		t.del_flag = 1
+		<if test="id != '' AND id != NULL">
+			AND t.id = #{id}
+		</if>
+		<if test="codeGenTable.tableName != '' AND codeGenTable.tableName != NULL">
+			AND t.table_name = #{codeGenTable.tableName}
+		</if>
+	</select>
+
+	<insert id="insertBatchTableColumn" parameterType="java.util.List">
+		INSERT INTO code_gen_table_column
+		(
+		id ,
+		table_name ,
+		column_name,
+		comments,
+		jdbc_type,
+		is_pkey ,
+		is_null ,
+		position ,
+		java_type ,
+		java_field ,
+		is_show ,
+		is_form ,
+		is_query ,
+		is_list ,
+		query_type,
+		dict_type ,
+		show_type ,
+		create_user_id ,
+		create_time ,
+		update_user_id ,
+		update_time,
+		todo ,
+		remarks ,
+		version ,
+		del_flag
+		) values
+		<!-- 注意foreach的语法,集合直接写list字符串，用item表示当前遍历的对象，结果集合通过使用逗号分隔使用separator属性 -->
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.id},
+			#{item.codeGenTable.tableName} ,
+			#{item.columnName} ,
+			#{item.comments} ,
+			#{item.jdbcType},
+			#{item.isPkey} ,
+			#{item.isNull} ,
+			#{item.position} ,
+
+			#{item.javaType} ,
+			#{item.javaField} ,
+			#{item.isShow} ,
+			#{item.isForm} ,
+
+			#{item.isQuery} ,
+			#{item.isList} ,
+			#{item.queryType} ,
+			#{item.dictType} ,
+			#{item.showType} ,
+
+			#{item.createUserId} ,
+			#{item.createTime} ,
+			#{item.updateUserId} ,
+			#{item.updateTime} ,
+
+			#{item.todo} ,
+			#{item.remarks} ,
+			#{item.version} ,
+			#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+	<update id="update" parameterType="com.bzz.cloud.gen.entity.CodeGenTableColumn">
+		update code_gen_table_column
+		<set>
+			<if test="columnName != null">
+		    	column_name = #{columnName},
+		    </if>
+			<if test="columnName != null">
+				comments = #{comments},
+			</if>
+			<if test="columnName != null">
+				is_show = #{isShow},
+			</if>
+			<if test="isForm != null">
+				is_form = #{isForm},
+			</if>
+			<if test="isQuery != null">
+				is_query = #{isQuery},
+			</if>
+			<if test="isList != null">
+				is_list = #{isList},
+			</if>
+			<if test="queryType != null">
+				query_type = #{queryType},
+			</if>
+			<if test="dictType != null">
+				dict_type = #{dictType},
+			</if>
+			<if test="showType != null">
+				show_type = #{showType},
+			</if>
+			version = #{version},
+			update_user_id = #{updateUserId},
+			update_time = #{updateTime}
+		</set>
+		where id in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+
+	</update>
 
 
-	<select id="getTableColumn" resultType="com.bzz.cloud.gen.entity.GenTableColumn" >
-
-		SELECT t.COLUMN_NAME AS columnName,
+	<select id="getTableColumn" resultType="com.bzz.cloud.gen.entity.CodeGenTableColumn" >
+		SELECT
+		t.COLUMN_NAME AS columnName,
 		t.COLUMN_COMMENT AS comments,
-		(CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull,
-		(t.ORDINAL_POSITION * 10) AS sort,
-		t.COLUMN_TYPE AS jdbcType
+		( CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END ) AS isNull,
+		t.ORDINAL_POSITION  AS position,
+		t.COLUMN_TYPE AS jdbcType,
+		t.TABLE_NAME as tableName,
+		( CASE WHEN t.COLUMN_KEY = 'PRI' THEN '1' ELSE '0' END ) AS isPkey
+
 		FROM information_schema.`COLUMNS` t
 		WHERE t.TABLE_SCHEMA = (select database())
 		<if test="tableName != null and tableName != ''">

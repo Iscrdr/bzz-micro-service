@@ -58,4 +58,3 @@ hystrix:
           enabled: false
         isolation:
           strategy: SEMAPHORE
-

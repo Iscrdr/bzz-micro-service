@@ -1,12 +1,20 @@
 package com.bzz.cloud;
 
-import com.bzz.cloud.gen.entity.GenScheme;
-import com.bzz.cloud.gen.entity.GenTable;
-import com.bzz.cloud.gen.entity.GenTableColumn;
-import com.bzz.cloud.gen.service.GenTableColumnService;
-import com.bzz.cloud.gen.service.GenTableService;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+
+import com.bzz.cloud.core.entity.BaseEntity;
+import com.bzz.cloud.gen.entity.CodeGenScheme;
+import com.bzz.cloud.gen.entity.CodeGenTable;
+import com.bzz.cloud.gen.entity.CodeGenTableColumn;
+import com.bzz.cloud.gen.service.CodeGenTableColumnService;
+import com.bzz.cloud.gen.service.CodeGenTableService;
 import com.bzz.cloud.util.GenUtils;
+import com.bzz.common.utils.IdUtils;
 import org.junit.Test;
+import org.junit.platform.commons.util.StringUtils;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,14 +26,87 @@ import java.util.Map;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={GenApp.class})
+@SpringBootTest(classes={CodeGenApp.class})
 public class GenTableTest {
 
 
     @Autowired
-    private GenTableService genTableService;
+    private CodeGenTableService codeGenTableService;
     @Autowired
-    private GenTableColumnService genTableColumnService;
+    private CodeGenTableColumnService genTableColumnService;
+
+    /**
+     * 测试插入 CodeGenTable,CodeGenTableColumn
+     */
+    @Test
+    public void testInsert(){
+        CodeGenTable codeGenTable = new CodeGenTable();
+        codeGenTable.setTableName("sys_user");
+        codeGenTable.setComments("系统用户");
+        codeGenTable.setClassName("SysUser");
+        codeGenTable.setClassNameLower("sysUser");
+
+        codeGenTable.setId(IdUtils.getLongId());
+        codeGenTable.setCreateTime(new Date());
+        codeGenTable.setUpdateTime(new Date());
+        codeGenTable.setRemarks("系统用户表");
+        codeGenTable.setVersion(1);
+        codeGenTable.setDelFlag(1);
+        codeGenTable.setTodo("系统用户表");
+        codeGenTable.setCreateUserId(1L);
+        codeGenTable.setUpdateUserId(1L);
+
+        codeGenTableService.insert(codeGenTable);
+
+
+        List<CodeGenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_user");
+        //codeGenTable.setColumnList(lists);
+
+        for(CodeGenTableColumn c: lists){
+            try {
+                c.setId(IdUtils.getLongId());
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            c.setCodeGenTable(codeGenTable);
+            if(StringUtils.isNotBlank(c.getColumnName()) && c.getColumnName().equals("id")){
+                c.setIsPkey(true);
+            }else {
+                c.setIsPkey(true);
+            }
+            c.setIsQuery(true);
+            c.setIsShow(true);
+            c.setIsNull(false);
+            c.setJavaType("");
+            c.setJavaField("");
+            c.setIsShow(false);
+            c.setIsForm(false);
+            c.setIsQuery(false);
+            c.setIsList(false);
+            c.setQueryType("==");
+            c.setDictType("");
+            c.setShowType("下拉框");
+            c.setCreateTime(new Date());
+            c.setUpdateTime(new Date());
+            c.setRemarks("");
+            c.setVersion(1);
+            c.setDelFlag(1);
+            c.setTodo("");
+            c.setCreateUserId(1L);
+            c.setUpdateUserId(1L);
+        }
+
+        genTableColumnService.insertBatchTableColumn(lists);
+
+
+
+
+    }
+
+
+
     @Test
     public void testColumn(){
         String result = "[GenTableColumn(genTable=null, columnName=id, comments=编号, jdbcType=bigint(64), javaType=null, javaField=null, isPk=null, isNull=0, isInsert=null, isEdit=null, isList=null, isQuery=null, queryType=null, showType=null, dictType=, sort=10), " +
@@ -52,24 +133,24 @@ public class GenTableTest {
                 "GenTableColumn(genTable=null, columnName=remarks, comments=备注信息, jdbcType=varchar(255), javaType=null, javaField=null, isPk=null, isNull=1, isInsert=null, isEdit=null, isList=null, isQuery=null, queryType=null, showType=null, dictType=, sort=220), " +
                 "GenTableColumn(genTable=null, columnName=del_flag, comments=删除标记, jdbcType=int(1), javaType=null, javaField=null, isPk=null, isNull=1, isInsert=null, isEdit=null, isList=null, isQuery=null, queryType=null, showType=null, dictType=, sort=230), " +
                 "GenTableColumn(genTable=null, columnName=version, comments=版本, jdbcType=int(11), javaType=null, javaField=null, isPk=null, isNull=1, isInsert=null, isEdit=null, isList=null, isQuery=null, queryType=null, showType=null, dictType=, sort=240)]";
-        List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_user");
+        List<CodeGenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_user");
         System.out.println(lists.toString());
 
     }
-
     /**
      * 用户表
      */
     @Test
     public void testGetUserTable(){
-        /*GenTable genTable = genTableService.get(1L);
-        System.out.println(genTable.getClassName());*/
+
+        CodeGenTable codeGenTable = codeGenTableService.get(1330584209865183232L);
+        System.out.println(codeGenTable.getClassName());
         String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
-        List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_user");
+        List<Map<String,String>> tables = codeGenTableService.getTable("bzz", "sys_user");
         if(tables!= null && tables.size()>0){
             if (tables.size()==1){
                 Map<String, String> table = tables.get(0);
-                GenTable genTable = new GenTable();
+                CodeGenTable genTable = new CodeGenTable();
                 genTable.setClassName("SysUser");
                 genTable.setComments(table.get("Comment"));
                 genTable.setTableName(table.get("Name"));
@@ -85,12 +166,12 @@ public class GenTableTest {
                 genTable.setDelFlag(1);
 //                genTable.setVersion(Integer.valueOf(table.get("Version")));
                 genTable.setRemarks("用户表");
-                List<GenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_user");
+                List<CodeGenTableColumn> lists = genTableColumnService.getTableColumn("bzz", "sys_user");
                 genTable.setColumnList(lists);
 
                 GenUtils.initColumnField(genTable);
-                GenScheme genScheme = new GenScheme();
-                genScheme.setGenTable(genTable);
+                CodeGenScheme genScheme = new CodeGenScheme();
+                genScheme.setCodeGenTable(genTable);
 
                 genScheme.setEmail("624003618@qq.com");
 
@@ -119,11 +200,11 @@ public class GenTableTest {
 
     /**
      * 角色表
-     */
+     *//*
     @Test
     public void testGetRoleTable(){
-        /*GenTable genTable = genTableService.get(1L);
-        System.out.println(genTable.getClassName());*/
+        *//*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*//*
         String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
         List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_role");
         if(tables!= null && tables.size()>0){
@@ -177,13 +258,13 @@ public class GenTableTest {
 
     }
 
-    /**
+    *//**
      * 用户组表
-     */
+     *//*
     @Test
     public void testGetGroupTable(){
-        /*GenTable genTable = genTableService.get(1L);
-        System.out.println(genTable.getClassName());*/
+        *//*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*//*
         String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
         List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_group");
         if(tables!= null && tables.size()>0){
@@ -238,13 +319,13 @@ public class GenTableTest {
     }
 
 
-    /**
+    *//**
      * 用户组表
-     */
+     *//*
     @Test
     public void testGetApiTable(){
-        /*GenTable genTable = genTableService.get(1L);
-        System.out.println(genTable.getClassName());*/
+        *//*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*//*
         String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
         List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_api");
         if(tables!= null && tables.size()>0){
@@ -298,13 +379,13 @@ public class GenTableTest {
 
     }
 
-    /**
+    *//**
      * 权限表
-     */
+     *//*
     @Test
     public void testGetAuthTable(){
-        /*GenTable genTable = genTableService.get(1L);
-        System.out.println(genTable.getClassName());*/
+        *//*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*//*
         String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
         List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_authority");
         if(tables!= null && tables.size()>0){
@@ -359,13 +440,13 @@ public class GenTableTest {
     }
 
 
-    /**
+    *//**
      * 权限表
-     */
+     *//*
     @Test
     public void testAAGetAuthTable(){
-        /*GenTable genTable = genTableService.get(1L);
-        System.out.println(genTable.getClassName());*/
+        *//*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*//*
        // String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
         List<Map<String,String>> tables = genTableService.getTable("bzz", "branch_info");
         if(tables!= null && tables.size()>0){
@@ -420,13 +501,13 @@ public class GenTableTest {
     }
 
 
-    /**
+    *//**
      * 地域表
-     */
+     *//*
     @Test
     public void testArea(){
-        /*GenTable genTable = genTableService.get(1L);
-        System.out.println(genTable.getClassName());*/
+        *//*GenTable genTable = genTableService.get(1L);
+        System.out.println(genTable.getClassName());*//*
         // String result= "{Comment=用户表, Data_free=0, Create_options=row_format=DYNAMIC, Check_time=null, Collation=utf8_general_ci, Create_time=2019-02-17 11:09:06.0, Name=sys_user, Avg_row_length=2340, Row_format=Dynamic, Version=10, Checksum=null, Update_time=2019-02-17 16:00:34.0, Max_data_length=0, Index_length=49152, Auto_increment=null, Engine=InnoDB, Data_length=16384, Rows=7}";
         List<Map<String,String>> tables = genTableService.getTable("bzz", "sys_area");
         if(tables!= null && tables.size()>0){
@@ -478,5 +559,5 @@ public class GenTableTest {
             }
         }
 
-    }
+    }*/
 }

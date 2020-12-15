@@ -58,7 +58,8 @@ public class SysUserService extends BzzBaseService<SysUser,Long> {
 		return sysUserDao.findSysAuthority(sysUser);
 	}
 
-	public  Page<SysUser> findPage(Page page, SysUser sysUser){
+	@Override
+    public  Page<SysUser> findPage(Page page, SysUser sysUser){
 		return sysUserDao.findPage(page,sysUser);
 	}
 }

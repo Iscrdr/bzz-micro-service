@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.*;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 /**
  * @PACKAGE_NAME: com.bzz.cloud
@@ -17,15 +19,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Import({BzzCloudDbConfig.class})
 @EnableConfigurationProperties
-@EnableAspectJAutoProxy
 @Configuration
 @EnableTransactionManagement
-
+@EnableDiscoveryClient
+@EnableAspectJAutoProxy(proxyTargetClass=true,exposeProxy=true)
+@EnableOpenApi
 @SpringBootApplication(scanBasePackages={"com.bzz.cloud"})
 @Slf4j
-public class GenApp {
+public class CodeGenApp {
     public static void main( String[] args ) {
-        SpringApplication.run(GenApp.class, args);
+        SpringApplication.run(CodeGenApp.class, args);
     }
 
 }

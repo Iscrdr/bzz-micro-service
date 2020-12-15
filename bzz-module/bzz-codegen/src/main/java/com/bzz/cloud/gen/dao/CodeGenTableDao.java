@@ -1,10 +1,10 @@
 
 package com.bzz.cloud.gen.dao;
 import com.bzz.cloud.core.dao.BaseDao;
+import com.bzz.cloud.core.dao.BzzBaseDao;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
-import com.bzz.cloud.gen.entity.GenTable;
-import com.bzz.cloud.gen.entity.GenTableColumn;
+import com.bzz.cloud.gen.entity.CodeGenTable;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -19,8 +19,8 @@ import java.util.Map;
  * @version 2013-10-15
  */
 
-@BzzMyBatisDao("genTableDao")
-public interface GenTableDao<S extends BaseEntity<GenTable, Long>> extends BaseDao<GenTable,Long> {
+@BzzMyBatisDao("codeGenTableDao")
+public interface CodeGenTableDao  extends BzzBaseDao<CodeGenTable,Long> {
 
 
     /**

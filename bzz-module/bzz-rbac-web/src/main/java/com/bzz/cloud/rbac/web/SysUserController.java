@@ -70,7 +70,6 @@ public class SysUserController  {
     @RequestMapping(value = "/user/list",method = RequestMethod.POST)
     @JsonView(ISysUserView.class)
     @ResponseBody
-    //@FieldsExclude(returnType = Page.class,exclude = "qqUser,sysGroupList,sysRoleList,beginTime,endTime,orderBy,dbType")
     public Page<SysUser> list(@ApiIgnore(value = "request") HttpServletRequest request, @ApiIgnore(value = "response") HttpServletResponse response,@ApiIgnore(value = "requestPage") @RequestBody RequestPage<SysUser> requestPage) {
         Page<SysUser> page = sysUserService.findPage(requestPage.getPage(), requestPage.getBaseEntity());
         return page;

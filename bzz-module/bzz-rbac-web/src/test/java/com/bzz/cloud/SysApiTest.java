@@ -9,9 +9,13 @@ import com.bzz.common.utils.JsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +29,7 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+
 public class SysApiTest {
 
     @Autowired
@@ -32,6 +37,26 @@ public class SysApiTest {
 
     @Autowired
     private SysAuthorityService sysAuthorityService;
+
+    @Autowired
+    private Environment env;
+
+
+    @Value("#{'${swagger.permitAll}'.split(',')}")
+    private String[] permitAll;
+
+    @Test
+    public void testEnv(){
+
+
+        System.out.println(permitAll.length);
+        for(String s : permitAll){
+            System.out.println(s);
+        }
+
+    }
+
+
 
     @Test
     public void testAddSysApi(){

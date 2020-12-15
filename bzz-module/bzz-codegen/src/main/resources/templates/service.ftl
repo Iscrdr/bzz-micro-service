@@ -3,11 +3,10 @@
 */
 package ${packageName}.${moduleName}<#if subModuleName != "">.${subModuleName}</#if>.service;
 
-import com.bzz.cloud.${moduleName}.entity.${genTable.className};
+import com.bzz.cloud.${moduleName}.entity.${codeGenTable.className};
 import com.bzz.cloud.core.service.BzzBaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.bzz.cloud.${moduleName}.dao.${genTable.className}Dao;
 /**
  * @desc: ${moduleDesc}
  *
@@ -18,8 +17,8 @@ import com.bzz.cloud.${moduleName}.dao.${genTable.className}Dao;
  */
 @Service
 @Transactional
-public class ${genTable.className}Service extends BzzBaseService<${genTable.className}Dao, ${genTable.className},Long>  {
+public class ${codeGenTable.className}Service extends BzzBaseService<${codeGenTable.className},Long>  {
 
 
-	
+
 }

@@ -4,9 +4,10 @@
 package com.bzz.cloud.util;
 
 
-import com.bzz.cloud.gen.entity.GenScheme;
-import com.bzz.cloud.gen.entity.GenTable;
-import com.bzz.cloud.gen.entity.GenTableColumn;
+
+import com.bzz.cloud.gen.entity.CodeGenScheme;
+import com.bzz.cloud.gen.entity.CodeGenTable;
+import com.bzz.cloud.gen.entity.CodeGenTableColumn;
 import com.bzz.common.utils.BzzStringUtils;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -30,9 +31,9 @@ public class GenUtils {
 	 * 初始化列属性字段
 	 * @param genTable
 	 */
-	public static void initColumnField(GenTable genTable){
-		for (GenTableColumn column : genTable.getColumnList()){
-			column.setGenTable(genTable);
+	public static void initColumnField(CodeGenTable genTable){
+		for (CodeGenTableColumn column : genTable.getColumnList()){
+			column.setCodeGenTable(genTable);
             System.out.println(column.getColumnName()+","+column.getJdbcType());
 			// 设置字段说明
 			if (StringUtils.isBlank(column.getComments())){
@@ -81,7 +82,7 @@ public class GenUtils {
             System.out.println(column.getJavaField()+","+column.getJavaType());
 		}
 	}
-	
+
 	/**
 	 * 获取模板路径
 	 * @return
@@ -98,7 +99,7 @@ public class GenUtils {
 	}
 
 
-    public static void genEntity(GenScheme genScheme){
+    public static void genEntity(CodeGenScheme genScheme){
         String suffix = ".java";
         String templateName = "entity.ftl";
         String outPath = getOutPath() +genScheme.getPackageName()+"."+genScheme.getModuleName();
@@ -107,11 +108,11 @@ public class GenUtils {
         }
         outPath = outPath+".entity";
         outPath = StringUtils.replace(outPath,".","/");
-        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        String fileName = genScheme.getCodeGenTable().getClassName() + suffix;
         generateFileByTemplate(templateName,outPath,fileName,genScheme);
 
     }
-    public static void genDao(GenScheme genScheme){
+    public static void genDao(CodeGenScheme genScheme){
         String templateName = "dao.ftl";
         String suffix = "Dao.java";
         String outPath = getOutPath() + genScheme.getPackageName()+"."+genScheme.getModuleName();
@@ -120,10 +121,10 @@ public class GenUtils {
         }
         outPath = outPath+".dao";
         outPath = StringUtils.replace(outPath,".","/");
-        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        String fileName = genScheme.getCodeGenTable().getClassName() + suffix;
         generateFileByTemplate(templateName,outPath,fileName,genScheme);
     }
-    public static void genService(GenScheme genScheme){
+    public static void genService(CodeGenScheme genScheme){
         String templateName = "service.ftl";
         String suffix = "Service.java";
         String outPath = getOutPath() + genScheme.getPackageName()+"."+genScheme.getModuleName();
@@ -132,10 +133,10 @@ public class GenUtils {
         }
         outPath = outPath+".service";
         outPath = StringUtils.replace(outPath,".","/");
-        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        String fileName = genScheme.getCodeGenTable().getClassName() + suffix;
         generateFileByTemplate(templateName,outPath,fileName,genScheme);
     }
-    public static void genController(GenScheme genScheme){
+    public static void genController(CodeGenScheme genScheme){
         String templateName = "controller.ftl";
         String suffix = "Controller.java";
         String outPath = getOutPath() + genScheme.getPackageName()+"."+genScheme.getModuleName();
@@ -145,10 +146,10 @@ public class GenUtils {
         outPath = outPath+".controller";
 
         outPath = StringUtils.replace(outPath,".","/");
-        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        String fileName = genScheme.getCodeGenTable().getClassName() + suffix;
         generateFileByTemplate(templateName,outPath,fileName,genScheme);
     }
-    public static void genMapper(GenScheme genScheme){
+    public static void genMapper(CodeGenScheme genScheme){
         final String templateName = "mapper.ftl";
         String suffix = "Dao.xml";
         String outPath = getOutPath() + genScheme.getPackageName()+"."+genScheme.getModuleName();
@@ -158,10 +159,10 @@ public class GenUtils {
         outPath = outPath+".mapper";
 
         outPath = StringUtils.replace(outPath,".","/");
-        String fileName = genScheme.getGenTable().getClassName() + suffix;
+        String fileName = genScheme.getCodeGenTable().getClassName() + suffix;
         generateFileByTemplate(templateName,outPath,fileName,genScheme);
     }
-    public static void generateFileByTemplate(String templateName,String outDir,String outFileName,GenScheme genScheme) {
+    public static void generateFileByTemplate(String templateName,String outDir,String outFileName,CodeGenScheme genScheme) {
         try {
             File fileOutDir = new File(outDir);
             if(!fileOutDir.exists()){
@@ -189,7 +190,8 @@ public class GenUtils {
     }
 
     public static void main(String[] args) {
-		GenScheme genScheme = new GenScheme();
+        CodeGenScheme genScheme = new CodeGenScheme();
+
         genEntity(genScheme);
     }
 }

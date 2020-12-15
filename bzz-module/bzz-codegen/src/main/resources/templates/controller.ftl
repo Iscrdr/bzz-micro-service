@@ -4,8 +4,8 @@
 package ${packageName}.${moduleName}<#if subModuleName != "">.${subModuleName}</#if>.web;
 
 
-import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${genTable.className};
-import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${genTable.className}Service;
+import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${codeGenTable.className};
+import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${codeGenTable.className}Service;
 
 /**
  * @desc: ${moduleDesc}
@@ -15,13 +15,14 @@ import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModule
  * @createDate: ${(createTime?string("yyyy-MM-dd HH:mm:ss"))!}
  * @updateDate: ${(updateTime?string("yyyy-MM-dd HH:mm:ss"))!}
  */
-@Controller
+@Api(tags="${codeGenTable.className}Controller",value="${codeGenTable.className}Controller")
+@RestController
 @RequestMapping(value = "/${moduleName}")
-public class ${genTable.className}Controller  {
+public class ${codeGenTable.className}Controller  {
 
 	@Autowired
-	private ${genTable.className}Service ${genTable.classNameLower}Service;
-	
+	private ${codeGenTable.className}Service ${codeGenTable.classNameLower}Service;
 
-	
+
+
 }
