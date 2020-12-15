@@ -46,6 +46,7 @@ public class AliDaYuSMS {
         request.putQueryParameter("TemplateParam", "{\"code\":\""+code+"\",\"product\":\"BZZ服务平台\"}");
         CommonResponse response = client.getCommonResponse(request);
         String result = response.getData();
+        System.out.println("==================");
         //打印返回数据
         logger.info(result);
         return result;
