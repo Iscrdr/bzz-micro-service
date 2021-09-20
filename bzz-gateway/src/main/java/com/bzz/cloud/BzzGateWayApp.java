@@ -35,10 +35,8 @@ public class BzzGateWayApp {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-    /* @Bean
-     public IRule myRule(){
-         return new RoundRobinRule();
-     }*/
+
+
     public static void main( String[] args ){
         SpringApplication.run(BzzGateWayApp.class, args);
     }

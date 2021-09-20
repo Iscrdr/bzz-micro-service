@@ -46,9 +46,8 @@ public class TokenController {
         String username1 = JsonUtils.getFeildFromJson(username, token1);
         String client_id_1 = JsonUtils.getFeildFromJson(client_id, token1);
         boolean flag = false;
-        if(( StringUtils.isNotBlank(username1) && username1.equals(username) )
+        if( StringUtils.isNotBlank(username1) && username1.equals(username)
                 && (StringUtils.isNotBlank(client_id_1) && client_id_1.equals(client_id))
-
         ){
             flag = true;
         }
