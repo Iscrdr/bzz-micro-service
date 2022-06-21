@@ -28,7 +28,7 @@
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
 		<jackson-version>2.11.1</jackson-version>
 
-		<mysql-driver.version>8.0.17</mysql-driver.version>
+		<mysql-driver.version>8.0.28</mysql-driver.version>
 		<HikariCP.version>3.1.0</HikariCP.version>
 
 	</properties>
