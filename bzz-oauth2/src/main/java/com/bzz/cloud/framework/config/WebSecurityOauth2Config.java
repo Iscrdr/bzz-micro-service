@@ -11,6 +11,7 @@ import com.bzz.cloud.framework.social.qq.QQAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,11 +28,14 @@ public class WebSecurityOauth2Config extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
+    @Lazy
     private Oauth2AuthenticationProvider oauth2AuthenticationProvider;
 
     @Autowired
+    @Lazy
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     @Autowired
+    @Lazy
     private CustomAuthenticationFailHandler customAuthenticationFailHandler;
 
     @Autowired

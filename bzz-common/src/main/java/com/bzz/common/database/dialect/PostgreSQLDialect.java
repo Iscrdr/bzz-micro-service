@@ -7,7 +7,7 @@ package com.bzz.common.database.dialect;
 import com.bzz.common.database.DynamicDialect;
 
 /**
- * Postgre Sql的方言实现
+ * Postgre Sql的方言实现.
  * @author poplar.yfyang
  * @version 1.0 2010-10-10 下午12:31
  * @since JDK 1.5
@@ -29,26 +29,43 @@ public class PostgreSQLDialect implements DynamicDialect {
      * @param limitPlaceholder  分页纪录条数占位符号
      * @return 包含占位符的分页sql
      */
-    public String getLimitString(String sql, int offset,
-                                 String offsetPlaceholder, String limitPlaceholder) {
+    public String getLimitString(final String sql, final int offset,
+                                 final String offsetPlaceholder,
+                                 final String limitPlaceholder) {
         StringBuilder pageSql = new StringBuilder().append(sql);
         pageSql = offset <= 0
-                ? pageSql.append(" limit ").append(limitPlaceholder) :
-                pageSql.append(" limit ").append(limitPlaceholder).append(" offset ").append(offsetPlaceholder);
+                ? pageSql.append(" limit ")
+                .append(limitPlaceholder)
+                : pageSql.append(" limit ")
+                .append(limitPlaceholder)
+                .append(" offset ")
+                .append(offsetPlaceholder);
         return pageSql.toString();
     }
 
-    public boolean isSupportsLimit() {
-        return false;
-    }
-    
+
+    /**
+     * 分页sql.
+     * @param sql    SQL语句
+     * @param pageNo 开始条数
+     * @param pageSize  每页显示多少纪录条数
+     * @return
+     */
     @Override
-    public String getPageSql(String sql, int pageNo, int pageSize) {
-        return getLimitString(sql, pageNo, Integer.toString(pageNo),Integer.toString(pageSize));
+    public String getPageSql(final String sql,
+                             final int pageNo,
+                             final int pageSize) {
+        return getLimitString(sql, pageNo, Integer.toString(pageNo),
+                Integer.toString(pageSize));
     }
 
+    /**
+     * 共有多少行.
+     * @param sql    SQL语句
+     * @return
+     */
     @Override
-    public String getCountSqlString(String sql) {
+    public String getCountSqlString(final String sql) {
         StringBuffer sqlBuffer = new StringBuffer();
         sqlBuffer.append("SELECT COUNT(*) FROM ( ");
         sqlBuffer.append(sql);

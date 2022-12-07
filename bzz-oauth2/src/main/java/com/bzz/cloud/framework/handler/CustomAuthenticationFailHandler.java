@@ -5,6 +5,7 @@ import com.bzz.common.utils.ResponseData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @Description:
  */
 @Component
+@Lazy
 public class CustomAuthenticationFailHandler  extends SimpleUrlAuthenticationFailureHandler {
 
     /**

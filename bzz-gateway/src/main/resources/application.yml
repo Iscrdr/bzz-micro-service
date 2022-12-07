@@ -7,37 +7,46 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
+          enabled: false
       routes:
       - id: gatewayservice
-        uri: lb://gatewayservice
         predicates:
-        - Path=/gatewayservice/**
-#       filters:
+          - Method=GET,POST
+          - Path=/gatewayservice/**
+        uri: lb://gatewayservice
+#        filters:
+#         - RewritePath=/gatewayservice/?(?<segment>.*), /gatewayservice\{segment}
           ##        - PrefixPath=/bzzgateway
       - id: oauthservice
+        predicates:
+          - Method=GET,POST
+          - Path=/oauthservice/**
         uri: lb://oauthservice
-        predicates:
-        - Path=/oauthservice/**
-#        filters:
-#        - PrefixPath=/bzzoauth
+        filters:
+#          - RewritePath=/oauthservice/?(?<segment>.*), /oauthservice$\{segment}
       - id: rbacservice
+        predicates:
+          - Method=GET,POST
+          - Path=/rbacservice/**
+#        filters:
+#          - RewritePath=/rbacservice/?(?<segment>.*), /rbacservice$\{segment}
         uri: lb://rbacservice
-        predicates:
-        - Path=/rbacservice/**
       - id: codegen
-        uri: lb://codegen
         predicates:
+          - Method=GET,POST
           - Path=/codegen/**
+#        filters:
+#          - RewritePath=/codegen/?(?<segment>.*), /codegen\{segment}
+        uri: lb://codegen
 
-  oauthservice:
-    ribbon:
-      listOfServers: 192.168.1.3:5010
-      NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
-  rbacservice:
-    ribbon:
-      listOfServers: 192.168.1.3:8770
-      NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+oauthservice:
+  ribbon:
+    listOfServers: 192.168.10.153:5010
+    FLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+rbacservice:
+  ribbon:
+    listOfServers: 192.168.10.153:8770
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
 
 #        - PrefixPath=/api
 

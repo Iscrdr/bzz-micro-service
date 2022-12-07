@@ -399,7 +399,7 @@ public class LoginController {
         List<SysMenu> menuList = treeSysMenuList(menuData, 1L);
 
         JsonUtils.filter(SysMenu.class,null,"delFlag,version,createTime,updateTime,page,menu,component,redirect,sort");
-        String menuJson = JsonUtils.object2Json(menuList);
+        String menuJson = JsonUtils.object2Json(menuList,false);
         System.out.println(menuJson);
 
         return menuJson;

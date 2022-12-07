@@ -1,4 +1,4 @@
-package com.bzz.cloud.annotation;
+package com.bzz.common.annotation;
 
 import org.springframework.stereotype.Component;
 
@@ -15,9 +15,10 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE,ElementType.METHOD})
 @Documented
 @Component
-
 public @interface FieldsExclude {
 
     Class returnType();
+
     String exclude();
+
 }

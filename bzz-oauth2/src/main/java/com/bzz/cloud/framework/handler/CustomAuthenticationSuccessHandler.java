@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -35,6 +36,7 @@ import java.util.*;
  * @Description:
  */
 @Component
+@Lazy
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @Autowired
@@ -126,7 +128,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             response.setContentType("application/json;charset=UTF-8");
 
             JsonUtils.filter(SysMenu.class,null,"createTime,updateTime,page,menu,component,redirect,sort,authorityStr");
-            response.getWriter().write(JsonUtils.object2Json(dataMap));
+            response.getWriter().write(JsonUtils.object2Json(dataMap,false));
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /rbacservice
+  port: 8770
 spring:
   profiles:
     active: core
@@ -49,6 +53,17 @@ security:
     authorization:
       check-token-access: http://oauthservice/oauthservice/oauth/check_token
 
+oauthservice:
+  ribbon:
+    listOfServers: 192.168.10.153:5010
+    FLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+
+ribbon:
+  ReadTimeout: 15000
+  ConnectTimeout: 15000
+  MaxAutoRetries: 1 #同一台实例最大重试次数,不包括首次调用
+  MaxAutoRetriesNextServer: 1 #重试负载均衡其他的实例最大重试次数,不包括首次调用
+  OkToRetryOnAllOperations: false  #是否所有操作都重试
 
 hystrix:
   command:
@@ -58,3 +73,9 @@ hystrix:
           enabled: false
         isolation:
           strategy: SEMAPHORE
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: springfox swagger 3.0 for BZZ
+  try-host: http://localhost:${server.port}

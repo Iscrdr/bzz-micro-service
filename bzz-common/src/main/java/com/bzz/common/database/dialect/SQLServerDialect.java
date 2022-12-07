@@ -1,27 +1,46 @@
-/**
- * Copyright &copy; 2015-2020 <a href="http://www.jeeplus.org/">JeePlus</a> All rights reserved.
- */
+
 package com.bzz.common.database.dialect;
 
 import com.bzz.common.database.DynamicDialect;
 
 /**
- * MSSQLServer 数据库实现分页方言
+ * MSSQLServer 数据库实现分页方言.
  *
  * @author poplar.yfyang
  * @version 1.0 2010-10-10 下午12:31
  * @since JDK 1.5
  */
 public class SQLServerDialect implements DynamicDialect {
-
-
-    static int getAfterSelectInsertPoint(String sql) {
+    /**
+     * select distinct 索引.
+     */
+    private static final int SELECTDISTINCT = 15;
+    /**
+     * select索引.
+     */
+    private static final int SELECT = 15;
+    /**
+     * 获取sql中的select索引.
+     * @param sql
+     * @return
+     */
+    static int getAfterSelectInsertPoint(final String sql) {
         int selectIndex = sql.toLowerCase().indexOf("select");
-        final int selectDistinctIndex = sql.toLowerCase().indexOf("select distinct");
-        return selectIndex + (selectDistinctIndex == selectIndex ? 15 : 6);
+        final int selectDistinctIndex =
+                sql.toLowerCase().indexOf("select distinct");
+        return selectIndex
+                + (selectDistinctIndex == selectIndex ? SELECTDISTINCT : SELECT);
     }
 
-    public String getLimitString(String sql, int offset, int limit) {
+    /**
+     * 分页sql.
+     * @param sql
+     * @param offset
+     * @param limit
+     * @return sql
+     */
+    public String getLimitString(final String sql,
+                                 final int offset, final int limit) {
         return getLimit(sql, offset, limit);
     }
 
@@ -40,7 +59,8 @@ public class SQLServerDialect implements DynamicDialect {
      * @return 包含占位符的分页sql
      */
 
-    public String getLimit(String sql, int offset, int limit) {
+    public String getLimit(final String sql,
+                           final int offset, final int limit) {
         if (offset > 0) {
             throw new UnsupportedOperationException("sql server has no offset");
         }
@@ -50,18 +70,27 @@ public class SQLServerDialect implements DynamicDialect {
                 .toString();
     }
 
-    
-    public boolean isSupportsLimit() {
-        return false;
-    }
-    
+
+    /**
+     * 获取分页sql.
+     * @param sql    SQL语句
+     * @param pageNo 开始条数
+     * @param pageSize  每页显示多少纪录条数
+     * @return
+     */
     @Override
-    public String getPageSql(String sql, int pageNo, int pageSize) {
-        return getLimitString(sql,pageNo,pageSize);
+    public String getPageSql(final String sql,
+                             final int pageNo, final int pageSize) {
+        return getLimitString(sql, pageNo, pageSize);
     }
 
+    /**
+     * 封装行数统计.
+     * @param sql    SQL语句
+     * @return
+     */
     @Override
-    public String getCountSqlString(String sql) {
+    public String getCountSqlString(final String sql) {
         StringBuffer sqlBuffer = new StringBuffer();
         sqlBuffer.append("SELECT COUNT(*) FROM ( ");
         sqlBuffer.append(sql);

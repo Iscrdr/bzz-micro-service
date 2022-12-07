@@ -9,6 +9,7 @@
 		t.work_num AS workNum,
         t.birth_day AS birthDay,
 		t.name AS name,
+		    t.sex AS sex,
 		t.email AS email,
 		t.phone AS phone,
 		t.mobile AS mobile,
@@ -76,6 +77,7 @@
 		tt.birth_day AS birthDay,
 		tt.work_num AS workNum,
 		tt.name AS name,
+		    tt.sex AS sex,
 		tt.email AS email,
 		tt.phone AS phone,
 		tt.mobile AS mobile,
@@ -240,7 +242,7 @@
 		UPDATE sys_user
 		SET
 			user_name = #{userName},
-
+			sex = #{sex},
 			birth_day = #{birthDay},
 			work_num = #{workNum},
 			email = #{email},
@@ -268,6 +270,7 @@
 				user_name,
 				password,
 				birth_day,
+				sex,
 				work_num,
 				name,
 				email,
@@ -293,6 +296,7 @@
 								 #{userName},
 								 #{password},
 								 #{birthDay},
+								 #{sex},
 								 #{workNum},
 								 #{name},
 								 #{email},

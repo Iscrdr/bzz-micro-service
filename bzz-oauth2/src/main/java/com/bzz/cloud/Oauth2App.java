@@ -24,8 +24,11 @@ import org.springframework.web.client.RestTemplate;
 @EnableTransactionManagement
 @SpringBootApplication(scanBasePackages = {"com.bzz.cloud"})
 public class Oauth2App {
+    
     public static void main( String[] args ){
-        SpringApplication.run(Oauth2App.class, args);
+        SpringApplication springApplication = new SpringApplication(Oauth2App.class);
+        springApplication.setAllowCircularReferences(Boolean.TRUE);
+        springApplication.run(args);
     }
 
     @Bean

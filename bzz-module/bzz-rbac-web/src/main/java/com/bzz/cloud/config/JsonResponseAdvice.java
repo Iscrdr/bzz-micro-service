@@ -1,6 +1,6 @@
 package com.bzz.cloud.config;
 
-import com.bzz.cloud.annotation.FieldsExclude;
+import com.bzz.common.annotation.FieldsExclude;
 import com.bzz.common.utils.JsonUtils;
 import com.bzz.common.utils.ResponseData;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class JsonResponseAdvice implements ResponseBodyAdvice {
         Map<String,String> msgMap = new HashMap<>();
         msgMap.put(ResponseData.RESPONE_CODE,"成功");
 
-        String result  = JsonUtils.object2Json(o);
+        String result  = JsonUtils.object2Json(o,false);
         Object o1 = JsonUtils.json2Object(result, o.getClass());
         return o1;
     }

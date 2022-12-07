@@ -143,4 +143,12 @@
 	</delete>
 
 
+
+    <sql id="getSysMenu">
+          
+    </sql>
+
+
+
+
 </mapper>

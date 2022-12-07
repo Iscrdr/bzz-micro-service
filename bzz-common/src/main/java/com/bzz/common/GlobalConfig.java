@@ -1,7 +1,6 @@
 package com.bzz.common;
 
 import com.bzz.common.utils.PropertiesLoader;
-import jdk.nashorn.internal.objects.Global;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -120,14 +119,7 @@ public class GlobalConfig {
 	 * 页面获取常量
 	 * @see {fns:getConst('YES')}
 	 */
-	public static Object getConst(String field) {
-		try {
-			return Global.class.getField(field).get(null);
-		} catch (Exception e) {
-			// 异常代表无配置，这里什么也不做
-		}
-		return null;
-	}
+
 	
 	/*
 	public static String getUserfilesBaseDir() {

@@ -15,8 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+
 import java.util.Collection;
 
 /**
@@ -26,14 +25,13 @@ import java.util.Collection;
  * @modified by:
  * @description:
  */
-@Named
+
 @Component
 public class Oauth2AuthenticationProvider extends DaoAuthenticationProvider {
 
     /**
      *构造函数中注入
      */
-    @Inject
     public Oauth2AuthenticationProvider(Auth2DetailsService auth2DetailsService){
         this.setUserDetailsService(auth2DetailsService);
     }

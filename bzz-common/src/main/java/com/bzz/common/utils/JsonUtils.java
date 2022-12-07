@@ -1,7 +1,9 @@
 package com.bzz.common.utils;
 
-import com.bzz.common.filter.BzzJsonFilter;
+import com.bzz.common.filter.BzzJsonExcludeFilter;
 
+
+import com.bzz.common.filter.BzzJsonIncludeFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,7 +21,9 @@ public class JsonUtils {
 	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static final ObjectMapper mapper;
 
-	private static BzzJsonFilter jacksonFilter = new BzzJsonFilter();
+	private static BzzJsonExcludeFilter bzzJsonExcludeFilter = new BzzJsonExcludeFilter();
+
+	private static BzzJsonIncludeFilter bzzJsonIncludeFilter = new BzzJsonIncludeFilter();
 
 	static {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
@@ -39,28 +43,37 @@ public class JsonUtils {
 		if (clazz == null)
 			return;
 		if (StringUtils.isNotBlank(exclude)) {
-			jacksonFilter.exclude(clazz, exclude);
+			bzzJsonExcludeFilter.exclude(clazz, exclude);
+			mapper.addMixIn(clazz, bzzJsonExcludeFilter.getClass());
 		}
-		mapper.addMixIn(clazz, jacksonFilter.getClass());
+		if (StringUtils.isNotBlank(include)) {
+			bzzJsonIncludeFilter.include(clazz, include);
+			mapper.addMixIn(clazz, bzzJsonIncludeFilter.getClass());
+		}
+
 	}
 	/**
 	 * 将javabean转换为json字符串
 	 * @param bean
+	 * @param include 默认值:true, 通过bzzJsonIncludeFilter把指定的字段转为json，false: 通过bzzJsonExcludeFilter去掉相关的字段，把剩下的字段转json
 	 * @return
 	 */
-	public static String object2Json(Object bean){
+	public static String object2Json(Object bean,boolean include){
 		
 		String beanStr = null;
-
 		try {
-
-			mapper.setFilterProvider(jacksonFilter);
+			if(include){
+				mapper.setFilterProvider(bzzJsonIncludeFilter);
+			}else {
+				mapper.setFilterProvider(bzzJsonExcludeFilter);
+			}
 			beanStr = mapper.writeValueAsString(bean);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return beanStr;
 	}
+
 
 	/**
 	 * 将json字符串转换为javabean

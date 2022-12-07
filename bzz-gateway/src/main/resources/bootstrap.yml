@@ -10,6 +10,8 @@ spring:
         #        instanceHost: 127.0.0.1
         root: bzz
         register: true
+        enabled: true
+        instance-port: ${server.port}
         prefer-ip-address: true
 #      dependencies:
 #        gatewayservice:

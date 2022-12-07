@@ -22,11 +22,17 @@ import java.util.Set;
  * @Description:
  */
 @com.fasterxml.jackson.annotation.JsonFilter("BzzJsonFilter")
-public class BzzJsonFilter extends FilterProvider {
+public class BzzJsonIncludeFilter extends FilterProvider {
 
-    private Map<Class<?>, Set<String>> excludeMap = new HashMap<>();
+    private Map<Class<?>, Set<String>> includeMap = new HashMap<>();
 
-    public void exclude(Class<?> clazz,String str){
+
+
+    public void include(Class<?> clazz,String str){
+        includeMap.put(clazz,getFiledSet(str));
+    }
+
+    private Set<String> getFiledSet(String str){
         Set<String> filedSet=new HashSet<>();
         if(StringUtils.isNotBlank(str)){
             String[] fields = str.split(",");
@@ -34,8 +40,9 @@ public class BzzJsonFilter extends FilterProvider {
                 filedSet.add(s);
             }
         }
-        excludeMap.put(clazz,filedSet);
+        return filedSet;
     }
+
 
     @Override
     public BeanPropertyFilter findFilter(Object filterId) {
@@ -58,11 +65,14 @@ public class BzzJsonFilter extends FilterProvider {
     }
 
     public boolean isContainFiled(Class<?> type, String name) {
-        Set<String> filterFields = excludeMap.get(type);
-        if (filterFields != null && filterFields.contains(name)) {
-            return false;
+        Set<String> excludeFields = includeMap.get(type);
+
+        boolean flag = false;
+        //不需要转为json的字段
+        if (excludeFields != null && excludeFields.contains(name)) {
+            flag = true;
         }
-        return true;
+        return flag;
     }
 
 }

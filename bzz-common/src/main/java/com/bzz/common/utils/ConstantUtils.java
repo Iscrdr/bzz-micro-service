@@ -4,7 +4,7 @@ package com.bzz.common.utils;
  * @author Yang qianli
  * @version 1.0.0
  * @ProjectName bzz-cloud
- * @Description: TODO
+ * @Desc: 工具常量类.
  * @email 624003618@qq.com
  * @date 2019-01-06 23:43:48
  */

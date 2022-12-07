@@ -1,7 +1,4 @@
-server:
-  servlet:
-    context-path: /oauthservice
-  port: 5010
+
 # spring
 spring:
 

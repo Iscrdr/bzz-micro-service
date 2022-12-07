@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2015-2020 <a href="http://www.jeeplus.org/">JeePlus</a> All rights reserved.
- */
 package com.bzz.common.database.dialect;
 
 
@@ -15,22 +12,47 @@ import com.bzz.common.database.DynamicDialect;
  */
 public class MySQLDialect implements DynamicDialect {
 
-    //是否支持分页，true支持,false不支持
+    /**
+     * 是否支持分页，true支持,false不支持.
+     */
     private boolean isSupportsPage;
 
-    //0为通用分页，1：id是long,int等有序类型分页，2，id为uuid等类型或者sql结果不包含id 的分页
+    /**
+     *  0为通用分页，1：id是long,int等有序类型分页，2，id为uuid等类型或者sql结果不包含id 的分页.
+     */
     private int idType;
-    
-    public MySQLDialect(boolean isSupportsPage, int idType) {
-        this.isSupportsPage = isSupportsPage;
-        this.idType = idType;
-    }
-    
+
+    /**
+     * 超过多少行，优化分页.
+     */
+    private static final int SQLCOUNT = 10000;
+
+    /**
+     * mysql dialect 实例.
+     */
     public MySQLDialect() {
     }
 
+    /**
+     * mysql dialect 实例.
+     * @param isSupport 是否支持分页
+     * @param idtype id类型
+     */
+    public MySQLDialect(final boolean isSupport, final int idtype) {
+        this.isSupportsPage = isSupport;
+        this.idType = idtype;
+    }
+
+    /**
+     * 分页sql.
+     * @param sql    SQL语句
+     * @param pageNo 开始条数
+     * @param pageSize  每页显示多少纪录条数
+     * @return
+     */
     @Override
-    public String getPageSql(String sql, int pageNo, int pageSize){
+    public String getPageSql(final String sql,
+                             final int pageNo, final int pageSize) {
         StringBuffer sqlBuffer = new StringBuffer();
         sqlBuffer.append(sql);
         sqlBuffer.append(" LIMIT ");
@@ -40,8 +62,13 @@ public class MySQLDialect implements DynamicDialect {
         return sqlBuffer.toString();
     }
 
+    /**
+     * 统计有多少行.
+     * @param sql    SQL语句.
+     * @return
+     */
     @Override
-    public String getCountSqlString(String sql) {
+    public String getCountSqlString(final String sql) {
         StringBuffer sqlBuffer = new StringBuffer();
         sqlBuffer.append("SELECT COUNT(*) FROM ( ");
         sqlBuffer.append(sql);
@@ -50,56 +77,64 @@ public class MySQLDialect implements DynamicDialect {
     }
 
     /**
-     * @param sql    SQL语句
+     * 分页sql.
+     * @param sql    SQL语句.
      * @param pageNo 开始条数
      * @param pageSize  每页显示多少纪录条数
      *  @param totalCount  总条数
-     * @return
+     * @return 封装后的sql
      */
-    public String getPageSql(String sql, int pageNo, int pageSize,int totalCount) {
+    public String getPageSql(final String sql,
+                             final int pageNo,
+                             final int pageSize,
+                             final int totalCount) {
 
-        sql= sql.toLowerCase();
+        String lowerCaseSql = sql.toLowerCase();
         StringBuffer sqlBuffer = new StringBuffer();
 
         if (pageNo == 0) {
-            sqlBuffer.append(sql);
+            sqlBuffer.append(lowerCaseSql);
             sqlBuffer.append(" LIMIT ");
             sqlBuffer.append(pageSize);
-        } else if(totalCount>10000 &&this.inSingletonTable(sql)){
-            String[] tables = this.getTableName(sql);
-            String sql1 =sql.split(tables[0])[0];
+        } else if (totalCount > SQLCOUNT
+                && this.inSingletonTable(lowerCaseSql)) {
+            String[] tables = this.getTableName(lowerCaseSql);
+            String sql1 = lowerCaseSql.split(tables[0])[0];
             sqlBuffer.append(sql1);
-            sqlBuffer.append(" (Select id as id2,(@rowNum:=@rowNum+1) as rowNo From ");
+            sqlBuffer.append(
+                    " (Select id as id2,(@rowNum:=@rowNum+1) as rowNo From ");
             sqlBuffer.append(tables[0]);
             sqlBuffer.append(",(Select (@rowNum :=0) ) b) r ,");
             sqlBuffer.append(tables[0]);
             sqlBuffer.append(" ");
-            sqlBuffer.append(tables[1]!=null?tables[1]:" ");
+            sqlBuffer.append(tables[1] != null ? tables[1] : " ");
             sqlBuffer.append(" where r.id2= ");
-            sqlBuffer.append(tables[1]!=null?tables[1]:tables[0]);
+            sqlBuffer.append(tables[1] != null ? tables[1] : tables[0]);
             sqlBuffer.append(".id ");
             sqlBuffer.append(" and r.rowNo> ");
             sqlBuffer.append(pageNo);
 
-            if (sql.contains("where")) {//拼接原来SQL语句中的where语句后面的语句
+            if (lowerCaseSql.contains("where")) {
+                //拼接原来SQL语句中的where语句后面的语句
                 sqlBuffer.append(" and ");
                 sqlBuffer.append(sql.split("where")[1]);
-            }else {
+            } else {
                 //拼接原有的SQL表名后面的一段后面
-                if (tables[1]!=null) {//表有别名
-                    String[] sql2 =sql.split(tables[1]);
+                if (tables[1] != null) {
+                    //表有别名
+                    String[] sql2 = lowerCaseSql.split(tables[1]);
                     sqlBuffer.append(" ");
-                    sqlBuffer.append(sql2.length>1?sql2[1]:" ");
-                }else {
-                    String[] sql2 =sql.split(tables[0]);
+                    sqlBuffer.append(sql2.length > 1 ? sql2[1] : " ");
+                } else {
+                    String[] sql2 = lowerCaseSql.split(tables[0]);
                     sqlBuffer.append(" ");
-                    sqlBuffer.append(sql2.length>1?sql2[1]:" ");
+                    sqlBuffer.append(sql2.length > 1 ? sql2[1] : " ");
                 }
             }
             sqlBuffer.append(" LIMIT ");
             sqlBuffer.append(pageSize);
-        }else{
-            sqlBuffer.append(sql);
+        } else {
+            sqlBuffer.append(lowerCaseSql);
             sqlBuffer.append(" LIMIT ");
             sqlBuffer.append(pageNo);
             sqlBuffer.append(",");
@@ -111,34 +146,35 @@ public class MySQLDialect implements DynamicDialect {
 
 
     /**
-     * 删除两端的空格
+     * 删除两端的空格.
      * @param textContent
-     * @return
+     * @return 处理后的内容
      */
-    private String removekg(String textContent) {
-        textContent = textContent.trim();
-        while (textContent.startsWith(" ")) {//这里判断是不是全角空格
-            textContent = textContent.substring(1, textContent.length()).trim();
+    private String removekg(final String textContent) {
+       String text = textContent.trim();
+        while (text.startsWith(" ")) {
+            //这里判断是不是全角空格
+            text = text.substring(1, text.length()).trim();
         }
-        while (textContent.endsWith("　")) {
-            textContent = textContent.substring(0, textContent.length() - 1).trim();
+        while (text.endsWith("　")) {
+            text = text.substring(0, text.length() - 1).trim();
         }
-        return textContent;
+        return text;
     }
 
     /**
-     * 是否是简单sql
+     * 是否是简单sql.
      * @param sql
-     * @return
+     * @return 处理后sql
      */
-    private boolean inSingletonTable(String sql) {
-        if (sql.contains("join")||sql.contains("JOIN")) {
+    private boolean inSingletonTable(final String sql) {
+        if (sql.contains("join") || sql.contains("JOIN")) {
             return false;
         }
 
         if (sql.contains("where")) {
             if (sql.contains("from")) {
-                String tables= sql.split("from")[1].split("where")[0];
+                String tables = sql.split("from")[1].split("where")[0];
                 if (tables.contains(",")) {
                     return false;
                 }
@@ -147,83 +183,88 @@ public class MySQLDialect implements DynamicDialect {
         return true;
     }
     /**
-     * 解析sql中的表名
+     * 解析sql中的表名.
      * @param sql
-     * @return
+     * @return sql array
      */
-    private String[] getTableName(String sql) {
+    private String[] getTableName(final String sql) {
         String[] tables = new String[2];
         if (sql.contains("where")) {
-            String tablenames = sql.split("from")[1].split("where")[0];
+            String tablenames1 = getTableName(sql, "from", "where");
+            //删除表名前后的空格
+            tablenames1 = this.removekg(tablenames1);
+            if (tablenames1.contains(" ")) {
+                tables = tablenames1.split(" ");
+                return tables;
+            } else {
+                tables[0] = tablenames1;
+                return tables;
+            }
+        } else if (sql.contains("group") && !sql.contains("order")) {
+            String tablenames2 = getTableName(sql, "from", "group");
+            //删除表名前后的空格
+            tablenames2 = this.removekg(tablenames2);
+            if (tablenames2.contains(" ")) {
+                tables = tablenames2.split(" ");
+                return tables;
+            } else {
+                tables[0] = tablenames2;
+                return tables;
+            }
+        } else if (sql.contains("order") && !sql.contains("group")) {
+            String tablenames = getTableName(sql, "from", "order");
             //删除表名前后的空格
             tablenames = this.removekg(tablenames);
             if (tablenames.contains(" ")) {
-                tables=tablenames.split(" ");
+                tables = tablenames.split(" ");
                 return tables;
-            }else {
-                tables[0]=tablenames;
-                return tables;
-            }
-        } else if (sql.contains("group")&&!sql.contains("order")) {
-            String tablenames = sql.split("from")[1].split("group")[0];
-            //删除表名前后的空格
-            tablenames = this.removekg(tablenames);
-            if (tablenames.contains(" ")) {
-                tables=tablenames.split(" ");
-                return tables;
-            }else {
-                tables[0]=tablenames;
+            } else {
+                tables[0] = tablenames;
                 return tables;
             }
-        } else if (sql.contains("order")&&!sql.contains("group")) {
-            String tablenames = sql.split("from")[1].split("order")[0];
-            //删除表名前后的空格
-            tablenames = this.removekg(tablenames);
-            if (tablenames.contains(" ")) {
-                tables=tablenames.split(" ");
-                return tables;
-            }else {
-                tables[0]=tablenames;
-                return tables;
-            }
-        } else if (sql.contains("order")&&sql.contains("group")) {
-            int orderIndex =sql.indexOf("order");
-            int groupIndex =sql.indexOf("group");
-            if (orderIndex<groupIndex) {
-                String tablenames = sql.split("from")[1].split("order")[0];
+        } else if (sql.contains("order") && sql.contains("group")) {
+            int orderIndex = sql.indexOf("order");
+            int groupIndex = sql.indexOf("group");
+            if (orderIndex < groupIndex) {
+                String tablenames = getTableName(sql, "from", "order");
                 //删除表名前后的空格
                 tablenames = this.removekg(tablenames);
                 if (tablenames.contains(" ")) {
-                    tables=tablenames.split(" ");
+                    tables = tablenames.split(" ");
                     return tables;
-                }else {
-                    tables[0]=tablenames;
+                } else {
+                    tables[0] = tablenames;
                     return tables;
                 }
-            }else {
-                String tablenames = sql.split("from")[1].split("group")[0];
+            } else {
+                String tablenames = getTableName(sql, "from", "group");
                 //删除表名前后的空格
                 tablenames = this.removekg(tablenames);
                 if (tablenames.contains(" ")) {
-                    tables=tablenames.split(" ");
+                    tables = tablenames.split(" ");
                     return tables;
-                }else {
-                    tables[0]=tablenames;
+                } else {
+                    tables[0] = tablenames;
                     return tables;
                 }
             }
-        }else if (!sql.contains("where")&&!sql.contains("order")&&!sql.contains("group")) {
+        } else if (!sql.contains("where")
+                && !sql.contains("order") && !sql.contains("group")) {
             //删除表名前后的空格
             String tablenames = sql.split("from")[1];
             tablenames = this.removekg(tablenames);
             if (tablenames.contains(" ")) {
-                tables=tablenames.split(" ");
+                tables = tablenames.split(" ");
                 return tables;
-            }else {
-                tables[0]=tablenames;
+            } else {
+                tables[0] = tablenames;
                 return tables;
             }
         }
         return tables;
+    }
+    private String getTableName(final String sql, final String from,
+                                final String group) {
+        return sql.split(from)[1].split(group)[0];
     }
 }

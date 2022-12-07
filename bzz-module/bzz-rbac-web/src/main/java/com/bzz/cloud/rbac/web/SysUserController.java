@@ -1,16 +1,14 @@
 package com.bzz.cloud.rbac.web;
 import com.bzz.cloud.UserUtils;
-import com.bzz.cloud.annotation.FieldsExclude;
 import com.bzz.cloud.core.utils.RequestPage;
 
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.SysUserService;
 import com.bzz.cloud.rbac.uitls.RequestParams;
-import com.bzz.cloud.rbac.vo.ISysUserView;
+import com.bzz.common.annotation.FieldsInclude;
 import com.bzz.common.utils.Page;
 import com.bzz.common.utils.ResponseData;
 import com.bzz.common.utils.ResponseResult;
-import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,8 +66,7 @@ public class SysUserController  {
     )
     @ApiOperation(value = "用户列表", notes = "用户分页查询", code = 200, produces = "application/json")
     @RequestMapping(value = "/user/list",method = RequestMethod.POST)
-    @JsonView(ISysUserView.class)
-    @ResponseBody
+    @FieldsInclude(returnType=SysUser.class,include="name,userName,nickName,email,sex,mobile,photo,avatar,signature,title,tags,workNum,birthDay,address")
     public Page<SysUser> list(@ApiIgnore(value = "request") HttpServletRequest request, @ApiIgnore(value = "response") HttpServletResponse response,@ApiIgnore(value = "requestPage") @RequestBody RequestPage<SysUser> requestPage) {
         Page<SysUser> page = sysUserService.findPage(requestPage.getPage(), requestPage.getBaseEntity());
         return page;
@@ -192,7 +189,6 @@ public class SysUserController  {
      * @version:     1.0.0
      */
     @GetMapping("/user/currentUser")
-    @FieldsExclude(returnType = SysUser.class,exclude = "geographic,sysGroupList,sysRoleList,password,newPassword,createTime,updateTime,orderBy,qqUser,sysGroupList,sysRoleList,beginTime,endTime")
     public SysUser currentUser(HttpServletRequest request,HttpServletResponse response,SysUser sysUser){
         SysUser sysUser1 = sysUserService.getUserByLoginName(sysUser);
         return sysUser1;

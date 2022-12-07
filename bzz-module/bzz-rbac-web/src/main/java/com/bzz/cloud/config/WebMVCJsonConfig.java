@@ -7,17 +7,17 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -33,8 +33,8 @@ import java.util.List;
  */
 @Configuration
 @EnableWebMvc //开启spring mvc的相关默认配置
-
-public class WebMVCJsonConfig implements WebMvcConfigurer {
+@Lazy
+public class WebMVCJsonConfig extends DelegatingWebMvcConfiguration {
 
     /**
      * 自定义的返回值处理器
@@ -43,6 +43,7 @@ public class WebMVCJsonConfig implements WebMvcConfigurer {
     private JsonReturnHandler jsonReturnHandler;
 
     @Autowired
+    @Lazy
     private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
     @Override
@@ -59,10 +60,18 @@ public class WebMVCJsonConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.
-                addResourceHandler( "/rbacservice/swagger-ui/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
-                .resourceChain(false);
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
+
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+        registry.addResourceHandler( "/rbacservice/swagger-ui/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
+
     }
 
     @Override
@@ -148,6 +157,13 @@ public class WebMVCJsonConfig implements WebMvcConfigurer {
         converters.add(stringHttpMessageConverter);*/
 
     }
-
-
+    @Override
+    protected void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.viewResolver(defaultViewResolver());
+        super.configureViewResolvers(registry);
+    }
+    @Bean
+    public InternalResourceViewResolver defaultViewResolver() {
+        return new InternalResourceViewResolver();
+    }
 }

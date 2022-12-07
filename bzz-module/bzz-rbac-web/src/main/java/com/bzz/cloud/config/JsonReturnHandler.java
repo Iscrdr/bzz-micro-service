@@ -1,6 +1,7 @@
 package com.bzz.cloud.config;
 
-import com.bzz.cloud.annotation.FieldsExclude;
+import com.bzz.common.annotation.FieldsExclude;
+import com.bzz.common.annotation.FieldsInclude;
 import com.bzz.common.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,15 @@ public class JsonReturnHandler implements HandlerMethodReturnValueHandler {
 
     @Override
     public boolean supportsReturnType(MethodParameter methodParameter) {
-        return methodParameter.hasMethodAnnotation(FieldsExclude.class);
+
+
+        if( methodParameter.hasMethodAnnotation(FieldsInclude.class) ){
+            return true;
+        }
+        if( methodParameter.hasMethodAnnotation(FieldsExclude.class) ){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -30,12 +39,26 @@ public class JsonReturnHandler implements HandlerMethodReturnValueHandler {
         // 设置这个就是最终的处理类了，处理完不再去找下一个类进行处理
         modelAndViewContainer.setRequestHandled(true);
 
-        FieldsExclude annotation = methodParameter.getMethod().getAnnotation(FieldsExclude.class);
-        String exclude = annotation.exclude();
-        Class aClass1 = annotation.returnType();
-        JsonUtils.filter(aClass1,"",exclude);
-        logger.info("过滤 {} 中的字段: {} ",aClass1.getName(),exclude);
-        String result  = JsonUtils.object2Json(o);
+        FieldsExclude excludeAnnotation = methodParameter.getMethod().getAnnotation(FieldsExclude.class);
+        String result = "";
+        if(excludeAnnotation != null){
+            String exclude = excludeAnnotation.exclude();
+            Class aClass1 = excludeAnnotation.returnType();
+            JsonUtils.filter(aClass1,"",exclude);
+            logger.info("{} 中的字段: {} 不转为JSON",aClass1.getName(),exclude);
+            result  = JsonUtils.object2Json(o,false);
+        }
+
+        FieldsInclude includeAnnotation = methodParameter.getMethod().getAnnotation(FieldsInclude.class);
+        if(includeAnnotation != null){
+            String include = includeAnnotation.include();
+            Class aClass1 = includeAnnotation.returnType();
+            JsonUtils.filter(aClass1,include,"");
+            logger.info("只把{} 中的字段: {} 转为JSON ",aClass1.getName(),include);
+            result  = JsonUtils.object2Json(o,true);
+        }
+
+
         HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 

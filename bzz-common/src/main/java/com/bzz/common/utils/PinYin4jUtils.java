@@ -132,8 +132,7 @@ public class PinYin4jUtils {
 
         String pinyingStr = "";
         try {
-            pinyingStr = PinyinHelper.toHanyuPinyinString(hanzi, defaultFormat,
-                    separator);
+            pinyingStr = PinyinHelper.toHanYuPinyinString(hanzi, defaultFormat, separator,true);
         } catch (BadHanyuPinyinOutputFormatCombination e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

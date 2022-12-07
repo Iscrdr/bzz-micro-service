@@ -53,7 +53,7 @@ public class JwtAccessToken extends JwtAccessTokenConverter {
     }
 
    private Auth2User convertUserData(Object map) {
-        String userInfoJson = JsonUtils.object2Json(map);
+        String userInfoJson = JsonUtils.object2Json(map,false);
        Auth2User user = (Auth2User)JsonUtils.json2Object(userInfoJson, Auth2User.class);
         return user;
     }

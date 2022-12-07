@@ -1,7 +1,6 @@
 package com.bzz.cloud;
 
-import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.RoundRobinRule;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -12,6 +11,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 /**
  * @PACKAGE_NAME: com.bzz.cloud
@@ -27,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableHystrix
+@EnableAsync(proxyTargetClass = true)
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class BzzGateWayApp {
 
@@ -38,6 +39,8 @@ public class BzzGateWayApp {
 
 
     public static void main( String[] args ){
-        SpringApplication.run(BzzGateWayApp.class, args);
+        SpringApplication springApplication = new SpringApplication(BzzGateWayApp.class);
+        springApplication.setAllowCircularReferences(true);
+        springApplication.run(args);
     }
 }

@@ -1,6 +1,5 @@
 package com.bzz.cloud.rbac.web;
 
-import com.bzz.cloud.annotation.FieldsExclude;
 import com.bzz.cloud.rbac.entity.SysMenu;
 import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.rbac.entity.SysUser;
@@ -12,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +38,7 @@ public class AccountController {
     private SysUserService sysUserService;
 
     @Autowired
+    @Lazy
     private Oauth2FeignClientService oauth2FeignClientService;
 
     @PostMapping("/account/settings/base")
@@ -52,7 +53,6 @@ public class AccountController {
 
 
     @GetMapping("/getUser")
-    @FieldsExclude(returnType = SysUser.class,exclude = "accountNonExpired,accountNonLocked,credentialsNonExpired,createUserId,createTime,updateUserId,updateTime,delFlag,version")
     public SysUser getUser(HttpServletRequest request,HttpServletResponse response){
 
         SysUser sysUser = null ;
@@ -73,7 +73,6 @@ public class AccountController {
 
 
     @GetMapping("/getMenuData")
-    @FieldsExclude(returnType = SysUser.class,exclude = "sysAuthorityList,sysApi,createUserId,createTime,updateUserId,updateTime,delFlag,version,todo,remarks")
     public List<SysMenu> getMenuData(HttpServletRequest request, HttpServletResponse response){
 
         SysUser sysUser = null ;

@@ -52,7 +52,7 @@ public class Oauth2Interceptor implements HandlerInterceptor {
             map.put("401","Unauthorized:token无效，必须经过认证才能访问");
             rr.setMsgMap(map);
             response.setContentType("application/json; charset=utf-8");
-            response.getWriter().print(JsonUtils.object2Json(rr));
+            response.getWriter().print(JsonUtils.object2Json(rr,false));
             return false;
         }
         return true;

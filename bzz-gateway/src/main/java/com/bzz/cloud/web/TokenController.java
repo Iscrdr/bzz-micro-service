@@ -6,6 +6,7 @@ import com.bzz.common.utils.MsgData;
 import com.bzz.common.utils.ResponseData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Modified by:
  * @Description:
  */
+@Lazy
 @RestController
 public class TokenController {
     @Autowired

@@ -2,16 +2,25 @@ package com.bzz.cloud.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestOperations;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.AccessTokenRequest;
+import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -21,7 +30,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.Objects;
+import java.util.*;
 
 @Configuration
 @EnableResourceServer
@@ -31,13 +40,20 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
 
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate loadBalancedRestTemplate;
 
-    @Autowired
-    private OAuth2ClientProperties oAuth2ClientProperties;
+
+
+//    @Autowired
+//    private OAuth2ClientProperties oAuth2ClientProperties;
 
     @Autowired
     private AuthorizationServerProperties authorizationServerProperties;
+
+    @Bean
+    public AuthorizationServerProperties authorizationServerProperties(){
+        return new AuthorizationServerProperties();
+    }
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
@@ -45,10 +61,7 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
     @Resource
     private Environment environment;
 
-    @Bean
-    public AuthorizationServerProperties authorizationServerProperties(){
-        return new AuthorizationServerProperties();
-    }
+
 
     /**
      * TokenStore:使用数据库或Redis存储token，
@@ -101,7 +114,7 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
 
         RemoteTokenServices remoteTokenServices = remoteTokenServices();
         if (Objects.nonNull(remoteTokenServices)) {
-            remoteTokenServices.setRestTemplate(restTemplate);
+            remoteTokenServices.setRestTemplate(loadBalancedRestTemplate);
             config.tokenServices(remoteTokenServices);
         }
 
@@ -115,9 +128,14 @@ public class RestResourceOauthConfiguration extends ResourceServerConfigurerAdap
     @Bean
     public RemoteTokenServices remoteTokenServices() {
         RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
+
         remoteTokenServices.setCheckTokenEndpointUrl(authorizationServerProperties.getCheckTokenAccess());
-        remoteTokenServices.setClientId(oAuth2ClientProperties.getClientId());
-        remoteTokenServices.setClientSecret(oAuth2ClientProperties.getClientSecret());
+
+        /*remoteTokenServices.setClientId(oAuth2ClientProperties.getClientId());
+        remoteTokenServices.setClientSecret(oAuth2ClientProperties.getClientSecret());*/
+
+        remoteTokenServices.setClientId("unity_client_1");
+        remoteTokenServices.setClientSecret("admin");
 
         return remoteTokenServices;
 
