@@ -1,19 +1,19 @@
 package com.bzz.cloud.core.dao;
 
-
 import com.bzz.cloud.core.entity.BaseEntity;
+import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.List;
 
-public  interface BaseDao<T  extends BaseEntity,PK extends Serializable>  {
+
+public  interface BaseDao<T extends BaseEntity,PK>  {
 
     /**
-     * 根据ID获取单条数据
-     * @param id
+     * 获取单条数据
+     * @param
      * @return
      */
-    T  get(PK id);
+    T  get(T t);
     /**
      * 插入数据
      * @param entity
@@ -81,5 +81,5 @@ public  interface BaseDao<T  extends BaseEntity,PK extends Serializable>  {
      * @param list
      * @return
      */
-    int deleteBacth(List<T> list);
+    int deleteBacth(List<PK> list);
 }

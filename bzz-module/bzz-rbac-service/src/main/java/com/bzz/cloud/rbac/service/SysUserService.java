@@ -21,7 +21,8 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SysUserService extends BzzBaseService<SysUser,Long> {
+public class SysUserService extends BzzBaseService<SysUserDao,SysUser,Long> {
+
 
 
 	@Autowired
@@ -37,6 +38,9 @@ public class SysUserService extends BzzBaseService<SysUser,Long> {
 		sysUserDao.insertUserGroup(sysUser);
 	}
 	public long insertOracle(SysUser sysUser){
+
+
+
 		return sysUserDao.insert(sysUser);
 	}
 
@@ -58,7 +62,7 @@ public class SysUserService extends BzzBaseService<SysUser,Long> {
 		return sysUserDao.findSysAuthority(sysUser);
 	}
 
-	@Override
+
     public  Page<SysUser> findPage(Page page, SysUser sysUser){
 		return sysUserDao.findPage(page,sysUser);
 	}

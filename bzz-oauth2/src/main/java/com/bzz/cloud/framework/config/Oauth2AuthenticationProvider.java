@@ -12,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.stereotype.Component;
 
 
@@ -37,6 +36,8 @@ public class Oauth2AuthenticationProvider extends DaoAuthenticationProvider {
     }
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
+
+
     /**
      * 自定义验证方式
      */
@@ -85,7 +86,7 @@ public class Oauth2AuthenticationProvider extends DaoAuthenticationProvider {
         SysUser sysUser = userDetails.getSysUser();
         if(StringUtils.isBlank(sysUser.getClientId())){
             this.logger.debug("Authentication failed: client is not found");
-            throw new UnapprovedClientAuthenticationException("client不存在");
+            throw new InsufficientAuthenticationException("client不存在");
         }
 
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();

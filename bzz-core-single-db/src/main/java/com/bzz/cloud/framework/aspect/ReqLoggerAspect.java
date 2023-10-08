@@ -2,11 +2,11 @@ package com.bzz.cloud.framework.aspect;
 
 import com.bzz.common.utils.DateUtils;
 import com.bzz.common.utils.JsonUtils;
-import org.aspectj.lang.JoinPoint;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +16,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
+
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @Aspect
@@ -90,7 +87,7 @@ public class ReqLoggerAspect {
 		String method = request.getMethod();
 		Cookie[] cookies = request.getCookies();
 		String userAgent = request.getHeader("User-Agent");
-		String params = JsonUtils.object2Json(request.getParameterMap());
+		String params = JsonUtils.object2Json(request.getParameterMap(),true);
 
 		logger.info("请求url: {},开始时间：{},结束时间：{}, 耗时：{}ms, method: {}, params: {},Cookie:{},UserAgent:{}",url,startTime,endTime,afterTime - beforeTime, method, params,cookies==null?"": cookies.toString(),userAgent);
 		//此处可以在log输出result，依据业务要求处理

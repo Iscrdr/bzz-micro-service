@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,10 +26,13 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-public class SysMenu extends BaseEntity<SysMenu,Long> implements Comparable<SysMenu>  {
+public class SysMenu extends BaseEntity<Long> implements Comparable<SysMenu>  {
 
 
 	private static final long serialVersionUID = -8909227574776991224L;
+
+
+
 	/**
 	 * key 前端 ant design pro 菜单要求的key,最好设置
 	 */

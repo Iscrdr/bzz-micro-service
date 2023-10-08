@@ -3,10 +3,11 @@
  */
 package com.bzz.cloud.rbac.dao;
 import com.bzz.cloud.core.dao.BzzBaseDao;
-import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysGroup;
 import com.bzz.cloud.core.dao.BaseDao;
+import org.apache.ibatis.annotations.Mapper;
+
 /**
  * @desc: 用户组管理
  *

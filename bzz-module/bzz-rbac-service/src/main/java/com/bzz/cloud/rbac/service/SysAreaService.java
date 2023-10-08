@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SysAreaService extends BzzBaseService<SysArea,Long>  {
+public class SysAreaService extends BzzBaseService<SysAreaDao,SysArea ,Long>  {
 
     @Autowired
     private SysAreaDao sysAreaDao;

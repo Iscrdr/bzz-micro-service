@@ -17,7 +17,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-@Component
+
 public @interface BzzMyBatisDao {
     /**
      * The value may indicate a suggestion for a logical component name,

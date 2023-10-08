@@ -3,6 +3,7 @@ package com.bzz.cloud.config;
 import com.bzz.common.annotation.FieldsExclude;
 import com.bzz.common.annotation.FieldsInclude;
 import com.bzz.common.utils.JsonUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -12,7 +13,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.PrintWriter;
 
 @Component

@@ -1,0 +1,41 @@
+server:
+  servlet:
+    context-path: /rbacservice
+  port: 8011
+spring:
+  profiles:
+    active: core
+  application:
+    name: rbacservice
+  jackson:
+    parser:
+      allow-single-quotes: true
+  redis:
+    database: 0
+    port: 6379
+    host: 192.168.132.99
+    timeout: 5000ms
+
+
+
+
+
+  #  org.springframework.web: TRACE
+#    com:
+#      bzz:
+#        cloud:
+#          rbac:
+#            dao: TRACE
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            mvc:
+              method:
+                annotation:
+                  RequestMappingHandlerMapping: trace
+
+
+

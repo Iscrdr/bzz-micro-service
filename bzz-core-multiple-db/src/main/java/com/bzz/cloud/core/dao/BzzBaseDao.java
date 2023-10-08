@@ -1,6 +1,5 @@
 package com.bzz.cloud.core.dao;
 
-import com.bzz.cloud.core.entity.BaseEntity;
 
 import java.io.Serializable;
 
@@ -12,6 +11,6 @@ import java.io.Serializable;
  * @email 624003618@qq.com
  * @date 2019-01-01 03:10:37
  */
-public interface BzzBaseDao <T extends BaseEntity,PK extends Serializable> extends BaseDao<T,PK>   {
+public interface BzzBaseDao <T ,PK extends Serializable> extends BaseDao {
 
 }

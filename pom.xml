@@ -9,11 +9,15 @@
     <name>bzz-cloud</name>
     <properties>
         <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <springboot.version>3.2.0-SNAPSHOT</springboot.version>
+        <springcloud.version>2023.0.0-SNAPSHOT</springcloud.version>
+
+        <!--<springboot.version>3.1.4</springboot.version>
+        <springcloud.version>2022.0.4</springcloud.version>-->
 
     </properties>
     <modules>
@@ -27,13 +31,15 @@
         <module>bzz-cache</module>
         <!--bzz.心类库-->
         <module>bzz-core-multiple-db</module>
-        <!--<module>bzz-core-single-db</module>-->
+        <module>bzz-core-single-db</module>
         <!--bzz.路由网关-->
         <module>bzz-gateway</module>
         <!--bzz.业务模块-->
         <module>bzz-module</module>
         <!--bzz.授权-->
         <module>bzz-oauth2</module>
+
+        <module>bzz-module/bzz-codegen</module>
 
 
     </modules>
@@ -44,30 +50,31 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.7.6</version>
+                <version>${springboot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2021.0.5</version>
+                <version>${springcloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
+
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.11.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>17</source>
-                    <target>17</target>
+                    <release>17</release>
                     <fork>true</fork>
                     <compilerArgs>
                         <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
@@ -85,7 +92,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.20</version>
+                            <version>1.18.30</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -111,10 +118,7 @@
                 </execution>
               </executions>
             </plugin>-->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+
         </plugins>
     </build>
 

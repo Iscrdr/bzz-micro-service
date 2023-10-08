@@ -6,12 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
-import org.springframework.social.security.SpringSocialConfigurer;
+
+
 import org.springframework.web.cors.CorsUtils;
 
 
@@ -22,14 +18,12 @@ import org.springframework.web.cors.CorsUtils;
  * @Modified by:
  * @Description:
  */
-@Configuration
-@EnableResourceServer
-public class RestJWTResourceOauthConfiguration extends ResourceServerConfigurerAdapter {
 
 
-    @Autowired
-    private PermitAllSecurityConfig permitAllSecurityConfig;
+public class RestJWTResourceOauthConfiguration  {
 
+
+   /*
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
@@ -50,15 +44,15 @@ public class RestJWTResourceOauthConfiguration extends ResourceServerConfigurerA
                 //.and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/login/**").permitAll()
-                .antMatchers("/oauthservice/login/**").permitAll()
-                .antMatchers("/oauthservice/oauth/**").permitAll()
-                .antMatchers("/oauthservice/social/qq").permitAll()
+                .requestMatchers("/login/**").permitAll()
+                .requestMatchers("/oauthservice/login/**").permitAll()
+                .requestMatchers("/oauthservice/oauth/**").permitAll()
+                .requestMatchers("/oauthservice/social/qq").permitAll()
                 .antMatchers("/social/qq").permitAll()
-                .antMatchers("/qq/login/**").permitAll()
-                .antMatchers("/oauth/**").permitAll()
-                .antMatchers("/oauthservice/test1").permitAll()
-                .antMatchers("/test1").permitAll()
+                .requestMatchers("/qq/login/**").permitAll()
+                .requestMatchers("/oauth/**").permitAll()
+                .requestMatchers("/oauthservice/test1").permitAll()
+                .requestMatchers("/test1").permitAll()
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
@@ -73,7 +67,7 @@ public class RestJWTResourceOauthConfiguration extends ResourceServerConfigurerA
         config.tokenStore(tokenStore());
     }
 
-
+*/
 
 
 }

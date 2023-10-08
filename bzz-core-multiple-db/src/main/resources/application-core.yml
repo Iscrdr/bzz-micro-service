@@ -3,7 +3,7 @@ spring:
   redis:
     #数据库索引
     database: 0
-    host: 192.168.132.150
+    host: 192.168.132.99
     port: 6379
 #    password: root
     jedis:
@@ -46,7 +46,7 @@ spring:
       druid:
         name: dataSourceA
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.132.150:3306/bzz?serverTimezone=GMT%2B8&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true&autoReconnect=true&failOverReadOnly=false
+        url: jdbc:mysql://192.168.132.99:3306/bzz?serverTimezone=GMT%2B8&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true&autoReconnect=true&failOverReadOnly=false
         username: root
         password: root
         # 下面为连接池的补充设置，应用到上面所有数据源中
@@ -90,10 +90,12 @@ spring:
     dataSourceB:
       druid:
         name: dataSourceB
-        driverClassName: oracle.jdbc.OracleDriver
-        url: jdbc:oracle:thin:@localhost:1521:orcl
-        #url: jdbc:mysql://localhost:3306/test2?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true
-        username: scott
+        driverClassName: com.mysql.cj.jdbc.Driver
+        #driverClassName: oracle.jdbc.OracleDriver
+        #url: jdbc:oracle:thin:@localhost:1521:orcl
+        url: jdbc:mysql://192.168.132.99:3306/bzz2?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&pinGlobalTxToPhysicalConnection=true
+        #username: scott
+        username: root
         password: root
         # 下面为连接池的补充设置，应用到上面所有数据源中
         # 初始化大小，最小，最大

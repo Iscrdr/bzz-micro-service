@@ -3,18 +3,19 @@ package com.bzz.cloud.framework.handler;
 import com.bzz.common.utils.DateUtils;
 import com.bzz.common.utils.ResponseData;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
+
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,7 +73,7 @@ public class CustomAuthenticationFailHandler  extends SimpleUrlAuthenticationFai
             }else if(e instanceof BadCredentialsException){
                 //密码错误
                 dataMap.put("resCode", ResponseData.PASSWORD_ERROR);
-            }else if(e instanceof UnapprovedClientAuthenticationException){
+            }else if(e instanceof OAuth2AuthenticationException){
                 //客户端没有授权
                 dataMap.put("resCode", ResponseData.USER_CLIENT_NOUNAUTHORIZED);
             }else {

@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SysRole extends BaseEntity<SysRole, Long> {
+public class SysRole extends BaseEntity<Long> {
 
 
     private static final long serialVersionUID = -9149665408422812632L;

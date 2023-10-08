@@ -1,18 +1,13 @@
 package com.bzz.cloud.framework.config;
 
-import com.alibaba.druid.pool.xa.DruidXADataSource;
-import com.alibaba.druid.support.http.StatViewServlet;
-import com.alibaba.druid.support.http.WebStatFilter;
-import com.alibaba.druid.wall.WallConfig;
-import com.alibaba.druid.wall.WallFilter;
+
 import com.bzz.cloud.framework.dynamicdatasource.DynamicDataSource;
 import com.mysql.cj.jdbc.MysqlXADataSource;
 import oracle.jdbc.xa.client.OracleXADataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -49,10 +44,6 @@ public class BzzCloudDbConfig{
         prop.put("druid.maxWait", env.getProperty(prefix + "maxWait", Integer.class));
         prop.put("druid.poolPreparedStatements", env.getProperty(prefix + "poolPreparedStatements", Boolean.class));
 
-
-        prop.put("druid.maxPoolPreparedStatementPerConnectionSize",
-                env.getProperty(prefix + "maxPoolPreparedStatementPerConnectionSize", Integer.class));
-        
         prop.put("druid.maxPoolPreparedStatementPerConnectionSize",
                 env.getProperty(prefix + "maxPoolPreparedStatementPerConnectionSize", Integer.class));
         prop.put("druid.validationQuery", env.getProperty(prefix + "validationQuery"));
@@ -67,22 +58,35 @@ public class BzzCloudDbConfig{
        
         return prop;
     }
-    @Autowired
-    @Primary
-    @Bean(name = "dataSourceA")
-    public AtomikosDataSourceBean  dataSourceA(Environment env) throws SQLException {
 
-        Properties prop = build(env, "spring.datasource.dataSourceA.druid.");
-        MysqlXADataSource mysqlXADataSource = new MysqlXADataSource();
-        mysqlXADataSource.setUrl(prop.getProperty("druid.url"));
-        mysqlXADataSource.setPinGlobalTxToPhysicalConnection(true);
-        mysqlXADataSource.setUser(prop.getProperty("druid.username"));
-        mysqlXADataSource.setPassword(prop.getProperty("druid.password"));
 
+    private AtomikosDataSourceBean getAtomikosDataSourceBean(Environment env,String dataSource) throws SQLException {
+        Properties propA = build(env, "spring.datasource.dataSourceA.druid.");
+        Properties propB = build(env, "spring.datasource.dataSourceB.druid.");
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
-        ds.setXaDataSourceClassName("com.mysql.cj.jdbc.MysqlXADataSource");
-        ds.setUniqueResourceName("dataSourceA");
-        ds.setXaDataSource(mysqlXADataSource);
+        ds.setUniqueResourceName(dataSource);
+        if(propA.getProperty("druid.url").startsWith("jdbc:mysql")){
+            ds.setXaDataSourceClassName("com.mysql.cj.jdbc.MysqlXADataSource");
+            MysqlXADataSource mysqlXADataSource = new MysqlXADataSource();
+            mysqlXADataSource.setUrl(propA.getProperty("druid.url"));
+            mysqlXADataSource.setPinGlobalTxToPhysicalConnection(true);
+            mysqlXADataSource.setUser(propA.getProperty("druid.username"));
+            mysqlXADataSource.setPassword(propA.getProperty("druid.password"));
+            ds.setXaDataSource(mysqlXADataSource);
+            ds.setTestQuery("SELECT 1");
+        }else {
+            ds.setXaDataSourceClassName("oracle.jdbc.xa.client.OracleXADataSource");
+            ds.setPoolSize(5);
+            OracleXADataSource oracleXADataSource = new OracleXADataSource();
+            oracleXADataSource.setURL(propB.getProperty("druid.url"));
+            oracleXADataSource.setUser(propB.getProperty("druid.username"));
+            oracleXADataSource.setPassword(propB.getProperty("druid.password"));
+            ds.setXaDataSource(oracleXADataSource);
+            ds.setBorrowConnectionTimeout(180);//获取连接失败重新获等待最大时间，在这个时间内如果有可用连接，将返回
+            ds.setConcurrentConnectionValidation(true);//是否设置并发连接验证，默认为true
+            ds.setTestQuery("SELECT 'HELLO' FROM DUAL");
+
+        }
 
         //ds.setPoolSize(1);
         //获取连接失败重新获等待最大时间，在这个时间内如果有可用连接，将返回
@@ -107,44 +111,28 @@ public class BzzCloudDbConfig{
         ds.setMaxPoolSize(20);
         //最小连接
         ds.setMinPoolSize(5);
-        ds.setTestQuery("SELECT 1");
+
         //最大获取数据时间，如果不设置这个值，Atomikos使用默认的5分钟，那么在处理大批量数据读取的时候，一旦超过5分钟，就会抛出类似 Resultset is close 的错误
         ds.setReapTimeout(10);
 
         return ds;
+
+
+
+    }
+
+
+
+    @Autowired
+    @Primary
+    @Bean(name = "dataSourceA")
+    public AtomikosDataSourceBean  dataSourceA(Environment env) throws SQLException {
+        return getAtomikosDataSourceBean(env,"dataSourceA");
     }
     @Autowired
     @Bean(name = "dataSourceB")
     public AtomikosDataSourceBean dataSourceB(Environment env) throws SQLException {
-        AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
-        ds.setXaDataSourceClassName("oracle.jdbc.xa.client.OracleXADataSource");
-
-        ds.setUniqueResourceName("dataSourceB");
-        Properties prop2 = build(env, "spring.datasource.dataSourceB.druid.");
-        ds.setPoolSize(5);
-        OracleXADataSource oracleXADataSource = new OracleXADataSource();
-        oracleXADataSource.setURL(prop2.getProperty("druid.url"));
-        oracleXADataSource.setUser(prop2.getProperty("druid.username"));
-        oracleXADataSource.setPassword(prop2.getProperty("druid.password"));
-        ds.setXaDataSource(oracleXADataSource);
-
-
-        ds.setBorrowConnectionTimeout(180);//获取连接失败重新获等待最大时间，在这个时间内如果有可用连接，将返回
-        ds.setConcurrentConnectionValidation(true);//是否设置并发连接验证，默认为true
-        //ds.setDefaultIsolationLevel();
-        try {
-            ds.setLoginTimeout(30);//最大可等待获取datasouce的时间
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        ds.setMaintenanceInterval(30);//连接回收时间
-        ds.setMaxIdleTime(30);//最大闲置时间，超过最小连接池连接的连接将将关闭
-        ds.setMaxLifetime(120);//
-        ds.setMaxPoolSize(20);//最大连接
-        ds.setMinPoolSize(5);//最小连接
-        ds.setTestQuery("SELECT 'HELLO' FROM DUAL");
-        ds.setReapTimeout(10);//最大获取数据时间，如果不设置这个值，Atomikos使用默认的5分钟，那么在处理大批量数据读取的时候，一旦超过5分钟，就会抛出类似 Resultset is close 的错误
-        return ds;
+        return getAtomikosDataSourceBean(env,"dataSourceB");
     }
    
     
@@ -157,57 +145,6 @@ public class BzzCloudDbConfig{
         dataSource.setTargetDataSources(targetDataSources);
         dataSource.setDefaultTargetDataSource(dataSourceA);
         return dataSource;
-    }
-    
-    /**
-     * 注册一个StatViewServlet
-     * @return
-     */
-    @Bean
-    public ServletRegistrationBean DruidStatViewServle(){
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
-        
-        //添加初始化参数：initParams
-        /** 白名单，如果不配置或value为空，则允许所有 */
-        servletRegistrationBean.addInitParameter("allow","127.0.0.1,192.0.0.1");
-        /** 黑名单，与白名单存在相同IP时，优先于白名单 */
-        servletRegistrationBean.addInitParameter("deny","192.0.0.1");
-        /** 用户名 */
-        servletRegistrationBean.addInitParameter("loginUsername","admin");
-        /** 密码 */
-        servletRegistrationBean.addInitParameter("loginPassword","admin");
-        /** 禁用页面上的“Reset All”功能 */
-        servletRegistrationBean.addInitParameter("resetEnable","false");
-        return servletRegistrationBean;
-    }
-    
-    /**
-     * 注册一个：WebStatFilter
-     * @return
-     */
-    @Bean
-    public FilterRegistrationBean druidStatFilter(){
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
-        
-        /** 过滤规则 */
-        filterRegistrationBean.addUrlPatterns("/*");
-        /** 忽略资源 */
-        filterRegistrationBean.addInitParameter("exclusions","*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
-        return filterRegistrationBean;
-    }
-    @Bean
-    public WallFilter wallFilter(){
-        WallFilter wallFilter = new WallFilter();
-        wallFilter.setConfig(wallConfig());
-        return wallFilter;
-    }
-    
-    @Bean
-    public WallConfig wallConfig(){
-        WallConfig wallConfig = new WallConfig();
-        wallConfig.setMultiStatementAllow(true);//允许一次执行多条语句
-        wallConfig.setNoneBaseStatementAllow(true);//允许一次执行多条语句
-        return wallConfig;
     }
 
     

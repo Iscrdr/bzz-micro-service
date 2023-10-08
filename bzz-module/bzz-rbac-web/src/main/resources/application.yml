@@ -13,14 +13,18 @@ spring:
   redis:
     database: 0
     port: 6379
-    host: 192.168.132.150
-    password:
+    host: 192.168.132.99
     timeout: 5000ms
 
 
   main:
     allow-bean-definition-overriding: true
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://idp.example.com/issuer
   #  org.springframework.web: TRACE
 #    com:
 #      bzz:
@@ -79,3 +83,5 @@ swagger:
   application-version: 1.0
   application-description: springfox swagger 3.0 for BZZ
   try-host: http://localhost:${server.port}
+
+

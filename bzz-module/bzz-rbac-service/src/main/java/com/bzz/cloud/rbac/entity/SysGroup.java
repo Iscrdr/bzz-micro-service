@@ -6,7 +6,6 @@ package com.bzz.cloud.rbac.entity;
 import com.bzz.cloud.core.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +26,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-public class SysGroup extends BaseEntity<SysGroup,Long>   {
+public class SysGroup extends BaseEntity<Long>   {
 
 	private static final long serialVersionUID = 414302461896629392L;
 

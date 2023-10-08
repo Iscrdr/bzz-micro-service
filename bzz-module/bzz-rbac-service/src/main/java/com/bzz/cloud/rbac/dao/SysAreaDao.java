@@ -7,8 +7,10 @@ import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysArea;
 import com.bzz.cloud.core.dao.BaseDao;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -20,13 +22,13 @@ import java.util.List;
  * @updateDate: 2019-05-20 16:25:10
  */
 @BzzMyBatisDao("sysAreaDao")
-public interface SysAreaDao  extends BzzBaseDao<SysArea,Long> {
+public interface SysAreaDao<SysArea extends BaseEntity> extends BzzBaseDao<SysArea ,Long> {
 
     /**
      * 查询所有的下级区域
      * @param sysArea
      * @return
      */
-    List<SysArea> findAllChildArea(SysArea sysArea);
+    public abstract List<SysArea> findAllChildArea(SysArea sysArea);
 
 }

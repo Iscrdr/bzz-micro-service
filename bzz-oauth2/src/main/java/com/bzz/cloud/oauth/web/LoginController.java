@@ -15,6 +15,7 @@ import com.bzz.cloud.rbac.utils.UserUtil;
 import com.bzz.common.utils.JsonUtils;
 import com.bzz.common.utils.ResponseData;
 import com.bzz.common.utils.ResponseResult;
+import jakarta.servlet.http.Cookie;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,18 +23,13 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Request;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -41,16 +37,12 @@ import java.util.concurrent.TimeUnit;
 public class LoginController {
 
 
-    @Autowired
-    private DefaultTokenServices tokenServices;
 
     @Autowired
     private SysUserService sysUserService;
 
     @Autowired
     private SysMenuService sysMenuService;
-    @Autowired
-    private ClientDetailsService clientDetailsService;
 
     @Autowired
     private AuthenticationManager oAuthenticationManager;
@@ -61,6 +53,15 @@ public class LoginController {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+
+/*    @Autowired
+    private DefaultTokenServices tokenServices;
+
+    @Autowired
+    private ClientDetailsService clientDetailsService;*/
+
+/*
 
     @RequestMapping(value = "/qq/login",method = {RequestMethod.GET})
     public ResponseResult qqLogin(HttpServletRequest request, HttpServletResponse response){
@@ -186,13 +187,20 @@ public class LoginController {
         }
 
     }
+*/
 
 
     @RequestMapping(value = "/login",method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseResult login(HttpServletRequest request, HttpServletResponse response,@RequestBody(required=false) SysUser sysUser){
         ResponseResult rr = new ResponseResult();
         Map<String,String> msgMap = new HashMap<>();
+        msgMap.put(ResponseData.PASSWORD_ERROR,"登录失败,密码不能为空");
+        rr.setMsgMap(msgMap);
+        rr.setData(sysUser);
+        rr.setSuccess(false);
+        return rr;
 
+        /*
         if(null == sysUser || StringUtils.isBlank(sysUser.getLoginType())){
             msgMap.put(ResponseData.USERNAME_NOT_FOUND,"登录方式不支持");
             rr.setMsgMap(msgMap);
@@ -244,9 +252,9 @@ public class LoginController {
                 return  rr;
             }
         }
-        /*
+        *//*
          * 手机号登录
-         */
+         *//*
         if (loginType.equals(sysUser.getLoginType())){
             //校验验证码是否正确
             String code = stringRedisTemplate.opsForValue().get(sysUser.getMobile());
@@ -261,9 +269,9 @@ public class LoginController {
         }
 
 
-        /*
+        *//*
          * 校验密码是否正确
-         */
+         *//*
         try {
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(sysUser.getUserName(), sysUser.getPassword());
@@ -351,7 +359,7 @@ public class LoginController {
             rr.setData(sysUser);
             ex.printStackTrace();
         }
-        return rr;
+        return rr;*/
     }
     @PostMapping("/login/fail")
     public ResponseResult loginFail(HttpServletRequest request, @RequestBody SysUser sysUser, BindingResult result){

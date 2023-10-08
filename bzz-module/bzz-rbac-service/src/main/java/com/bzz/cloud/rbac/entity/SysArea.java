@@ -1,7 +1,6 @@
 package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -22,10 +21,13 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 
-public class SysArea extends BaseEntity<SysArea, Long> {
+public class SysArea extends BaseEntity<Long> {
 
 
     private static final long serialVersionUID = 8177559273616895780L;
+
+
+
     /**
      * 城市名称
      */

@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SysMenuService extends BzzBaseService<SysMenu,Long> {
+public class SysMenuService extends BzzBaseService<SysMenuDao,SysMenu,Long> {
 
     @Autowired
     private SysMenuDao sysMenuDao;

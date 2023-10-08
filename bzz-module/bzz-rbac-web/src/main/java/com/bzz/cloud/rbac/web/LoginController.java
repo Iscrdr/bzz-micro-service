@@ -10,7 +10,11 @@ import com.bzz.cloud.rbac.utils.UserUtil;
 import com.bzz.common.utils.ResponseData;
 import com.bzz.common.utils.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.Api;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * @version: 1.0.0$
  */
 @RestController
-@Api(tags={"LoginController"},value="登录")
+@Tag(name="LoginController",description="用户登录")
 public class LoginController {
     private Logger logger = LoggerFactory.getLogger(AccountController.class);
 
@@ -53,12 +54,7 @@ public class LoginController {
     private RedisTemplate redisTemplate;
 
 
-    private JdbcClientDetailsService jdbcClientDetailsService;
 
-
-    public void setJdbcClientDetailsService(JdbcClientDetailsService jdbcClientDetailsService) {
-        this.jdbcClientDetailsService = jdbcClientDetailsService;
-    }
 
     @Autowired
     private Oauth2FeignClientService oauth2FeignClientService;
@@ -122,18 +118,16 @@ public class LoginController {
             }
 
 
-            ClientDetails clientDetails = jdbcClientDetailsService.loadClientByClientId(sysUser1.getClientId());
+            String clientId = sysUser1.getClientId();
 
 
-
-
-          try{
+            try{
               try {
                   /*
                    *从认证服务器获取token
                    */
-                  String jsonToken = oauth2FeignClientService.getToken(clientDetails.getClientId(),
-                          clientDetails.getClientSecret(),
+                  String jsonToken = oauth2FeignClientService.getToken(clientId,
+                          "",
                           "password",
                           sysUser.getUserName(),
                           sysUser.getPassword(),

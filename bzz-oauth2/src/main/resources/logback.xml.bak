@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Logging levels go from high to low： OFF 、 FATAL 、 ERROR 、 WARN 、 INFO 、 DEBUG 、 TRACE 、 ALL
+     The log output rule outputs at the current ROOT level, when the log output is higher than the default level of ROOT
+     Each of the following filters is filtered out of the output file, a high-level file will appear, and low-level log information will appear, filtering through the filter to log only this level
+    When this property is set to true, the configuration file will be reloaded if it changes, and the default value is true。
+    The scanPeriod setting monitors whether the configuration file has a modified time interval, and if no time unit is given, the default unit is milliseconds.This property takes effect when the scan is true.The default time interval is 1 minute。
+    Debug when this property is set to true, the logback internal log information is printed to check the logback runtime in real time.The default value is false。 -->
+<configuration  debug="false">
+
+    <jmxConfigurator />
+    <!-- Log output location -->
+     <property name="log_dir" value="C:/test" />
+    <!--<property name="com.atomikos.icatch.output_dir" value="C:/test/log" />
+    <property name="com.atomikos.icatch.log_base_dir" value="C:/test/log" />-->
+    <!--<property name="log_dir" value="/home/hadmin/data/logs/src" />-->
+    <!-- The maximum log history is 30 days-->
+    <property name="maxHistory" value="30" />
+  <!-- <logger name="com.atomikos.icatch.provider.imp" level="ERROR" />
+    <logger name="o.s.jmx.export.annotation.AnnotationMBeanExporter" level="OFF" />
+    <logger name="org.mybatis.spring.SqlSessionUtils" level="ERROR" />
+
+   <logger name="org.apache.catalina.core.AprLifecycleListener" level="ERROR"/>
+
+    <logger name="org.springframework.test.context.support" level="ERROR"/>
+    <logger name="org.apache.catalina.core.AprLifecycleListener" level="OFF"/>
+    <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="OFF"/>-->
+
+
+    <!-- ConsoleAppender  console output log -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                <!-- output log file format -->
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- ERROR Logging level appender-->
+    <!-- Scroll to record files, log records to a specified file, and log files to other files when a certain condition is met RollingFileAppender -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- Filters, which record only the ERROR level logs  -->
+        <!-- If the log level is equal to the configuration level, the filter will receive or reject the log based on the onMath and onreject。 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- set filter level -->
+            <level>ERROR</level>
+            <!-- Used to configure the operation that meets the filter conditions -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- Used to configure an operation that does not meet the filter conditions -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- The most commonly used scroll strategy is to make a rolling strategy based on time-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--Log output location-->
+            <fileNamePattern>
+                ${log_dir}/error/%d{yyyy-MM-dd}/error-log.log
+            </fileNamePattern>
+            <!-- Optional node, the maximum quantity control keep the archive, beyond the number to delete the old file assumptions set rolling each month, and < maxHistory > 6, preserve only the files of the last six months, before deleting old files.Note that deleting old files is that the directories created for the archive are also deleted-->
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                <!-- Output log file format-->
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- WARN Logging level appender -->
+    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- Filters, which record only the WARN level logs -->
+        <!-- If the log level is equal to the configuration level, the filter will receive or reject the log based on the onMath and onreject -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- set filter level -->
+            <level>WARN</level>
+            <!-- Used to configure the operation that meets the filter conditions-->
+            <onMatch>ACCEPT</onMatch>
+            <!-- Used to configure an operation that does not meet the filter conditions -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--log file output path -->
+            <fileNamePattern>${log_dir}/warn/%d{yyyy-MM-dd}/warn-log.log</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- INFO Logging level appender -->
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/info/%d{yyyy-MM-dd}/info-log.log</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- DEBUG Logging level appender -->
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/debug/%d{yyyy-MM-dd}/debug-log.log</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- TRACE Logging level appender -->
+    <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/trace/%d{yyyy-MM-dd}/trace-log.log</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                        &lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符&ndash;&gt;
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>-->
+    <!-- 按照每天生成日志文件 -->
+
+    <!--<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                        &lt;!&ndash;日志文件输出的文件名&ndash;&gt;
+            <FileNamePattern>${log_dir}/edusystem.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+                        &lt;!&ndash;日志文件保留天数&ndash;&gt;
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                        &lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符&ndash;&gt;
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+                &lt;!&ndash;日志文件最大的大小&ndash;&gt;
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>-->
+
+
+    <logger name="com.bzz.cloud" level="DEBUG" />
+
+    <!-- root Logging level DEBUG -->
+    <root level="INFO">
+        <!-- Print the logs for the above debug -->
+       <!-- <level value="debug" />-->
+        <!-- console print -->
+        <!--<appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />-->
+        <!-- log file output -->
+        <appender-ref ref="console" />
+        <appender-ref ref="ERROR" />
+        <appender-ref ref="INFO" />
+        <appender-ref ref="WARN" />
+        <appender-ref ref="DEBUG" />
+        <appender-ref ref="TRACE" />
+    </root>
+
+
+
+</configuration>

@@ -1,5 +1,7 @@
 package com.bzz.common.utils;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +13,8 @@ import java.util.Map;
  * @Modified by:
  * @Description:
  */
-public class ResponseResult {
+@Getter
+public  class ResponseResult {
     /**
      * 是否成功,
      */
@@ -27,25 +30,14 @@ public class ResponseResult {
     private Map<String,String> msgMap = new HashMap<String,String>();
 
 
-    public boolean isSuccess() {
-        return success;
-    }
-
     public void setSuccess(boolean success) {
         this.success = success;
-    }
-
-    public Object getData() {
-        return data;
     }
 
     public void setData(Object data) {
         this.data = data;
     }
 
-    public Map<String, String> getMsgMap() {
-        return msgMap;
-    }
     public void setMsgMap(Map<String, String> msgMap) {
         this.msgMap = msgMap;
     }

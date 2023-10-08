@@ -10,7 +10,11 @@ import com.aliyuncs.http.MethodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.util.Properties;
 
 /**
  * @Author : yang qianli
@@ -23,11 +27,15 @@ public class AliDaYuSMS {
 
     private static  Logger logger = LoggerFactory.getLogger(AliDaYuSMS.class);
 
-    public static  String sendSMS(String mobile,String code) throws ClientException, UnsupportedEncodingException {
+    public static  String sendSMS(String mobile,String code) throws ClientException, IOException {
 
-        PropertiesLoader pl = new PropertiesLoader("common.properties");
-        String access_key_id = pl.getProperty("ACCESS_KEY_ID");
-        String access_secret = pl.getProperty("ACCESS_SECRET");
+
+        InputStream resource = AliDaYuSMS.class.getResource("/common.properties").openStream();
+        Properties prop = new Properties();
+        prop.load(resource);
+        String access_key_id = prop.getProperty("ACCESS_KEY_ID");
+        String access_secret = prop.getProperty("ACCESS_SECRET");
+
 
         String s1 = Base64Utils.decoderString(access_key_id,"UTF-8");
         String s2 = Base64Utils.decoderString(access_secret,"UTF-8");
@@ -52,7 +60,7 @@ public class AliDaYuSMS {
         return result;
     }
 
-    public static void main(String[] args) throws UnsupportedEncodingException, ClientException {
+    public static void main(String[] args) throws IOException, ClientException {
         String s = sendSMS("15501236689", "231778");
         System.out.println(s);
     }

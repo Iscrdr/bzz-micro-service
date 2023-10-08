@@ -4,18 +4,16 @@ import com.bzz.cloud.rbac.entity.QQUser;
 import com.bzz.common.utils.DateUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.MapUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.*;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +30,7 @@ import java.util.Map;
 @Slf4j
 @Component
 public class QQAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-
+/*
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
     @Autowired
@@ -71,6 +69,6 @@ public class QQAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
         response.getWriter().write( objectMapper.writeValueAsString(dataMap));
 
 
-    }
+    }*/
 
 }

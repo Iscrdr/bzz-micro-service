@@ -181,7 +181,7 @@ public class SysApiTest {
         List<SysMenu> sysApis = treeApiList(sysApiList,rootApi);
         Collections.sort(sysApis);
         JsonUtils.filter(SysMenu.class,null,"sysAuthorityList,sysApi,createUserId,createTime,updateUserId,updateTime,delFlag,version,todo,remarks");
-        String s = JsonUtils.object2Json(sysApis);
+        String s = JsonUtils.object2Json(sysApis,true);
         System.out.println(s);
 
 

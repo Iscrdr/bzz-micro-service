@@ -1,16 +1,17 @@
 package com.bzz.cloud.rbac.dao;
 
 
+
 import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.dao.BzzBaseDao;
-import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysAuthority;
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.common.utils.Page;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.io.Serializable;
+
 import java.util.List;
 
 

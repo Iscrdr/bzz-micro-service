@@ -16,7 +16,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class QQUser extends BaseEntity<QQUser, Long> {
+public class QQUser extends BaseEntity<Long> {
 
 
     private static final long serialVersionUID = 2334972510411069311L;

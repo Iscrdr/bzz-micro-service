@@ -21,7 +21,7 @@ import com.bzz.cloud.rbac.dao.SysAuthorityDao;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SysAuthorityService extends BzzBaseService<SysAuthority,Long>{
+public class SysAuthorityService extends BzzBaseService<SysAuthorityDao,SysAuthority,Long>{
 
 
 

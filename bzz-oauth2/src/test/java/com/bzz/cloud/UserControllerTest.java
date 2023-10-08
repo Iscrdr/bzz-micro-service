@@ -1,8 +1,8 @@
 package com.bzz.cloud;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +21,6 @@ import java.util.Date;
 
 @SpringBootTest
 @WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
 public class UserControllerTest {
 
     @Autowired
@@ -29,7 +28,7 @@ public class UserControllerTest {
 
     private MockMvc mockMvc;
 
-    @Before
+    @Before("")
     public void setup(){
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }

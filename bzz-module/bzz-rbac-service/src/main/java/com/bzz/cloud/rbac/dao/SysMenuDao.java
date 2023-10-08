@@ -2,15 +2,12 @@
  * Copyright &copy; 2012-2019 <a href="https://github.com/qianli8811/bzz-cloud">bzz-cloud</a> All rights reserved.
  */
 package com.bzz.cloud.rbac.dao;
+import com.bzz.cloud.core.dao.BaseDao;
 import com.bzz.cloud.core.dao.BzzBaseDao;
-import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysMenu;
-import com.bzz.cloud.core.dao.BaseDao;
-import com.bzz.cloud.rbac.entity.SysMenu;
 import com.bzz.cloud.rbac.entity.SysUser;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @desc: Api表管理

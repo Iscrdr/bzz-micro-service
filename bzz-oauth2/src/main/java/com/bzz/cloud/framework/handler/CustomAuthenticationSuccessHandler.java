@@ -7,7 +7,8 @@ import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.common.utils.DateUtils;
 import com.bzz.common.utils.JsonUtils;
 import com.bzz.common.utils.ResponseData;
-import org.apache.commons.collections.MapUtils;
+
+import com.nimbusds.oauth2.sdk.TokenRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,15 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
-import org.springframework.security.oauth2.provider.*;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -38,6 +36,7 @@ import java.util.*;
 @Component
 @Lazy
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+/*
 
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
@@ -45,9 +44,11 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     @Autowired
     private ClientDetailsService clientDetailsService;
 
-    /**
+    */
+/**
      * 日志
-     */
+     *//*
+
     private Logger logger = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
 
 
@@ -137,12 +138,14 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         //super.onAuthenticationSuccess(request,response,auth);
     }
 
-    /**
+    */
+/**
      * 获取某个父节点下面的所有子节点
      * @param sysMenuList
      * @param rootSysMenu
      * @return
-     */
+     *//*
+
     private   List<SysMenu> treeSysMenuList( List<SysMenu> sysMenuList, SysMenu rootSysMenu){
         List<SysMenu> childMenu = new ArrayList<>();
         for(SysMenu sysMenu: sysMenuList){
@@ -165,5 +168,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         }
         return childMenu;
     }
+*/
 
 }

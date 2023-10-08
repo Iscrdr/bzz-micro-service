@@ -1,13 +1,14 @@
 package com.bzz.cloud;
 
-import static org.junit.Assert.assertTrue;
+
 
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.common.utils.JsonUtils;
 import com.bzz.common.utils.RSAUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class AppTest {
         PublicKey publicKey = RSAUtils.getPublicKey(RSAKEY);
         String format = publicKey.getFormat();
         byte[] encrypt = RSAUtils.encrypt("admin".getBytes(), format);
+        System.out.println(encrypt.toString());
     }
 
     @Test
@@ -53,7 +55,7 @@ public class AppTest {
 
        // System.out.println(JsonUtils.object2Json(dataMap));
 
-        String json = "{'userName': 'admin', password: 'admin', loginType: 'account'}";
+        String json = "{\"userName\":\"admin\",\"password\":\"admin\",\"loginType\":\"account\"}";
         SysUser sysUser = new SysUser();
        /*  JsonUtils.filter(sysUser.getClass(),null,"sysRoleList");*/
 

@@ -46,17 +46,6 @@ public class WebMVCJsonConfig extends DelegatingWebMvcConfiguration {
     @Lazy
     private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new Oauth2Interceptor()).excludePathPatterns("classpath*:/static/**")
-                // swagger 排除规则
-                .excludePathPatterns("/rbacservice/swagger-ui/**")
-                .excludePathPatterns("/rbacservice/v3/api-docs")
-                .excludePathPatterns("/rbacservice/swagger-resources/**")
-                .excludePathPatterns("/rbacservice/error")
-                .excludePathPatterns("/rbacservice/webjars/**");
-    }
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

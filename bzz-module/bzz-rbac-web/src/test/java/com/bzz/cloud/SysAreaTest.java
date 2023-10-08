@@ -35,7 +35,7 @@ public class SysAreaTest {
         SysArea sysArea = new SysArea();
         sysArea.setId(110000L);
         List<SysArea> allChildArea = sysAreaService.findAllChildArea(sysArea);
-        String s = JsonUtils.object2Json(allChildArea);
+        String s = JsonUtils.object2Json(allChildArea,true);
         System.out.println(s);
     }
     @Test
@@ -52,7 +52,7 @@ public class SysAreaTest {
         geographic.put("province",province);
         geographic.put("city",province);
 
-        String s = JsonUtils.object2Json(geographic);
+        String s = JsonUtils.object2Json(geographic,true);
         System.out.println(s);
     }
 

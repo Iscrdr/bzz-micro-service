@@ -16,5 +16,9 @@ spring:
 logging:
   level:
     org.springframework.security: TRACE
-   # org.springframework.web: TRACE
+    org.springframework.web: debug
 
+
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub

@@ -12,9 +12,12 @@ import java.io.Serializable;
  * @author ThinkGem
  * @version 2013-05-15
  */
-public class Dict extends BaseEntity<Dict,Long> implements Serializable {
+public class Dict extends BaseEntity<Long> {
 
 	private static final long serialVersionUID = 1L;
+
+	private Long id;
+
 	private String value;	// 数据值
 	private String label;	// 标签名
 	private String type;	// 类型

@@ -3,11 +3,9 @@
  */
 package com.bzz.cloud.rbac.dao;
 import com.bzz.cloud.core.dao.BzzBaseDao;
-import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
 import com.bzz.cloud.rbac.entity.SysMenu;
-import com.bzz.cloud.rbac.entity.SysUser;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 import com.bzz.cloud.rbac.entity.SysRole;
 import com.bzz.cloud.core.dao.BaseDao;
 
@@ -28,5 +26,9 @@ public interface SysRoleDao extends BzzBaseDao<SysRole,Long> {
 
     void insertRoleApi(SysRole role);
 
+    /**
+     * @param roles
+     * @return
+     */
     List<SysMenu> getSysMenu(List<SysRole> roles);
 }

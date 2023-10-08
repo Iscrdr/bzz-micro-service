@@ -3,10 +3,9 @@
  */
 package com.bzz.cloud.rbac.dao;
 import com.bzz.cloud.core.dao.BzzBaseDao;
-import com.bzz.cloud.core.entity.BaseEntity;
 import com.bzz.cloud.framework.annotations.BzzMyBatisDao;
-import org.springframework.stereotype.Repository;
 import com.bzz.cloud.rbac.entity.SysAuthority;
+import org.apache.ibatis.annotations.Mapper;
 import com.bzz.cloud.core.dao.BaseDao;
 /**
  * @desc: 权限表管理
@@ -17,6 +16,6 @@ import com.bzz.cloud.core.dao.BaseDao;
  * @updateDate: 2019-05-10 00:35:14
  */
 @BzzMyBatisDao("sysAuthorityDao")
-public interface SysAuthorityDao  extends BzzBaseDao<SysAuthority,Long> {
+public interface SysAuthorityDao extends BzzBaseDao<SysAuthority,Long> {
 
 }

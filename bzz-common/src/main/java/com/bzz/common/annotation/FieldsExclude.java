@@ -1,6 +1,6 @@
 package com.bzz.common.annotation;
 
-import org.springframework.stereotype.Component;
+
 
 import java.lang.annotation.*;
 
@@ -14,7 +14,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE,ElementType.METHOD})
 @Documented
-@Component
 public @interface FieldsExclude {
 
     Class returnType();

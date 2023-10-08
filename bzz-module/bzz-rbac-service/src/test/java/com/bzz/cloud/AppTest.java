@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class AppTest {
         dataMap.put("status","ok");//登录状态
         dataMap.put("currentAuthority", "['admin','user']");//权限
 
-        System.out.println(JsonUtils.object2Json(dataMap));
+        System.out.println(JsonUtils.object2Json(dataMap,true));
 
         String json1 = "{\"userName\": \"admin\", \"password\": \"admin\", \"loginType\": \"account\"}";
         String json2 = "{\"name\": \"admin\", \"path\": \"admin\", \"component\": \"account\"}";

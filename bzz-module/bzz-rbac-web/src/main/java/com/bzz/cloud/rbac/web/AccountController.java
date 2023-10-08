@@ -6,7 +6,10 @@ import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.Oauth2FeignClientService;
 import com.bzz.cloud.rbac.service.SysUserService;
 import com.bzz.common.utils.ResponseResult;
-import io.swagger.annotations.Api;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +18,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +31,7 @@ import java.util.List;
  * @Description:
  */
 @RestController
-@Api(tags={"AccountController"},value="用户账号")
+@Tag(name="AccountController",description="用户账号")
 public class AccountController {
 
     private Logger logger = LoggerFactory.getLogger(AccountController.class);
@@ -38,7 +40,6 @@ public class AccountController {
     private SysUserService sysUserService;
 
     @Autowired
-    @Lazy
     private Oauth2FeignClientService oauth2FeignClientService;
 
     @PostMapping("/account/settings/base")

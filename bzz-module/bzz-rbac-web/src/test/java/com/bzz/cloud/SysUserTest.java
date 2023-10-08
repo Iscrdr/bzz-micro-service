@@ -158,7 +158,7 @@ public class SysUserTest {
         sysUser1.setPassword(null);
 
         JsonUtils.filter(SysUser.class,null,"password,accountNonExpired,accountNonLocked,credentialsNonExpired,country,province,city,area,sysGroupList,sysRoleList,createUserId,createTime,updateUserId,updateTime,delFlag,version");
-        String s = JsonUtils.object2Json(sysUser1);
+        String s = JsonUtils.object2Json(sysUser1,true);
 
         System.out.println(s);
 

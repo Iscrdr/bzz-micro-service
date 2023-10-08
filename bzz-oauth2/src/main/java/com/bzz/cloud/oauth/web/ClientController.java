@@ -4,16 +4,12 @@ import com.bzz.cloud.oauth.entity.Auth2User;
 import com.bzz.cloud.rbac.service.SysMenuService;
 import com.bzz.cloud.rbac.utils.HttpRequestUitls;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 @RestController
@@ -23,13 +19,15 @@ public class ClientController {
     private DataSource dataSource;
 
     @Autowired
+    private SysMenuService sysMenuService;
+
+    /*@Autowired
     private ClientDetailsService clientDetailsService;
 
     @Autowired
     private TokenStore tokenStore;
 
-    @Autowired
-    private SysMenuService sysMenuService;
+
 
     @Autowired
     private DefaultTokenServices tokenServices;
@@ -58,8 +56,7 @@ public class ClientController {
         tokenServices.setAccessTokenValiditySeconds(43200);
 
 
-
         return null;
     }
-
+*/
 }

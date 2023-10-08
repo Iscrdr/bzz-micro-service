@@ -18,7 +18,7 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OauthClientDetails extends BaseEntity<SysUser, Long> {
+public class OauthClientDetails extends SysUser {
     private String clientId;
     private String resourceIds;
     private String clientSecret;

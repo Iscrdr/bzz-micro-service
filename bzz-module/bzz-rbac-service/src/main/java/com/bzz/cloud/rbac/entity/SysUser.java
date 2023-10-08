@@ -35,10 +35,9 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SysUser extends BaseEntity<SysUser, Long> {
+public class SysUser extends BaseEntity<Long> {
 
 
-	private static final long serialVersionUID = -5623758613315391973L;
 	/**
 	 * 用户名
 	 */

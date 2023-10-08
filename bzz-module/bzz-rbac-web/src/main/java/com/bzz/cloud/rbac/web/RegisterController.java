@@ -4,7 +4,10 @@ package com.bzz.cloud.rbac.web;
 import com.bzz.cloud.rbac.entity.SysUser;
 import com.bzz.cloud.rbac.service.SysUserService;
 import com.bzz.common.utils.*;
-import io.swagger.annotations.Api;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +16,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RestController
-@Api(tags={"RegisterController"},value="用户注册")
+@Tag(name="RegisterController",description="用户注册")
 public class RegisterController {
 
     private Logger logger = LoggerFactory.getLogger(RegisterController.class);

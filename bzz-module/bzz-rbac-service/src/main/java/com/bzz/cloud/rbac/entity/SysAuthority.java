@@ -4,16 +4,10 @@
 package com.bzz.cloud.rbac.entity;
 
 import com.bzz.cloud.core.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -28,10 +22,12 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-public class SysAuthority extends BaseEntity<SysAuthority,Long>   {
+public class SysAuthority extends BaseEntity<Long>   {
 
 
 	private static final long serialVersionUID = -8926621434493419399L;
+
+
 
 	/**
 	 * 功能名称，例如：用户管理
